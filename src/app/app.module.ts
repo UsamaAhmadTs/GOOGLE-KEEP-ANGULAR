@@ -16,6 +16,8 @@ import {InputComponent} from './components/input/input.component';
 
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import { NotesComponent } from './components/notes/notes.component';
+import {ReactiveFormsModule} from "@angular/forms";
+import {HttpClient, HttpClientModule} from "@angular/common/http";
 
 @NgModule({
   declarations: [
@@ -30,7 +32,9 @@ import { NotesComponent } from './components/notes/notes.component';
   imports: [
     BrowserModule,
     AppRoutingModule,
-    NgbModule
+    NgbModule,
+    ReactiveFormsModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]

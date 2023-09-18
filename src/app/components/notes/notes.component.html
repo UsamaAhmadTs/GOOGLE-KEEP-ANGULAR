@@ -6,15 +6,15 @@
     </div>
   </div>
 </section>
-<section (click)="onSaveNote()">
+<section *ngFor="let note of AllNotesData">
   <div class="notes">
     <div class="note">
       <span class="material-icons check-circle">check_circle</span>
       <div class="title">
-        {{ title }}
+        {{note.title}
       </div>
       <div class="text">
-        {{ text }}
+        {{note.text}}
       </div>
       <div class="note-footer">
         <div class="tooltip">
@@ -45,4 +45,3 @@
     </div>
   </div>
 </section>
-

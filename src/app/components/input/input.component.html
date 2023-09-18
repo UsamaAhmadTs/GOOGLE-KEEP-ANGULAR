@@ -7,9 +7,9 @@
 </div>
 
 <div #dropNote class="form-container active-form" *ngIf="!showFirst">
-  <form class="drop-note">
-    <input type="text" class="note-title" placeholder="Title"/>
-    <input class="note-text" type="text" placeholder="Take a note..."/>
+  <form class="drop-note" [formGroup]="notes" (ngSubmit)="createNote()">
+    <input type="text" class="note-title" placeholder="Title" formControlName="title" />
+    <input class="note-text" type="text" placeholder="Take a note..." formControlName="note" />
     <div class="form-actions">
       <div class="icons">
         <div class="tooltip">
@@ -21,7 +21,7 @@
           <span class="tooltip-text">More</span>
         </div>
       </div>
-      <button class="close-btn">Close</button>
+      <button class="close-btn" type="submit">Close</button>
     </div>
   </form>
   <div *ngIf="showDropdownMenu" class="dropdown-menu">

@@ -1,4 +1,7 @@
-import {Component, EventEmitter, Output} from '@angular/core';
+import {Component, EventEmitter, OnInit, Output} from '@angular/core';
+import {Note} from "../note";
+import {FormBuilder, FormGroup} from "@angular/forms";
+import {NotesService} from "../notes-service";
 
 type InputLengthI = { title?: number, body?: number }
 
@@ -7,10 +10,10 @@ type InputLengthI = { title?: number, body?: number }
   templateUrl: './input.component.html',
   styleUrls: ['./input.component.scss']
 })
-export class InputComponent {
+export class InputComponent implements OnInit{
   showFirst = true;
   showDropdownMenu = false;
-
+  @Output() createNoteRefreshEvent = new EventEmitter<any>();
   toggleDropdownMenu() {
     this.showDropdownMenu = !this.showDropdownMenu;
   }
@@ -19,25 +22,31 @@ export class InputComponent {
     this.showFirst = !this.showFirst;
   }
 
-  title: string = '';
-  text: string = '';
-
-  @Output() saveNote = new EventEmitter<{ title: string, text: string }>();
-
-  onSaveNote() {
-    if (this.title.trim() !== '' && this.text.trim() !== '') {
-      this.saveNote.emit({title: this.title, text: this.text});
-      this.title = '';
-      this.text = '';
-
-      // Save note in local storage
-      const notes = JSON.parse(localStorage.getItem('notes') || '[]');
-      notes.push({title: this.title, text: this.text});
-      localStorage.setItem('notes', JSON.stringify(notes));
+  constructor(
+    private formBuilder: FormBuilder,
+  private notesService: NotesService
+  ){}
+  notes! : FormGroup;
+  ngOnInit(): void {
+    this.notes = this.formBuilder.group({
+      title: [''],
+      note: ['']
+    })
+  }
+  createNote(){
+    let sendData = {
+      title: this.notes.value.title,
+      description: this.notes.value.note
     }
+
+    this.notesService.createNote(sendData).subscribe((result:any) =>{
+      this.createNoteRefreshEvent.emit(result);
+    });
+
+    this.notes.reset();
+    this.showFirst = !this.showFirst;
   }
 
-  addLabel() {
-  }
+  addLabel() {}
 
 }

@@ -1,0 +1,167 @@
+.main-note {
+  background: #fff;
+  max-width: 598px;
+  margin: 32px auto;
+  box-shadow: 0 1px 2px 0 rgb(60 64 67 / 30%), 0 2px 6px 2px rgb(60 64 67 / 15%);
+  border: 1px solid #e0e1e0;
+  border-radius: 8px;
+}
+
+.drop-note {
+  background: #fff;
+  max-width: 598px;
+  margin: 32px auto;
+  box-shadow: 0 1px 2px 0 rgb(60 64 67 / 30%), 0 2px 6px 2px rgb(60 64 67 / 15%);
+  border: 1px solid #e0e1e0;
+  border-radius: 8px;
+
+}
+
+.form-container form {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 100%;
+  color: #5f6368;
+}
+
+.note-title {
+  border: none;
+  font-size: 1rem;
+  height: 100%;
+  padding: 10px;
+  margin-left: 10px;
+  width: 100%;
+  margin-right: 10px;
+
+}
+
+.note-text {
+  border: none;
+  font-size: 1rem;
+  height: 100%;
+  padding: 10px;
+  margin-left: 10px;
+  width: 100%;
+  margin-right: 10px;
+
+}
+
+.form-actions {
+  display: flex;
+}
+
+.active-form form {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  padding: 10px;
+}
+
+.active-form form .form-actions .icons {
+  display: flex;
+}
+
+.active-form form .form-actions {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  margin-top: 5px;
+}
+
+.close-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 1rem;
+  color: #5f6368 ;
+}
+
+.small-icon {
+  color: black;
+  font-size: 1.1rem;
+}
+
+.material-icons-outlined {
+  padding: 10px;
+}
+
+.hover:hover {
+  background: #f1f3f4;
+  color: black;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.tooltip {
+  position: relative;
+}
+
+.tooltip-text {
+  position: absolute;
+  left: 0;
+  top: 100%;
+  font-size: 0.78rem;
+  background-color: #323232;
+  color: white;
+  opacity: 0.8;
+  padding: 5px;
+  white-space: nowrap;
+  border-radius: 5px;
+  visibility: hidden;
+  z-index: 1;
+}
+
+.tooltip:hover .tooltip-text {
+  visibility: visible;
+}
+
+/* NAVBAR STYLES */
+
+input:focus {
+  outline: none;
+}
+
+
+.settings-area {
+  display: flex;
+}
+
+.profile-actions-area {
+  display: flex;
+}
+.drop-els{
+  letter-spacing: .01428571em;
+  font-family: Roboto,Arial,sans-serif;
+  font-size: .875rem;
+  font-weight: 400;
+  line-height: 1.25rem;
+  border: 1px solid transparent;
+  padding: 5px 10px 5px 17px;
+  color: #3c4043;
+  height: 100%;
+  vertical-align: top;
+}
+
+.dropdown-menu{
+  user-select: none;
+  opacity: 1;
+  left: 536px;
+  top: 211px;
+  background-color: #fff;
+  border-width: 0;
+  box-shadow: 0 1px 2px 0 rgba(60,64,67,0.302), 0 2px 6px 2px rgba(60,64,67,0.149);
+  position: absolute;
+  border-radius: 4px;
+  z-index: 5003;
+  cursor: default;
+  font-size: 13px;
+  margin: 0;
+  outline: none;
+  padding: 6px 0;
+  border: 1px solid rgba(0,0,0,.2);
+
+}
+.material-icons-outlined{
+  color: #5f6368 ;
+}

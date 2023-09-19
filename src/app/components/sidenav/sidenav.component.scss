@@ -80,7 +80,6 @@
   }
 }
 
-
 .modal-container {
   position: fixed;
   display: none;
@@ -205,7 +204,7 @@
         @extend %icons
       }
 
-      input:focus+.pen-icon {
+      input:focus + .pen-icon {
         background-image: url(/assets/images/svg/check3.svg);
       }
 
@@ -243,10 +242,4 @@
       cursor: pointer;
     }
   }
-
 }
-//
-//.disabled {
-//  cursor: not-allowed !important;
-//  opacity: 0.25;
-//}

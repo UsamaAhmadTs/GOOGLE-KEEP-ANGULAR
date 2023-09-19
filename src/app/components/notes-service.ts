@@ -1,37 +1,87 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 
-import { HttpService } from './http.service';
+import {BehaviorSubject, Observable} from "rxjs";
+
+import {Note} from './note';
 
 @Injectable({
   providedIn: 'root'
 })
 export class NotesService {
+  filteredNotes: Note[] = [];
+  private searchQuerySubject = new BehaviorSubject<string>('');
+  searchQuery$ = this.searchQuerySubject.asObservable();
 
-  constructor(private HttpService: HttpService) { }
-
-  createNote(reqData: any) {
-    return this.HttpService.PostService("notes/addNotes", reqData, true);
+  setSearchQuery(query: string) {
+    this.searchQuerySubject.next(query);
   }
 
-  getNotes(){
-    return this.HttpService.GetService("notes/getNotesList", true);
-
+  getFilteredNotes(query: string): Note[] {
+    return this.filteredNotes.filter(note =>
+      note.noteTitle.toLowerCase().includes(query.toLowerCase()) ||
+      note.noteText.toLowerCase().includes(query.toLowerCase())
+    );
   }
 
-  updateNotes(reqData: any){
-    return this.HttpService.PostService("notes/updateNotes", reqData, true);
+  private getNotesListFromLocalStorage(): Note[] { // Updated return type
+    const notesListString = localStorage.getItem('notesList');
+    return notesListString ? JSON.parse(notesListString) : [];
   }
 
-  archiveMoveNotes(reqData: any) {
-    return this.HttpService.PostService("notes/archiveNotes", reqData,true);
+  private setNotesListToLocalStorage(notesList: Note[]): void {
+    localStorage.setItem('notesList', JSON.stringify(notesList));
   }
 
-  getArchiveNotesList(){
-    return this.HttpService.GetService("notes/getArchiveNotesList", true);
+  getArchivedNotes(): Observable<Note[]> {
+    const notesList = this.getNotesListFromLocalStorage();
+    const archivedNotes = notesList.filter(note => note.isArchived);
+    return new Observable<Note[]>((observer) => {
+      observer.next(archivedNotes);
+      observer.complete();
+    });
   }
 
-  deleteForeverNotes(reqData: any){
-    return this.HttpService.PostService("notes/deleteForeverNotes", reqData,true);
+  createNote(newNote: Note): Observable<Note> {
+    const notesList = this.getNotesListFromLocalStorage();
+    notesList.push(newNote);
+    this.setNotesListToLocalStorage(notesList);
+
+    return new Observable<Note>((observer) => {
+      observer.next(newNote);
+      observer.complete();
+    });
   }
 
+  getNotes(): Observable<Note[]> {
+    const notesList = this.getNotesListFromLocalStorage();
+    return new Observable<Note[]>((observer) => {
+      observer.next(notesList);
+      observer.complete();
+    });
+  }
+
+  deleteNotes(newNote: Note): Observable<Note[]> {
+    const notesList = this.getNotesListFromLocalStorage();
+    const updatedNotes = notesList.filter(note => note.noteTitle !== newNote.noteTitle);
+    this.setNotesListToLocalStorage(updatedNotes);
+    return new Observable<Note[]>((observer) => {
+      observer.next(updatedNotes);
+      observer.complete();
+    });
+  }
+
+  archiveNotes(archiveNote: Note): Observable<Note[]> {
+    const notesList = this.getNotesListFromLocalStorage();
+    const updatedNotes = notesList.map(note => {
+      if (note.noteTitle === archiveNote.noteTitle) {
+        return {...note, ...archiveNote};
+      }
+      return note;
+    });
+    this.setNotesListToLocalStorage(updatedNotes);
+    return new Observable<Note[]>((observer) => {
+      observer.next(updatedNotes);
+      observer.complete();
+    });
+  }
 }

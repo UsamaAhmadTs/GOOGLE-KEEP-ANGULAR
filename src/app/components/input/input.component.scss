@@ -14,7 +14,6 @@
   box-shadow: 0 1px 2px 0 rgb(60 64 67 / 30%), 0 2px 6px 2px rgb(60 64 67 / 15%);
   border: 1px solid #e0e1e0;
   border-radius: 8px;
-
 }
 
 .form-container form {
@@ -33,7 +32,6 @@
   margin-left: 10px;
   width: 100%;
   margin-right: 10px;
-
 }
 
 .note-text {
@@ -44,7 +42,6 @@
   margin-left: 10px;
   width: 100%;
   margin-right: 10px;
-
 }
 
 .form-actions {
@@ -74,7 +71,7 @@
   border: none;
   cursor: pointer;
   font-size: 1rem;
-  color: #5f6368 ;
+  color: #5f6368;
 }
 
 .small-icon {
@@ -117,11 +114,9 @@
 }
 
 /* NAVBAR STYLES */
-
 input:focus {
   outline: none;
 }
-
 
 .settings-area {
   display: flex;
@@ -130,9 +125,10 @@ input:focus {
 .profile-actions-area {
   display: flex;
 }
-.drop-els{
+
+.drop-els {
   letter-spacing: .01428571em;
-  font-family: Roboto,Arial,sans-serif;
+  font-family: Roboto, Arial, sans-serif;
   font-size: .875rem;
   font-weight: 400;
   line-height: 1.25rem;
@@ -143,14 +139,14 @@ input:focus {
   vertical-align: top;
 }
 
-.dropdown-menu{
+.dropdown-menu {
   user-select: none;
   opacity: 1;
   left: 536px;
   top: 211px;
   background-color: #fff;
   border-width: 0;
-  box-shadow: 0 1px 2px 0 rgba(60,64,67,0.302), 0 2px 6px 2px rgba(60,64,67,0.149);
+  box-shadow: 0 1px 2px 0 rgba(60, 64, 67, 0.302), 0 2px 6px 2px rgba(60, 64, 67, 0.149);
   position: absolute;
   border-radius: 4px;
   z-index: 5003;
@@ -159,9 +155,9 @@ input:focus {
   margin: 0;
   outline: none;
   padding: 6px 0;
-  border: 1px solid rgba(0,0,0,.2);
-
+  border: 1px solid rgba(0, 0, 0, .2);
 }
-.material-icons-outlined{
-  color: #5f6368 ;
+
+.material-icons-outlined {
+  color: #5f6368;
 }

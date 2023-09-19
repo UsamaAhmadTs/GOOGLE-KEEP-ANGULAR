@@ -15,9 +15,12 @@ import {SidenavComponent} from './components/sidenav/sidenav.component';
 import {InputComponent} from './components/input/input.component';
 
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
-import { NotesComponent } from './components/notes/notes.component';
-import {ReactiveFormsModule} from "@angular/forms";
-import {HttpClient, HttpClientModule} from "@angular/common/http";
+
+import {NotesComponent} from './components/notes/notes.component';
+
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
+
+import {ArchiveComponent} from './components/archive/archive.component';
 
 @NgModule({
   declarations: [
@@ -27,6 +30,7 @@ import {HttpClient, HttpClientModule} from "@angular/common/http";
     SidenavComponent,
     InputComponent,
     NotesComponent,
+    ArchiveComponent,
 
   ],
   imports: [
@@ -34,7 +38,7 @@ import {HttpClient, HttpClientModule} from "@angular/common/http";
     AppRoutingModule,
     NgbModule,
     ReactiveFormsModule,
-    HttpClientModule
+    FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

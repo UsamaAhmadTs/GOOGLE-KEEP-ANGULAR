@@ -16,7 +16,8 @@
       <div class="form-container">
         <form #form23zSaZ class="form">
           <div class="input-container">
-            <input class="input" autocomplete="off" placeholder="Search" value="" type="text">
+            <input class="input" autocomplete="off" [(ngModel)]="searchQuery" (input)="onSearchInputChange()"
+                   placeholder="Search" value="" type="text">
           </div>
           <button class="btn" aria-label="Clear search" type="button">
             <img class="pic H d-none" src="./assets/images/svg/x-btn.svg" alt="x-btn">

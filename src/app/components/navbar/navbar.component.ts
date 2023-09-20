@@ -10,9 +10,10 @@ import {Note} from "../note";
   styleUrls: ['./navbar.component.scss']
 })
 export class NavbarComponent implements OnInit {
+  @ViewChild("form") form?: ElementRef<HTMLDivElement>
+
   searchQuery: string = '';
 
-  @ViewChild("form23zSaZ") form23zSaZ?: ElementRef<HTMLDivElement>
   private filteredNotes: Note[] = [];
 
   constructor(private noteService: NotesService) {

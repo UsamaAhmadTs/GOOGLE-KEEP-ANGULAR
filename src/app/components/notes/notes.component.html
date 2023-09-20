@@ -7,9 +7,11 @@
       </div>
     </div>
   </section>
+
   <div class="notes-container">
+
     <div *ngFor="let note of notes">
-      <div *ngIf="!note.isArchived" class="note">
+      <div *ngIf="!note.isArchived" #noteElement class="note" (click)="onNoteSelected(note)" [hidden]="note.display">
         <span class="material-icons check-circle">check_circle</span>
         <div class="title">{{note.noteTitle}}</div>
         <div class="noteText">{{note.noteText}}</div>
@@ -34,18 +36,41 @@
             <span class="material-icons-outlined hover small-icon">archive</span>
             <span class="tooltip-text">Archive</span>
           </div>
-          <div class="tooltip" (click)="toggleDropdownMenu(note)">
+          <div class="tooltip" (click)="toggleDropdownMenu(note, $event)">
             <span class="material-icons-outlined hover small-icon">more_vert</span>
             <span class="tooltip-text">More</span>
           </div>
-          <div *ngIf="note.showDropdownMenu" class="dropdown-menu" #dropdownMenu>
+          <div *ngIf="note.showDropdownMenu" class="dropdown-menu">
             <div class="drop-els" (click)="deleteNote(note)">Delete Note</div>
             <div class="drop-els" (click)="addLabel(note)">Add label</div>
           </div>
         </div>
       </div>
     </div>
+
+    <div id="dropNote" *ngIf="selectedNote">
+      <form class="drop-note" (ngSubmit)="updateNote(selectedNote)">
+        <input type="text" class="note-title" name="noteTitle" placeholder="Title" [(ngModel)]="selectedNote.noteTitle">
+        <input class="note-text" type="text" name="noteText" [(ngModel)]="selectedNote.noteText">
+        <div class="form-actions">
+          <div class="icons">
+            <div class="tooltip" (click)="archiveNote(selectedNote)">
+              <span class="material-icons-outlined hover small-icon">archive</span>
+              <span class="tooltip-text">Archive</span>
+            </div>
+            <div class="tooltip" (click)="toggleDropdownMenu(selectedNote,$event)">
+              <span class="material-icons-outlined hover small-icon">more_vert</span>
+              <span class="tooltip-text">More</span>
+            </div>
+            <div *ngIf="selectedNote.showDropdownMenu" class="dropdown-menu-selected">
+              <div class="drop-els-selected" (click)="deleteNote(selectedNote)">Delete Note</div>
+              <div class="drop-els-selected" (click)="addLabel(selectedNote)">Add label</div>
+            </div>
+          </div>
+          <button class="close-btn" type="submit">Close</button>
+        </div>
+      </form>
+    </div>
+
   </div>
 </div>
-
-

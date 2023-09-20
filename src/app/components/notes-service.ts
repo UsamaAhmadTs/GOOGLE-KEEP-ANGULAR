@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 
-import {BehaviorSubject, Observable} from "rxjs";
+import {BehaviorSubject, Observable, of} from "rxjs";
 
 import {Note} from './note';
 
@@ -83,5 +83,26 @@ export class NotesService {
       observer.next(updatedNotes);
       observer.complete();
     });
+  }
+
+  updateNote(updatedNote: Note): Observable<Note[]> {
+    const notesList = this.getNotesListFromLocalStorage();
+    const index = notesList.findIndex(note => note.noteId === updatedNote.noteId);
+    if (index !== -1) {
+      notesList[index] = updatedNote;
+      this.setNotesListToLocalStorage(notesList);
+      this.setNoteDisplayToLocalStorage(updatedNote);
+    }
+    return of(notesList);
+  }
+
+  private setNoteDisplayToLocalStorage(updatedNote: Note): void {
+    const notesList = this.getNotesListFromLocalStorage();
+    const index = notesList.findIndex(note => note.noteId === updatedNote.noteId);
+
+    if (index !== -1) {
+      notesList[index].display = false;
+      this.setNotesListToLocalStorage(notesList);
+    }
   }
 }

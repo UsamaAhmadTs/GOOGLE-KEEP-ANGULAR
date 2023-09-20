@@ -11,12 +11,20 @@ import {NotesService} from "../notes-service";
 })
 export class NotesComponent implements OnInit {
   @ViewChild('dropdownMenu') dropdownMenu!: ElementRef;
+  @ViewChild('noteElement') noteElement!: ElementRef;
+  notes: Note[] = [];
 
-  toggleDropdownMenu(note: Note) {
+  toggleDropdownMenu(note: Note, event: Event) {
+    event.stopPropagation();
     note.showDropdownMenu = !note.showDropdownMenu;
   }
 
-  notes: Note[] = [];
+  selectedNote!: Note | null;
+
+  onNoteSelected(note: Note) {
+    this.selectedNote = note;
+    note.display = true;
+  }
 
   constructor(private notesService: NotesService) {
   }
@@ -42,6 +50,13 @@ export class NotesComponent implements OnInit {
     });
   }
 
+  updateNote(selectedNote: Note) {
+    this.notesService.updateNote(selectedNote);
+    selectedNote.display = false;
+    this.selectedNote = null;
+  }
+
   addLabel(noteToLabel: Note) {
   }
+
 }

@@ -1,3 +1,10 @@
+<div class="no-notes" *ngIf="archiveNotes.length < 1">
+  <div class="note-image"><img src="./assets/images/svg/archive.svg" alt="archive" class="pic"></div>
+  <div>
+    <span class="text">Your archived notes appear here</span>
+  </div>
+</div>
+
 <div class="notes-container">
   <div *ngFor="let archiveNotes of archiveNotes">
     <div *ngIf="archiveNotes.isArchived" class="note">
@@ -37,3 +44,4 @@
     </div>
   </div>
 </div>
+

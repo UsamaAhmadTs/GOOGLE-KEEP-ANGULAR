@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 
-import {BehaviorSubject, Observable, of} from "rxjs";
+import {BehaviorSubject, map, Observable, of} from "rxjs";
 
 import {Note} from './note';
 
@@ -8,18 +8,28 @@ import {Note} from './note';
   providedIn: 'root'
 })
 export class NotesService {
-  filteredNotes: Note[] = [];
   private searchQuerySubject = new BehaviorSubject<string>('');
-  searchQuery$ = this.searchQuerySubject.asObservable();
+  searchQuery$: Observable<string> = this.searchQuerySubject.asObservable();
 
-  setSearchQuery(query: string) {
-    this.searchQuerySubject.next(query);
+  setSearchQuery(searchQuery$: string) {
+    this.searchQuerySubject.next(searchQuery$);
   }
 
-  getFilteredNotes(query: string): Note[] {
-    return this.filteredNotes.filter(note =>
-      note.noteTitle.toLowerCase().includes(query.toLowerCase()) ||
-      note.noteText.toLowerCase().includes(query.toLowerCase())
+  getFilteredNotes(): Observable<Note[]> {
+    return this.searchQuerySubject.pipe(
+      map(searchQuery => {
+        const trimmedQuery = searchQuery.trim().toLowerCase();
+
+        if (trimmedQuery === '') {
+          return [];
+        }
+
+        const notesList = this.getNotesListFromLocalStorage();
+        return notesList.filter(note =>
+          note.noteTitle.toLowerCase().includes(trimmedQuery) ||
+          note.noteText.toLowerCase().includes(trimmedQuery)
+        );
+      })
     );
   }
 
@@ -74,7 +84,7 @@ export class NotesService {
     const notesList = this.getNotesListFromLocalStorage();
     const updatedNotes = notesList.map(note => {
       if (note.noteTitle === archiveNote.noteTitle) {
-        return {...note, ...archiveNote};
+        return {...note, ...archiveNote, display: false};
       }
       return note;
     });

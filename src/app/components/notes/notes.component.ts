@@ -12,11 +12,16 @@ import {NotesService} from "../notes-service";
 export class NotesComponent implements OnInit {
   @ViewChild('dropdownMenu') dropdownMenu!: ElementRef;
   @ViewChild('noteElement') noteElement!: ElementRef;
+  @ViewChild('dropNote') dropNote!: ElementRef;
   notes: Note[] = [];
-
+  filteredNotes: Note[] = [];
   toggleDropdownMenu(note: Note, event: Event) {
     event.stopPropagation();
     note.showDropdownMenu = !note.showDropdownMenu;
+  }
+
+  toggleDrop() {
+    this.dropNote.nativeElement.hidden = false;
   }
 
   selectedNote!: Note | null;
@@ -47,6 +52,7 @@ export class NotesComponent implements OnInit {
     note.isArchived = true;
     this.notesService.archiveNotes(note).subscribe(updatedNotes => {
       this.notes = updatedNotes;
+      this.selectedNote = null;
     });
   }
 

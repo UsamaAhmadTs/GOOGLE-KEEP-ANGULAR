@@ -48,7 +48,7 @@
       </div>
     </div>
 
-    <div id="dropNote" *ngIf="selectedNote">
+    <div #dropNote id="dropNote" *ngIf="selectedNote">
       <form class="drop-note" (ngSubmit)="updateNote(selectedNote)">
         <input type="text" class="note-title" name="noteTitle" placeholder="Title" [(ngModel)]="selectedNote.noteTitle">
         <input class="note-text" type="text" name="noteText" [(ngModel)]="selectedNote.noteText">
@@ -62,10 +62,11 @@
               <span class="material-icons-outlined hover small-icon">more_vert</span>
               <span class="tooltip-text">More</span>
             </div>
-            <div *ngIf="selectedNote.showDropdownMenu" class="dropdown-menu-selected">
-              <div class="drop-els-selected" (click)="deleteNote(selectedNote)">Delete Note</div>
-              <div class="drop-els-selected" (click)="addLabel(selectedNote)">Add label</div>
-            </div>
+
+          </div>
+          <div *ngIf="selectedNote.showDropdownMenu" class="dropdownSelected">
+            <div class="drop-els-selected" (click)="deleteNote(selectedNote)">Delete Note</div>
+            <!--            <div class="drop-els-selected" (click)="addLabel(selectedNote)">Add label</div>-->
           </div>
           <button class="close-btn" type="submit">Close</button>
         </div>

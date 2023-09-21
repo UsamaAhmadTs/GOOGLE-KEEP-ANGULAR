@@ -21,6 +21,7 @@ import {NotesComponent} from './components/notes/notes.component';
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 
 import {ArchiveComponent} from './components/archive/archive.component';
+import { SearchComponent } from './components/search/search.component';
 
 @NgModule({
   declarations: [
@@ -31,6 +32,7 @@ import {ArchiveComponent} from './components/archive/archive.component';
     InputComponent,
     NotesComponent,
     ArchiveComponent,
+    SearchComponent,
 
   ],
   imports: [

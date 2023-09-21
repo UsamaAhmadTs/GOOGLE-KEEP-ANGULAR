@@ -4,33 +4,34 @@ import {NotesService} from "../notes-service";
 
 import {Note} from "../note";
 
+import {Router} from "@angular/router";
+
 @Component({
   selector: 'app-navbar',
   templateUrl: './navbar.component.html',
   styleUrls: ['./navbar.component.scss']
 })
-export class NavbarComponent implements OnInit {
+export class NavbarComponent {
   @ViewChild("form") form?: ElementRef<HTMLDivElement>
 
   searchQuery: string = '';
 
-  private filteredNotes: Note[] = [];
+  filteredNotes: Note[] = [];
 
-  constructor(private noteService: NotesService) {
+  constructor(private noteService: NotesService, private router: Router) {
+  }
+
+  isArchiveRoute(): boolean {
+    return this.router.url === '/archived';
   }
 
   onSearchInputChange() {
-    this.noteService.getFilteredNotes(this.searchQuery);
+    this.noteService.setSearchQuery(this.searchQuery)
+    this.router.navigate(['/search']);
   }
 
   refresh() {
     window.location.reload()
-  }
-
-  ngOnInit(): void {
-    this.noteService.searchQuery$.subscribe((query) => {
-      this.filteredNotes = this.noteService.getFilteredNotes(query);
-    });
   }
 
 }

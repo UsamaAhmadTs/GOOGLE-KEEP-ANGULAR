@@ -6,7 +6,33 @@
   line-height: 1.5rem;
   padding-top: 0.75rem;
 }
-
+.noteBody{
+  width: 77vw;
+}
+.text{
+  color: #5f6368;
+  cursor: default;
+  font-family: "Google Sans",Roboto,Arial,sans-serif;
+  font-size: 1.375rem;
+  font-weight: 400;
+  letter-spacing: 0;
+  line-height: 1.75rem;
+}
+.pic{
+  background-size: 120px 120px;
+  height: 120px;
+  margin: 20px;
+  opacity: 0.2;
+  width: 120px;
+}
+.no-notes{
+  margin-top: 20vh;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-flex-direction: column;
+  flex-direction: column;
+  margin-left: 20rem;
+}
 .noteText{
   font-family: "Google Sans",Roboto,Arial,sans-serif;
   font-size: 1.125rem;
@@ -22,6 +48,7 @@
   box-sizing: border-box;
   padding: 8px; /* Add some spacing around each note */
   justify-content: center;
+  margin-left: 3rem;
 }
 
 .dropdown-menu{

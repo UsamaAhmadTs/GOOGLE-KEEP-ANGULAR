@@ -19,11 +19,9 @@ export class NotesService {
     return this.searchQuerySubject.pipe(
       map(searchQuery => {
         const trimmedQuery = searchQuery.trim().toLowerCase();
-
         if (trimmedQuery === '') {
           return [];
         }
-
         const notesList = this.getNotesListFromLocalStorage();
         return notesList.filter(note =>
           note.noteTitle.toLowerCase().includes(trimmedQuery) ||

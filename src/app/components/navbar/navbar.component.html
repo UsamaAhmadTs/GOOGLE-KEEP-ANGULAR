@@ -20,19 +20,17 @@
     </div>
 
     <div class="sec-col">
-      <div class="form-container focus">
-        <div #form class="form">
-          <div class="input-container">
-            <input class="input" autocomplete="off" [(ngModel)]="searchQuery" (input)="onSearchInputChange()"
-                   placeholder="Search" value="" type="text">
-          </div>
+      <div class="form-container" >
+          <form class="form input-container" [class.background]="isFocused">
+            <input id="search" name="search" class="input" autocomplete="off" [(ngModel)]="searchQuery" (input)="onSearchInputChange()"
+                   (blur)="onBlur()" (focus)="onFocus()"  placeholder="Search" value="" type="text">
           <button class="btn left" aria-label="Clear search" type="button">
             <img class="pic H" src="./assets/images/svg/search.svg" alt="x-btn">
           </button>
-          <button class="btn" aria-label="Clear search" type="button">
+          <button #Btn class="btn" aria-label="Clear search" type="button"  (click)="clearSearchField()" hidden>
             <img class="pic H" src="./assets/images/svg/x-btn.svg" alt="x-btn">
           </button>
-        </div>
+        </form>
       </div>
       <div class="btns-container">
         <div class="search H pop" data-pop="Search"></div>

@@ -24,8 +24,8 @@ export class NotesService {
         }
         const notesList = this.getNotesListFromLocalStorage();
         return notesList.filter(note =>
-          note.noteTitle.toLowerCase().includes(trimmedQuery) ||
-          note.noteText.toLowerCase().includes(trimmedQuery)
+          note.noteTitle?.toLowerCase().includes(trimmedQuery) ||
+          note.noteText?.toLowerCase().includes(trimmedQuery)
         );
       })
     );

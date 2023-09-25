@@ -12,12 +12,19 @@ import {Router} from "@angular/router";
   styleUrls: ['./navbar.component.scss']
 })
 export class NavbarComponent {
-  @ViewChild("form") form?: ElementRef<HTMLDivElement>
+  @ViewChild('Btn') Btn!: ElementRef;
 
   searchQuery: string = '';
 
-  filteredNotes: Note[] = [];
+  isFocused: boolean = false;
 
+// Function to handle focus event
+  onFocus() {
+    this.isFocused = true;
+  }
+  onBlur() {
+    this.isFocused = false;
+  }
   constructor(private noteService: NotesService, private router: Router) {
   }
 
@@ -28,10 +35,20 @@ export class NavbarComponent {
   onSearchInputChange() {
     this.noteService.setSearchQuery(this.searchQuery)
     this.router.navigate(['/search']);
+    this.Btn.nativeElement.hidden = false;
   }
 
   refresh() {
     window.location.reload()
+  }
+  clearSearchField() {
+
+    const searchQuery = document.getElementById('search') as HTMLInputElement;
+    if (searchQuery) {
+      searchQuery.value = '';
+    }
+    this.router.navigate(['/notes']);
+    this.Btn.nativeElement.hidden = true;
   }
 
 }

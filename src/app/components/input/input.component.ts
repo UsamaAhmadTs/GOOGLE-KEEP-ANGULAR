@@ -12,7 +12,6 @@ import {NotesService} from "../notes-service";
   styleUrls: ['./input.component.scss']
 })
 export class InputComponent implements OnInit {
-  @Output() createNoteRefreshEvent = new EventEmitter<any>();
   showFirst = true;
   showDropdownMenu = false;
 
@@ -43,14 +42,13 @@ export class InputComponent implements OnInit {
     if (title && noteText) {
       const newNote: Note = {
         noteId: highestNoteId + 1,
-        noteTitle: title || 'Untitled',
-        noteText: noteText || 'No text',
+        noteTitle: title || '',
+        noteText: noteText || '',
         isArchived: false,
         display: false,
         showDropdownMenu: false
       };
       this.notesService.createNote(newNote).subscribe((result) => {
-        this.createNoteRefreshEvent.emit(result);
       });
       localStorage.setItem('highestNoteId', (highestNoteId + 1).toString());
       this.notes.reset();

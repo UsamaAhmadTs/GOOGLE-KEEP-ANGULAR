@@ -10,8 +10,8 @@
       <div *ngIf="!note.isArchived">
         <div #noteElement class=" note">
           <span class="material-icons check-circle">check_circle</span>
-          <div class="title" [innerHTML]="highlightMatches(note.noteTitle, highlightedSearchQuery)"></div>
-          <div class="noteText" [innerHTML]="highlightMatches(note.noteText, highlightedSearchQuery)"></div>
+          <div class="title" [innerHTML]="highlightMatches(note.noteTitle ?? '', highlightedSearchQuery)"></div>
+          <div class="noteText" [innerHTML]="highlightMatches(note.noteText ?? '', highlightedSearchQuery)"></div>
 
           <div class="note-footer">
             <div class="tooltip">
@@ -58,8 +58,8 @@
       <div *ngIf="note.isArchived">
         <div #noteElement class=" note">
           <span class="material-icons check-circle">check_circle</span>
-          <div class="title" [innerHTML]="highlightMatches(note.noteTitle, highlightedSearchQuery)"></div>
-          <div class="noteText" [innerHTML]="highlightMatches(note.noteText, highlightedSearchQuery)"></div>
+          <div class="title" [innerHTML]="highlightMatches(note.noteTitle ?? '', highlightedSearchQuery)"></div>
+          <div class="noteText" [innerHTML]="highlightMatches(note.noteText ?? '', highlightedSearchQuery)"></div>
 
           <div class="note-footer">
             <div class="tooltip">

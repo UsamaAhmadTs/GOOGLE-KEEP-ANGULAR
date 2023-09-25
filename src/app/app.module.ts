@@ -14,14 +14,17 @@ import {SidenavComponent} from './components/sidenav/sidenav.component';
 
 import {InputComponent} from './components/input/input.component';
 
-import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
-
 import {NotesComponent} from './components/notes/notes.component';
 
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 
 import {ArchiveComponent} from './components/archive/archive.component';
 import { SearchComponent } from './components/search/search.component';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import {MatButtonModule} from "@angular/material/button";
+import {MatDialogModule} from "@angular/material/dialog";
+import { EditModalComponent } from './modal/edit-modal.component';
+import { NoteTemplateComponent } from './components/note-template/note-template.component';
 
 @NgModule({
   declarations: [
@@ -33,14 +36,17 @@ import { SearchComponent } from './components/search/search.component';
     NotesComponent,
     ArchiveComponent,
     SearchComponent,
-
+    EditModalComponent,
+    NoteTemplateComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    NgbModule,
     ReactiveFormsModule,
-    FormsModule
+    FormsModule,
+    MatDialogModule,
+    MatButtonModule,
+    NoopAnimationsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

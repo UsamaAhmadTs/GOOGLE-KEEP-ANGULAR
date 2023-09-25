@@ -10,21 +10,30 @@ import {NotesService} from "../notes-service";
   styleUrls: ['./notes.component.scss']
 })
 export class NotesComponent implements OnInit {
-  @ViewChild('dropdownMenu') dropdownMenu!: ElementRef;
-  @ViewChild('noteElement') noteElement!: ElementRef;
-  @ViewChild('dropNote') dropNote!: ElementRef;
+
   notes: Note[] = [];
-  filteredNotes: Note[] = [];
+
+  showEditModal = false;
+
+  selectedNote: Note | null = null;
+
+
+  openEditModal() {
+    this.showEditModal = true;
+  }
+
+  closeEditModal() {
+    this.showEditModal = false;
+    this.selectedNote = null;
+  }
+
+  handleNoteUpdated(updatedNotes: Note[]) {
+  }
+
   toggleDropdownMenu(note: Note, event: Event) {
     event.stopPropagation();
     note.showDropdownMenu = !note.showDropdownMenu;
   }
-
-  toggleDrop() {
-    this.dropNote.nativeElement.hidden = false;
-  }
-
-  selectedNote!: Note | null;
 
   onNoteSelected(note: Note) {
     this.selectedNote = note;
@@ -36,7 +45,7 @@ export class NotesComponent implements OnInit {
 
   ngOnInit() {
     this.notesService.getNotes().subscribe((notes) => {
-      this.notes = notes;
+      this.notes = notes.reverse();
     });
   }
 

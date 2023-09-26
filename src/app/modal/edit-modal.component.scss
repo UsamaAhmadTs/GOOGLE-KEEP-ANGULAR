@@ -1,0 +1,206 @@
+.container{
+  height: 177px;
+  width: 600px;
+  border-radius: 8px;
+  overflow-x: hidden;
+  overflow-y: hidden;
+  position: relative;
+  z-index: 1;
+}
+
+.noteText{
+  font-family: "Google Sans",Roboto,Arial,sans-serif;
+  font-size: 1.125rem;
+  font-weight: 400;
+  letter-spacing: 0;
+  line-height: 1.5rem;
+}
+
+//.dropdownSelected{
+//  user-select: none;
+//  opacity: 1;
+//  background-color: #fff;
+//  box-shadow: 0 1px 2px 0 rgba(60,64,67,0.302), 0 2px 6px 2px rgba(60,64,67,0.149);
+//  position: absolute;
+//  border-radius: 4px;
+//  z-index: 5003;
+//  cursor: pointer;
+//  font-size: 13px;
+//  margin: 0;
+//  outline: none;
+//  padding: 6px 0;
+//  border: 1px solid rgba(0,0,0,.2);
+//  width: 170px;
+//  left: 16rem;
+//  top: 5rem;
+//}
+.drop-els-selected{
+  letter-spacing: .01428571em;
+  font-family: Roboto,Arial,sans-serif;
+  font-size: .875rem;
+  font-weight: 400;
+  line-height: 1.25rem;
+  border: 1px solid transparent;
+  padding: 5px 10px 5px 17px;
+  color: #3c4043;
+  height: 100%;
+  vertical-align: top;
+}
+.dropdownSelected {
+  background-color: #fff;
+  min-width: 8.4875em; /* 7.8vw converted to em */
+  min-height: 2.16em; /* 13.5vh converted to em */
+  border-width: 0;
+  box-shadow: 0 0.0625em 0.125em 0 rgba(60, 64, 67, 0.302), 0 0.125em 0.375em 0.125em rgba(60, 64, 67, 0.149);
+  position: absolute;
+  -webkit-border-radius: 0.25em; /* 4px converted to em */
+  border-radius: 0.25em; /* 4px converted to em */
+  z-index: 5003;
+  padding: 0.375em 0; /* 6px converted to em */
+  opacity: 1;
+  left: 16.1em; /* 356px converted to em */
+  top: 2.25em; /* 277px converted to em */
+  overflow-y: hidden;
+
+}
+ .noteText {
+  width: 100%;
+  margin: 10px 0 0 15px;
+}
+
+.material-icons-outlined {
+  color: #5f6368;
+}
+
+.small-icon {
+  color: black;
+  font-size: 1.1rem;
+}
+
+.material-icons-outlined {
+  padding: 10px;
+}
+.hover:hover {
+  background: #f1f3f4;
+  color: black;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.tooltip {
+  position: relative;
+}
+
+.tooltip-text {
+  position: absolute;
+  left: 0;
+  top: 100%;
+  font-size: 0.78rem;
+  background-color: #323232;
+  color: white;
+  opacity: 0.8;
+  padding: 5px;
+  white-space: nowrap;
+  border-radius: 5px;
+  visibility: hidden;
+  z-index: 1;
+}
+
+.tooltip:hover .tooltip-text {
+  visibility: visible;
+}
+
+//.note-footer .material-icons-outlined {
+//  visibility: hidden;
+//}
+//
+//.note:hover .material-icons-outlined,
+//.note:hover .check-circle {
+//  visibility: visible;
+//}
+//.note:hover{
+//  box-shadow: 0 1px 2px 0 rgb(60 64 67 / 30%), 0 2px 6px 2px rgb(60 64 67 / 15%);
+//}
+//#dropNote{
+//
+//  position: fixed; /* Stay in place */
+//  z-index: 1; /* Sit on top */
+//  padding-top: 100px; /* Location of the box */
+//  left: 0;
+//  top: 0;
+//  overflow: auto; /* Enable scroll if needed */
+//  background-color: rgb(0,0,0); /* Fallback color */
+//  background-color: rgba(0,0,0,0.4);
+//
+//}
+.note-title {
+  border: none;
+  font-size: 1rem;
+  height: 100%;
+  padding: 10px;
+  margin-left: 10px;
+  width: 100%;
+  margin-right: 10px;
+  outline: none;
+}
+
+.note-text {
+  border: none;
+  font-size: 1rem;
+  height: 100%;
+  padding: 10px;
+  margin-left: 10px;
+  width: 100%;
+  margin-right: 10px;
+  outline: none;
+}
+
+.form-actions {
+  display: flex;
+}
+
+.form-actions .icons {
+  display: flex;
+  margin-left: 14em;
+}
+
+.form-actions {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  margin-top: 63px;
+}
+
+.close-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 1rem;
+  color: #5f6368;
+  margin-right: 1em;
+  font-family: "Google Sans", Roboto, Arial, sans-serif;
+}
+
+.material-icons-outline {
+  color: #5f6368;
+}
+//#dropNote{
+//  color: #202124;
+//  direction: ltr;
+//  font-family: "Roboto",arial,sans-serif;
+//  font-size: 15px;
+//  border: 1px solid transparent;
+//  box-sizing: border-box;
+//  overflow: hidden;
+//  border-radius: 8px;
+//  transition-duration: 0.218s;
+//  transition-property: background,border,opacity,box-shadow,transform;
+//  transition-timing-function: ease-in;
+//  background-color: #fff;
+//  border-color: #e0e0e0;
+//  left: 324px;
+//  top: 350px;
+//  opacity: 1;
+//  position: fixed;
+//  z-index: 4001;
+//}

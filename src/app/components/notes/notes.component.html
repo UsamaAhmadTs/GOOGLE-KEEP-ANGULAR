@@ -9,19 +9,11 @@
   </section>
 
   <div class="notes-container">
-
-    <div *ngFor="let note of notes">
-      <app-note-template
-        *ngIf="note.isArchived"
-        [note]="note"
-        (noteSelected)="onNoteSelected($event)"
-      ></app-note-template>
-      <app-edit-modal
-        *ngIf="showEditModal"
-        [selectedNote]="selectedNote!"
-      ></app-edit-modal>
-    </div>
+    <app-note-template
+      [isArchiveNote]="false"
+    ></app-note-template>
   </div>
 </div>
+
 
 

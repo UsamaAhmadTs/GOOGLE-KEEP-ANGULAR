@@ -1,0 +1,50 @@
+<div class="notes-container">
+  <div *ngFor="let note of (highLight ? filteredNotes : notes)">
+    <div #noteElement class="note" (click)="onNoteSelected(note)" [hidden]="note.display"
+         *ngIf="(isArchiveNote ? note.isArchived : !note.isArchived)">
+      <span class="material-icons check-circle">check_circle</span>
+
+      <div *ngIf="highLight; else originalContent">
+        <div class="title" [innerHTML]="highlightMatches(note.noteTitle ?? '', highlightedSearchQuery)"></div>
+        <div class="noteText" [innerHTML]="highlightMatches(note.noteText ?? '', highlightedSearchQuery)"></div>
+      </div>
+
+      <ng-template #originalContent>
+        <div class="title">{{ note.noteTitle }}</div>
+        <div class="noteText">{{ note.noteText }}</div>
+      </ng-template>
+
+      <div class="note-footer">
+        <div class="tooltip">
+          <span class="material-icons-outlined hover small-icon">add_alert</span>
+          <span class="tooltip-text">Remind me</span>
+        </div>
+        <div class="tooltip">
+          <span class="material-icons-outlined hover small-icon">person_add</span>
+          <span class="tooltip-text">Collaborator</span>
+        </div>
+        <div class="tooltip">
+          <span class="material-icons-outlined hover small-icon">palette</span>
+          <span class="tooltip-text">Change Color</span>
+        </div>
+        <div class="tooltip">
+          <span class="material-icons-outlined hover small-icon">image</span>
+          <span class="tooltip-text">Add Image</span>
+        </div>
+        <div class="tooltip" (click)="archiveNote(note)">
+          <span class="material-icons-outlined hover small-icon">archive</span>
+          <span class="tooltip-text">Archive</span>
+        </div>
+        <div class="tooltip" (click)="toggleDropdownMenu(note, $event)">
+          <span class="material-icons-outlined hover small-icon">more_vert</span>
+          <span class="tooltip-text">More</span>
+        </div>
+        <div *ngIf="note.showDropdownMenu" class="dropdown-menu">
+          <div class="drop-els" (click)="deleteNote(note)">Delete Note</div>
+          <div class="drop-els" (click)="addLabel(note)">Add label</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>

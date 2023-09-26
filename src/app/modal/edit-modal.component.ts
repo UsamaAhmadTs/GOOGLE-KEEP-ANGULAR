@@ -1,0 +1,59 @@
+import {Component, Input, Output, EventEmitter, OnInit, Inject} from '@angular/core';
+
+import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from "@angular/material/dialog";
+
+import {Note} from "../components/note";
+
+import {NotesService} from "../components/notes-service";
+
+@Component({
+  selector: 'app-edit-modal',
+  templateUrl: './edit-modal.component.html',
+  styleUrls: ['./edit-modal.component.scss']
+})
+export class EditModalComponent implements OnInit {
+
+  selectedNote!: Note;
+
+  constructor(@Inject(MAT_DIALOG_DATA) public data: { note: Note },
+              private notesService: NotesService, private dialogRef: MatDialogRef<EditModalComponent>) {
+  }
+
+  notes: Note[] = []
+
+  ngOnInit() {
+    this.selectedNote = this.data.note;
+    this.notesService.getNotes().subscribe((notes) => {
+      this.notes = notes;
+    });
+  }
+
+  toggleDropdownMenu(note: Note, event: Event) {
+    event.stopPropagation();
+    note.showDropdownMenu = !note.showDropdownMenu;
+  }
+
+  deleteNote(noteToDelete: Note) {
+    this.notesService.deleteNotes(noteToDelete).subscribe({
+      next: updatedNotes => {
+        this.notes = updatedNotes;
+      }
+    });
+  }
+
+  archiveNote(note: Note) {
+    note.isArchived = !note.isArchived;
+    this.notesService.archiveNotes(note).subscribe(updatedNotes => {
+      this.notes = updatedNotes;
+    });
+  }
+
+  updateNote(selectedNote: Note) {
+    this.notesService.updateNote(selectedNote);
+    selectedNote.display = false;
+    this.dialogRef.close();
+  }
+
+  addLabel(note: Note) {
+  }
+}

@@ -2,9 +2,9 @@ import {Component, Input, Output, EventEmitter, OnInit, Inject} from '@angular/c
 
 import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from "@angular/material/dialog";
 
-import {Note} from "../components/note";
+import {Note} from "../note";
 
-import {NotesService} from "../components/notes-service";
+import {NotesService} from "../notes-service";
 
 @Component({
   selector: 'app-edit-modal',

@@ -4,7 +4,7 @@ import {NotesService} from "../notes-service";
 
 import {Note} from "../note";
 
-import {EditModalComponent} from "../../modal/edit-modal.component";
+import {EditModalComponent} from "../modal/edit-modal.component";
 
 import {MatDialog} from "@angular/material/dialog";
 

@@ -1,25 +1,14 @@
 
-// Custom Theming for Angular Material
-// For more information: https://material.angular.io/guide/theming
 @use '@angular/material' as mat;
-// Plus imports for other components in your app.
 
-// Include the common styles for Angular Material. We include this here so that you only
-// have to load a single css file for Angular Material in your app.
-// Be sure that you only ever include this mixin once!
 @include mat.core();
 
-// Define the palettes for your theme using the Material Design palettes available in palette.scss
-// (imported above). For each palette, you can optionally specify a default, lighter, and darker
-// hue. Available color palettes: https://material.io/design/color/
 $GOOGLE-KEEP-primary: mat.define-palette(mat.$indigo-palette);
 $GOOGLE-KEEP-accent: mat.define-palette(mat.$pink-palette, A200, A100, A400);
 
 // The warn palette is optional (defaults to red).
 $GOOGLE-KEEP-warn: mat.define-palette(mat.$red-palette);
 
-// Create the theme object. A theme consists of configurations for individual
-// theming systems such as "color" or "typography".
 $GOOGLE-KEEP-theme: mat.define-light-theme((
   color: (
     primary: $GOOGLE-KEEP-primary,
@@ -28,9 +17,6 @@ $GOOGLE-KEEP-theme: mat.define-light-theme((
   )
 ));
 
-// Include theme styles for core and each component used in your app.
-// Alternatively, you can import and @include the theme mixins for each component
-// that you are using.
 @include mat.all-component-themes($GOOGLE-KEEP-theme);
 
 :root {
@@ -68,11 +54,7 @@ $GOOGLE-KEEP-theme: mat.define-light-theme((
   margin-inline: auto;
   transition: all 0.7s;
 }
-//.background{
-//  background: red;
-//  border: 1px solid transparent;
-//  box-shadow: 0 1px 1px 0 rgba(65,69,73,.3), 0 1px 3px 1px rgba(65,69,73,.15);
-//}
+
 .pop:hover::before {
   content: attr(data-pop);
   position: absolute;
@@ -85,9 +67,7 @@ $GOOGLE-KEEP-theme: mat.define-light-theme((
   font-size: 15px;
   font-family: 'Google Sans', serif;
   border-radius: 5px;
-
 }
-
 
 /* ===== Scrollbar CSS ===== */
 

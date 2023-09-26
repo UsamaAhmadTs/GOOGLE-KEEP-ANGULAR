@@ -23,7 +23,7 @@ import { SearchComponent } from './components/search/search.component';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import {MatButtonModule} from "@angular/material/button";
 import {MatDialogModule} from "@angular/material/dialog";
-import { EditModalComponent } from './modal/edit-modal.component';
+import { EditModalComponent } from './components/modal/edit-modal.component';
 import { NoteTemplateComponent } from './components/note-template/note-template.component';
 
 @NgModule({

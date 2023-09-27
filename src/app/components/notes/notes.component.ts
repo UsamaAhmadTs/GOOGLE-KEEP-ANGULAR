@@ -16,17 +16,9 @@ export class NotesComponent implements OnInit {
   constructor(private notesService: NotesService) {
   }
 
-  selectedNote: Note | null = null;
-
   ngOnInit() {
     this.notesService.getNotes().subscribe((notes) => {
       this.notes = notes;
     });
   }
-
-  handleSelectedNoteChanged(selectedNote: Note | null) {
-    this.selectedNote = selectedNote;
-    console.log('Received selectedNote:', selectedNote);
-  }
-
 }

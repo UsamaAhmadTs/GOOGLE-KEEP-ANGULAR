@@ -2,8 +2,6 @@ import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 
 import {NotesService} from "../notes-service";
 
-import {Note} from "../note";
-
 import {Router} from "@angular/router";
 
 @Component({
@@ -18,7 +16,6 @@ export class NavbarComponent {
 
   isFocused: boolean = false;
 
-// Function to handle focus event
   onFocus() {
     this.isFocused = true;
   }

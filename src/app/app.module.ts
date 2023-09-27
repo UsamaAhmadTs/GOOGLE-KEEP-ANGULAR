@@ -25,6 +25,7 @@ import {MatButtonModule} from "@angular/material/button";
 import {MatDialogModule} from "@angular/material/dialog";
 import { EditModalComponent } from './components/modal/edit-modal.component';
 import { NoteTemplateComponent } from './components/note-template/note-template.component';
+import { LabelComponent } from './components/label/label.component';
 
 @NgModule({
   declarations: [
@@ -37,7 +38,8 @@ import { NoteTemplateComponent } from './components/note-template/note-template.
     ArchiveComponent,
     SearchComponent,
     EditModalComponent,
-    NoteTemplateComponent
+    NoteTemplateComponent,
+    LabelComponent
   ],
   imports: [
     BrowserModule,

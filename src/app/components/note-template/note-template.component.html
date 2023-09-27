@@ -41,7 +41,20 @@
         </div>
         <div *ngIf="note.showDropdownMenu" class="dropdown-menu">
           <div class="drop-els" (click)="deleteNote(note)">Delete Note</div>
-          <div class="drop-els" (click)="addLabel(note)">Add label</div>
+          <div class="drop-els" (click)="toggleLabelMenu($event)">Add label</div>
+        </div>
+        <div #labelMenuTt *ngIf="labelMenuOpen" class="dropdown-menu">
+          <div class="title">Label note</div>
+          <div class="search">
+            <input type="text" maxlength="50" placeholder="Enter label name">
+            <div class="search-icon"></div>
+          </div>
+          <div class="label-list-container">
+            <div class="label-list">
+              <div class="check-icon"></div>
+              <div class="label-name"></div>
+            </div>
+          </div>
         </div>
       </div>
     </div>

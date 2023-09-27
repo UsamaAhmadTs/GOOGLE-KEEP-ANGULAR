@@ -1,0 +1,33 @@
+<div #modalContainer class="modal-container">
+  <div #modal class="modal">
+    <div class="label-modal-main">
+      <div class="header">
+        <p>Edit labels</p>
+        <div class="input-container">
+          <div #plusIcon class="plus-icon H"></div>
+          <input id="labelInput" #labelInput
+                 (focus)="plusIcon.classList.toggle('cancel-icon');
+          checkIcon.classList.toggle('check-icon')"
+                 (blur)="plusIcon.classList.remove('cancel-icon');
+              checkIcon.classList.remove('check-icon')"
+                 (keydown.enter)="addLabel(labelInput)"
+                 type="text" placeholder="Create new label" maxlength="50" (input)="''">
+          <div #checkIcon class="check-icon H"></div>
+        </div>
+        <div #labelError class="error" hidden>Label already exists</div>
+        <div class="labels-container" *ngFor="let label of labels">
+          <div #labelIcon class="label-icon H"></div>
+          <input (focus)="labelIcon.classList.toggle('trash-icon')" #labelInput
+                 (keydown.enter)="labelInput.blur()"
+                 (blur)="labelIcon.classList.toggle('trash-icon')"
+                 [value]="label" type="text" placeholder="Enter label name" maxlength="50">
+          <div class="pen-icon H"></div>
+        </div>
+      </div>
+      <div class="footer">
+        <div type="submit" tabindex="0">Done</div>
+      </div>
+    </div>
+  </div>
+</div>
+

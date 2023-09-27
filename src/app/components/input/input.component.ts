@@ -1,4 +1,4 @@
-import {Component, EventEmitter, OnInit, Output} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 
 import {Note} from "../note";
 
@@ -50,7 +50,6 @@ export class InputComponent implements OnInit {
       };
       this.notesService.createNote(newNote).subscribe((result) => {
       });
-      localStorage.setItem('highestNoteId', (highestNoteId + 1).toString());
       this.notes.reset();
       this.showFirst = !this.showFirst;
     }

@@ -1,0 +1,154 @@
+.modal-container {
+  z-index: 1;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(10, 10, 10, 40%);
+  overflow: hidden;
+}
+
+.modal {
+  width: 18.75em;
+  height: 10.6875em;
+
+  .label-modal-main {
+    background-color: white;
+    border-radius: 0.0625em;
+
+
+    input {
+      flex: 1 1 auto;
+      font-size: 0.875em;
+      font-weight: 500;
+      margin: 0 0.9375em;
+      background-color: transparent;
+      border: none;
+      border-bottom: 0.0625em solid transparent;
+      box-shadow: none;
+      color: #3c4043;
+      font-family: "Roboto", arial, sans-serif;
+      height: 1.5625em;
+      outline: none;
+      padding: 0;
+    }
+
+    input:focus {
+      border-bottom: 1px solid #5f6368;
+    }
+
+    input::placeholder {
+      color: black;
+      opacity: 0.5;
+    }
+
+    %icons {
+      background-size: 1.125em 1.125em;
+      height: 1.5em;
+      opacity: 0.54;
+      width: 1.5em;
+      background-repeat: no-repeat;
+      background-position: center;
+    }
+
+    .cancel-icon {
+      background-image: url(/assets/images/svg/cancel.svg) !important;
+      @extend %icons
+    }
+
+    .header {
+      padding: 0.9375em;
+
+      .error {
+        color: #f6aea9;
+        cursor: default;
+        font-size: 0.78125em;
+        font-style: italic;
+        padding: 0.625em;
+        font-family: "Roboto", arial, sans-serif;
+      }
+
+      p {
+        color: #202124;
+        letter-spacing: .00625em;
+        font-family: "Google Sans", Roboto, Arial, sans-serif;
+        font-size: 1rem;
+        font-weight: 500;
+        line-height: 1.5rem;
+        height: 1.5625em;
+        margin: 0;
+      }
+
+      .input-container {
+        display: flex;
+        align-items: center;
+        height: 2.8125em;
+
+        .plus-icon {
+          background-image: url(/assets/images/svg/plus.svg);
+          @extend %icons
+        }
+
+        .check-icon {
+          @extend %icons;
+          background-image: url(/assets/images/svg/check3.svg);
+        }
+      }
+
+      .labels-container {
+        @extend .input-container;
+
+        .label-icon {
+          background-image: url(/assets/images/svg/label-filled.svg);
+          @extend %icons
+        }
+
+        .pen-icon {
+          background-image: url(/assets/images/svg/pen-filled.svg);
+          @extend %icons
+        }
+
+        .trash-icon {
+          background-image: url(/assets/images/svg/trash-filled.svg);
+          @extend %icons
+        }
+
+        input:focus + .pen-icon {
+          background-image: url(/assets/images/svg/check3.svg);
+        }
+
+        .label-icon:hover {
+          background-image: url(/assets/images/svg/trash-filled.svg);
+        }
+      }
+    }
+
+    .footer {
+      border-top: 0.0625em solid #dadce0; /* Converted from 1px */
+      padding: 0.9375em 0.625em;
+      text-align: right;
+
+      div {
+        box-sizing: border-box;
+        color: rgba(0, 0, 0, .87);
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        letter-spacing: .01785714em;
+        font-family: "Google Sans", Roboto, Arial, sans-serif;
+        font-size: .875rem;
+        font-weight: 500;
+        line-height: 1.25em; /* Converted from 1.25rem */
+        height: 2.25em; /* Converted from 36px */
+        padding: 0.5em 1.5em; /* Converted from 8px 24px */
+        border-radius: 0.25em; /* Converted from 4px */
+        display: inline-block;
+      }
+
+      div:hover {
+        background-color: rgba(154, 160, 166, 0.039);
+        cursor: pointer;
+      }
+    }
+  }
+}

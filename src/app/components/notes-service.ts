@@ -3,11 +3,19 @@ import {Injectable} from '@angular/core';
 import {BehaviorSubject, map, Observable, of} from "rxjs";
 
 import {Note} from './note';
+import {Label} from "./label";
 
 @Injectable({
   providedIn: 'root'
 })
 export class NotesService {
+
+  labels: string[] = [];
+
+  getLabels(): Observable<string[]> {
+    return of(this.labels);
+  }
+
   private searchQuerySubject = new BehaviorSubject<string>('');
   searchQuery$: Observable<string> = this.searchQuerySubject.asObservable();
 
@@ -31,7 +39,7 @@ export class NotesService {
     );
   }
 
-  private getNotesListFromLocalStorage(): Note[] { // Updated return type
+  private getNotesListFromLocalStorage(): Note[] {
     const notesListString = localStorage.getItem('notesList');
     return notesListString ? JSON.parse(notesListString) : [];
   }
@@ -43,39 +51,27 @@ export class NotesService {
   getArchivedNotes(): Observable<Note[]> {
     const notesList = this.getNotesListFromLocalStorage();
     const archivedNotes = notesList.filter(note => note.isArchived);
-    return new Observable<Note[]>((observer) => {
-      observer.next(archivedNotes);
-      observer.complete();
-    });
+    return of(archivedNotes)
   }
 
-  createNote(newNote: Note): Observable<Note> {
+  createNote(newNote: Note): Observable<Note[]> {
     const notesList = this.getNotesListFromLocalStorage();
     notesList.push(newNote);
     this.setNotesListToLocalStorage(notesList);
 
-    return new Observable<Note>((observer) => {
-      observer.next(newNote);
-      observer.complete();
-    });
+    return of(notesList);
   }
 
   getNotes(): Observable<Note[]> {
     const notesList = this.getNotesListFromLocalStorage();
-    return new Observable<Note[]>((observer) => {
-      observer.next(notesList);
-      observer.complete();
-    });
+    return of(notesList);
   }
 
   deleteNotes(newNote: Note): Observable<Note[]> {
     const notesList = this.getNotesListFromLocalStorage();
     const updatedNotes = notesList.filter(note => note.noteTitle !== newNote.noteTitle);
     this.setNotesListToLocalStorage(updatedNotes);
-    return new Observable<Note[]>((observer) => {
-      observer.next(updatedNotes);
-      observer.complete();
-    });
+    return of(updatedNotes);
   }
 
   archiveNotes(archiveNote: Note): Observable<Note[]> {
@@ -87,10 +83,7 @@ export class NotesService {
       return note;
     });
     this.setNotesListToLocalStorage(updatedNotes);
-    return new Observable<Note[]>((observer) => {
-      observer.next(updatedNotes);
-      observer.complete();
-    });
+    return of(updatedNotes);
   }
 
   updateNote(updatedNote: Note): Observable<Note[]> {
@@ -113,4 +106,5 @@ export class NotesService {
       this.setNotesListToLocalStorage(notesList);
     }
   }
+
 }

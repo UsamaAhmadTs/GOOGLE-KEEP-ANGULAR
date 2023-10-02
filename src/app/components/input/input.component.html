@@ -1,35 +1,35 @@
 <div class="input-body">
-  <div #mainNote class="form-container" *ngIf="showFirst" (click)="toggleDivs()">
-    <form class="main-note">
-      <input class="note-text" type="text" placeholder="Take a note..."/>
-      <div class="form-actions">
-      </div>
-    </form>
-  </div>
-
-  <div #dropNote class="form-container active-form" *ngIf="!showFirst">
-    <form class="drop-note" [formGroup]="notes" (ngSubmit)="createNote()">
-      <input type="text" class="note-title" placeholder="Title" formControlName="title"/>
-      <input class="note-text" type="text" placeholder="Take a note..." formControlName="note"/>
-      <div class="form-actions">
-        <div class="icons">
-          <div class="tooltip">
-            <span class="material-icons-outlined hover small-icon">archive</span>
-            <span class="tooltip-text">Archive</span>
-          </div>
-          <div class="tooltip" (click)="toggleDropdownMenu()">
-            <span class="material-icons-outlined hover small-icon">more_vert</span>
-            <span class="tooltip-text">More</span>
-          </div>
-        </div>
-        <button class="close-btn" type="submit">Close</button>
-      </div>
-    </form>
-    <div *ngIf="showDropdownMenu" class="dropdown-menu">
-      <div class="drop-els" (click)="addLabel()">Add label</div>
+    <div #mainNote class="form-container" *ngIf="showFirst" (click)="toggleDivs()">
+        <form class="main-note">
+            <input class="note-text" type="text" placeholder="Take a note..."/>
+            <div class="form-actions">
+            </div>
+        </form>
     </div>
 
-  </div>
-  <app-notes></app-notes>
+    <div #dropNote class="form-container active-form" *ngIf="!showFirst">
+        <form class="drop-note" [formGroup]="notes" (ngSubmit)="createNote()">
+            <input type="text" class="note-title" placeholder="Title" formControlName="title"/>
+            <input class="note-text" type="text" placeholder="Take a note..." formControlName="note"/>
+            <div class="form-actions">
+                <div class="icons">
+                    <div class="tooltip">
+                        <span class="material-icons-outlined hover small-icon">archive</span>
+                        <span class="tooltip-text">Archive</span>
+                    </div>
+                    <div class="tooltip" (click)="toggleDropdownMenu()">
+                        <span class="material-icons-outlined hover small-icon">more_vert</span>
+                        <span class="tooltip-text">More</span>
+                    </div>
+                </div>
+                <button class="close-btn" type="submit">Close</button>
+            </div>
+        </form>
+        <div *ngIf="showDropdownMenu" class="dropdown-menu">
+            <div class="drop-els">Add label</div>
+        </div>
+
+    </div>
+    <app-notes></app-notes>
 
 </div>

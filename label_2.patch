@@ -1,0 +1,1949 @@
+Subject: [PATCH] label 2
+---
+Index: package-lock.json
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/package-lock.json b/package-lock.json
+--- a/package-lock.json	(revision 9585c550b7cc9d1a5fed15c9ad1ad29a54df7c45)
++++ b/package-lock.json	(revision ecf7f2a4ffb3a3384170c7135106b3c080dc514c)
+@@ -22,6 +22,7 @@
+         "node-snackbar": "^0.1.16",
+         "rxjs": "~7.8.0",
+         "tslib": "^2.3.0",
++        "uuid": "^9.0.1",
+         "zone.js": "~0.13.0"
+       },
+       "devDependencies": {
+@@ -30,6 +31,7 @@
+         "@angular/compiler-cli": "^16.2.0",
+         "@angular/localize": "^16.2.0",
+         "@types/jasmine": "~4.3.0",
++        "@types/uuid": "^9.0.4",
+         "jasmine-core": "~4.6.0",
+         "karma": "~6.4.0",
+         "karma-chrome-launcher": "~3.2.0",
+@@ -4303,6 +4305,12 @@
+         "@types/node": "*"
+       }
+     },
++    "node_modules/@types/uuid": {
++      "version": "9.0.4",
++      "resolved": "https://registry.npmjs.org/@types/uuid/-/uuid-9.0.4.tgz",
++      "integrity": "sha512-zAuJWQflfx6dYJM62vna+Sn5aeSWhh3OB+wfUEACNcqUSc0AGc5JKl+ycL1vrH7frGTXhJchYjE1Hak8L819dA==",
++      "dev": true
++    },
+     "node_modules/@types/ws": {
+       "version": "8.5.5",
+       "resolved": "https://registry.npmjs.org/@types/ws/-/ws-8.5.5.tgz",
+@@ -11587,6 +11595,15 @@
+         "websocket-driver": "^0.7.4"
+       }
+     },
++    "node_modules/sockjs/node_modules/uuid": {
++      "version": "8.3.2",
++      "resolved": "https://registry.npmjs.org/uuid/-/uuid-8.3.2.tgz",
++      "integrity": "sha512-+NYs2QeMWy+GWFOEm9xnn6HCDp0l7QBD7ml8zLUmJ+93Q5NF0NocErnwkTkXVFNiX3/fpC6afS8Dhb/gz7R7eg==",
++      "dev": true,
++      "bin": {
++        "uuid": "dist/bin/uuid"
++      }
++    },
+     "node_modules/socks": {
+       "version": "2.7.1",
+       "resolved": "https://registry.npmjs.org/socks/-/socks-2.7.1.tgz",
+@@ -12429,10 +12446,13 @@
+       }
+     },
+     "node_modules/uuid": {
+-      "version": "8.3.2",
+-      "resolved": "https://registry.npmjs.org/uuid/-/uuid-8.3.2.tgz",
+-      "integrity": "sha512-+NYs2QeMWy+GWFOEm9xnn6HCDp0l7QBD7ml8zLUmJ+93Q5NF0NocErnwkTkXVFNiX3/fpC6afS8Dhb/gz7R7eg==",
+-      "dev": true,
++      "version": "9.0.1",
++      "resolved": "https://registry.npmjs.org/uuid/-/uuid-9.0.1.tgz",
++      "integrity": "sha512-b+1eJOlsR9K8HJpow9Ok3fiWOWSIcIzXodvv0rQjVoOVNpWMpxf1wZNpt4y9h10odCNrqnYp1OBzRktckBe3sA==",
++      "funding": [
++        "https://github.com/sponsors/broofa",
++        "https://github.com/sponsors/ctavan"
++      ],
+       "bin": {
+         "uuid": "dist/bin/uuid"
+       }
+Index: package.json
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/package.json b/package.json
+--- a/package.json	(revision 9585c550b7cc9d1a5fed15c9ad1ad29a54df7c45)
++++ b/package.json	(revision ecf7f2a4ffb3a3384170c7135106b3c080dc514c)
+@@ -24,6 +24,7 @@
+     "node-snackbar": "^0.1.16",
+     "rxjs": "~7.8.0",
+     "tslib": "^2.3.0",
++    "uuid": "^9.0.1",
+     "zone.js": "~0.13.0"
+   },
+   "devDependencies": {
+@@ -32,6 +33,7 @@
+     "@angular/compiler-cli": "^16.2.0",
+     "@angular/localize": "^16.2.0",
+     "@types/jasmine": "~4.3.0",
++    "@types/uuid": "^9.0.4",
+     "jasmine-core": "~4.6.0",
+     "karma": "~6.4.0",
+     "karma-chrome-launcher": "~3.2.0",
+@@ -40,4 +42,4 @@
+     "karma-jasmine-html-reporter": "~2.1.0",
+     "typescript": "~5.1.3"
+   }
+-}
+\ No newline at end of file
++}
+Index: src/app/components/archive/archive.component.html
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/app/components/archive/archive.component.html b/src/app/components/archive/archive.component.html
+--- a/src/app/components/archive/archive.component.html	(revision 9585c550b7cc9d1a5fed15c9ad1ad29a54df7c45)
++++ b/src/app/components/archive/archive.component.html	(revision ecf7f2a4ffb3a3384170c7135106b3c080dc514c)
+@@ -1,13 +1,13 @@
+ <div class="no-notes" *ngIf="(archiveNotes$ | async)!.length < 1">
+-  <div class="note-image"><img src="./assets/images/svg/archive.svg" alt="archive" class="pic"></div>
+-  <div>
+-    <span class="text">Your archived notes appear here</span>
+-  </div>
++    <div class="note-image"><img src="./assets/images/svg/archive.svg" alt="archive" class="pic"></div>
++    <div>
++        <span class="text">Your archived notes appear here</span>
++    </div>
+ </div>
+ 
+ <div class="notes-container">
+-  <app-note-template
+-    [isArchiveNote]="true"
+-  ></app-note-template>
++    <app-note-template
++            [isArchiveNote]="true"
++    ></app-note-template>
+ </div>
+ 
+Index: src/app/components/archive/archive.component.ts
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/app/components/archive/archive.component.ts b/src/app/components/archive/archive.component.ts
+--- a/src/app/components/archive/archive.component.ts	(revision 9585c550b7cc9d1a5fed15c9ad1ad29a54df7c45)
++++ b/src/app/components/archive/archive.component.ts	(revision ecf7f2a4ffb3a3384170c7135106b3c080dc514c)
+@@ -3,6 +3,7 @@
+ import {Note} from "../note";
+ 
+ import {NotesService} from "../notes-service";
++
+ import {Observable} from "rxjs";
+ 
+ @Component({
+Index: src/app/components/input/input.component.html
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/app/components/input/input.component.html b/src/app/components/input/input.component.html
+--- a/src/app/components/input/input.component.html	(revision 9585c550b7cc9d1a5fed15c9ad1ad29a54df7c45)
++++ b/src/app/components/input/input.component.html	(revision ecf7f2a4ffb3a3384170c7135106b3c080dc514c)
+@@ -1,35 +1,35 @@
+ <div class="input-body">
+-  <div #mainNote class="form-container" *ngIf="showFirst" (click)="toggleDivs()">
+-    <form class="main-note">
+-      <input class="note-text" type="text" placeholder="Take a note..."/>
+-      <div class="form-actions">
+-      </div>
+-    </form>
+-  </div>
++    <div #mainNote class="form-container" *ngIf="showFirst" (click)="toggleDivs()">
++        <form class="main-note">
++            <input class="note-text" type="text" placeholder="Take a note..."/>
++            <div class="form-actions">
++            </div>
++        </form>
++    </div>
+ 
+-  <div #dropNote class="form-container active-form" *ngIf="!showFirst">
+-    <form class="drop-note" [formGroup]="notes" (ngSubmit)="createNote()">
+-      <input type="text" class="note-title" placeholder="Title" formControlName="title"/>
+-      <input class="note-text" type="text" placeholder="Take a note..." formControlName="note"/>
+-      <div class="form-actions">
+-        <div class="icons">
+-          <div class="tooltip">
+-            <span class="material-icons-outlined hover small-icon">archive</span>
+-            <span class="tooltip-text">Archive</span>
+-          </div>
+-          <div class="tooltip" (click)="toggleDropdownMenu()">
+-            <span class="material-icons-outlined hover small-icon">more_vert</span>
+-            <span class="tooltip-text">More</span>
+-          </div>
+-        </div>
+-        <button class="close-btn" type="submit">Close</button>
+-      </div>
+-    </form>
+-    <div *ngIf="showDropdownMenu" class="dropdown-menu">
+-      <div class="drop-els" (click)="addLabel()">Add label</div>
+-    </div>
++    <div #dropNote class="form-container active-form" *ngIf="!showFirst">
++        <form class="drop-note" [formGroup]="notes" (ngSubmit)="createNote()">
++            <input type="text" class="note-title" placeholder="Title" formControlName="title"/>
++            <input class="note-text" type="text" placeholder="Take a note..." formControlName="note"/>
++            <div class="form-actions">
++                <div class="icons">
++                    <div class="tooltip">
++                        <span class="material-icons-outlined hover small-icon">archive</span>
++                        <span class="tooltip-text">Archive</span>
++                    </div>
++                    <div class="tooltip" (click)="toggleDropdownMenu()">
++                        <span class="material-icons-outlined hover small-icon">more_vert</span>
++                        <span class="tooltip-text">More</span>
++                    </div>
++                </div>
++                <button class="close-btn" type="submit">Close</button>
++            </div>
++        </form>
++        <div *ngIf="showDropdownMenu" class="dropdown-menu">
++            <div class="drop-els">Add label</div>
++        </div>
+ 
+-  </div>
+-  <app-notes></app-notes>
++    </div>
++    <app-notes></app-notes>
+ 
+ </div>
+Index: src/app/components/input/input.component.ts
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/app/components/input/input.component.ts b/src/app/components/input/input.component.ts
+--- a/src/app/components/input/input.component.ts	(revision 9585c550b7cc9d1a5fed15c9ad1ad29a54df7c45)
++++ b/src/app/components/input/input.component.ts	(revision ecf7f2a4ffb3a3384170c7135106b3c080dc514c)
+@@ -5,57 +5,54 @@
+ import {FormBuilder, FormGroup} from "@angular/forms";
+ 
+ import {NotesService} from "../notes-service";
++import {v4 as uuidv4} from "uuid";
+ 
+ @Component({
+-  selector: 'app-input',
+-  templateUrl: './input.component.html',
+-  styleUrls: ['./input.component.scss']
++    selector: 'app-input',
++    templateUrl: './input.component.html',
++    styleUrls: ['./input.component.scss']
+ })
+ export class InputComponent implements OnInit {
+-  showFirst = true;
+-  showDropdownMenu = false;
+-
+-  toggleDropdownMenu() {
+-    this.showDropdownMenu = !this.showDropdownMenu;
+-  }
+-
+-  toggleDivs() {
+-    this.showFirst = !this.showFirst;
+-  }
+-
+-  constructor(private formBuilder: FormBuilder, private notesService: NotesService) {
+-  }
+-
+-  notes!: FormGroup;
++    showFirst = true;
++    showDropdownMenu = false;
++    notes!: FormGroup;
+ 
+-  ngOnInit(): void {
+-    this.notes = this.formBuilder.group({
+-      title: '',
+-      note: ''
+-    })
+-  }
++    constructor(private formBuilder: FormBuilder, private notesService: NotesService) {
++    }
++
++    ngOnInit(): void {
++        this.notes = this.formBuilder.group({
++            title: '',
++            note: ''
++        })
++    }
+ 
+-  createNote() {
+-    const title = this.notes.value.title;
+-    const noteText = this.notes.value.note;
+-    let highestNoteId = parseInt(localStorage.getItem('highestNoteId') || '0', 10);
+-    if (title && noteText) {
+-      const newNote: Note = {
+-        noteId: highestNoteId + 1,
+-        noteTitle: title || '',
+-        noteText: noteText || '',
+-        isArchived: false,
+-        display: false,
+-        showDropdownMenu: false
+-      };
+-      this.notesService.createNote(newNote).subscribe((result) => {
+-      });
+-      this.notes.reset();
+-      this.showFirst = !this.showFirst;
+-    }
+-  }
++    createNote() {
++        const title = this.notes.value.title;
++        const noteText = this.notes.value.note;
++        if (title || noteText) {
++            const newNote: Note = {
++                noteId: uuidv4(),
++                noteTitle: title || '',
++                noteText: noteText || '',
++                isArchived: false,
++                display: false,
++                showDropdownMenu: false,
++                labels: []
++            };
++            this.notesService.createNote(newNote).subscribe((result) => {
++            });
++            this.notes.reset();
++            this.showFirst = !this.showFirst;
++        }
++    }
+ 
+-  addLabel() {
+-  }
++    toggleDropdownMenu() {
++        this.showDropdownMenu = !this.showDropdownMenu;
++    }
++
++    toggleDivs() {
++        this.showFirst = !this.showFirst;
++    }
+ 
+ }
+Index: src/app/components/label.ts
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/app/components/label.ts b/src/app/components/label.ts
+--- a/src/app/components/label.ts	(revision 9585c550b7cc9d1a5fed15c9ad1ad29a54df7c45)
++++ b/src/app/components/label.ts	(revision ecf7f2a4ffb3a3384170c7135106b3c080dc514c)
+@@ -1,4 +1,5 @@
+ export interface Label{
+-  labelId: number;
++  labelId: string;
+   labelTitle: string;
++  isPathVisible: boolean;
+ }
+Index: src/app/components/label/label.component.html
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/app/components/label/label.component.html b/src/app/components/label/label.component.html
+--- a/src/app/components/label/label.component.html	(revision 9585c550b7cc9d1a5fed15c9ad1ad29a54df7c45)
++++ b/src/app/components/label/label.component.html	(revision ecf7f2a4ffb3a3384170c7135106b3c080dc514c)
+@@ -1,33 +1,32 @@
+ <div #modalContainer class="modal-container">
+-  <div #modal class="modal">
+-    <div class="label-modal-main">
+-      <div class="header">
+-        <p>Edit labels</p>
+-        <div class="input-container">
+-          <div #plusIcon class="plus-icon H"></div>
+-          <input id="labelInput" #labelInput
+-                 (focus)="plusIcon.classList.toggle('cancel-icon');
++    <div #modal class="modal">
++        <div class="label-modal-main">
++            <div class="header">
++                <p>Edit labels</p>
++                <div class="input-container">
++                    <div #plusIcon class="plus-icon H"></div>
++                    <input id="labelInput" #labelInput
++                           (focus)="plusIcon.classList.toggle('cancel-icon');
+           checkIcon.classList.toggle('check-icon')"
+-                 (blur)="plusIcon.classList.remove('cancel-icon');
++                           (blur)="plusIcon.classList.remove('cancel-icon');
+               checkIcon.classList.remove('check-icon')"
+-                 (keydown.enter)="addLabel(labelInput)"
+-                 type="text" placeholder="Create new label" maxlength="50" (input)="''">
+-          <div #checkIcon class="check-icon H"></div>
+-        </div>
+-        <div #labelError class="error" hidden>Label already exists</div>
+-        <div class="labels-container" *ngFor="let label of labels">
+-          <div #labelIcon class="label-icon H"></div>
+-          <input (focus)="labelIcon.classList.toggle('trash-icon')" #labelInput
+-                 (keydown.enter)="labelInput.blur()"
+-                 (blur)="labelIcon.classList.toggle('trash-icon')"
+-                 [value]="label" type="text" placeholder="Enter label name" maxlength="50">
+-          <div class="pen-icon H"></div>
+-        </div>
+-      </div>
+-      <div class="footer">
+-        <div type="submit" tabindex="0">Done</div>
+-      </div>
+-    </div>
+-  </div>
++                           type="text" placeholder="Create new label" maxlength="50" (input)="''">
++                    <div #checkIcon class="check-icon H"></div>
++                </div>
++                <div #labelError class="error" hidden>Label already exists</div>
++                <div class="labels-container" *ngFor="let label of labels">
++                    <div #labelIcon class="label-icon H"></div>
++                    <input (focus)="labelIcon.classList.toggle('trash-icon')" #labelInput
++                           (keydown.enter)="labelInput.blur()"
++                           (blur)="labelIcon.classList.toggle('trash-icon')"
++                           [value]="label" type="text" placeholder="Enter label name" maxlength="50">
++                    <div class="pen-icon H"></div>
++                </div>
++            </div>
++            <div class="footer">
++                <div type="submit" tabindex="0">Done</div>
++            </div>
++        </div>
++    </div>
+ </div>
+ 
+Index: src/app/components/label/label.component.ts
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/app/components/label/label.component.ts b/src/app/components/label/label.component.ts
+--- a/src/app/components/label/label.component.ts	(revision 9585c550b7cc9d1a5fed15c9ad1ad29a54df7c45)
++++ b/src/app/components/label/label.component.ts	(revision ecf7f2a4ffb3a3384170c7135106b3c080dc514c)
+@@ -2,37 +2,23 @@
+ 
+ import {NotesService} from "../notes-service";
+ 
+-import {Label} from "../label";
+-
+ @Component({
+-  selector: 'app-label',
+-  templateUrl: './label.component.html',
+-  styleUrls: ['./label.component.scss']
++    selector: 'app-label',
++    templateUrl: './label.component.html',
++    styleUrls: ['./label.component.scss']
+ })
+-export class LabelComponent implements OnInit{
+-  @ViewChild("modalContainer ") modalContainer !: ElementRef<HTMLInputElement>
+-  @ViewChild("modal") modal !: ElementRef<HTMLInputElement>
+-  @ViewChild("labelError") labelError !: ElementRef<HTMLInputElement>
+-  labels: string[] = [];
++export class LabelComponent implements OnInit {
++    @ViewChild("modalContainer ") modalContainer !: ElementRef<HTMLInputElement>
++    @ViewChild("modal") modal !: ElementRef<HTMLInputElement>
++    @ViewChild("labelError") labelError !: ElementRef<HTMLInputElement>
++    labels: string[] = [];
+ 
+-  constructor(private notesService:NotesService) {
+-  }
+-  addLabel(labelInput: HTMLInputElement) {
+-    if (!labelInput) return;
+-    const label = labelInput.value;
+-    let highestNoteId = parseInt(localStorage.getItem('highestNoteId') || '0', 10);
+-    if (label) {
+-      const newLabel: Label = {
+-        labelId: highestNoteId + 1,
+-        labelTitle: label
+-      };
++    constructor(private notesService: NotesService) {
+     }
+-  }
+-  ngOnInit(): void {
+-    this.notesService.getLabels().subscribe(labels => {
+-      this.labels = labels;
+-      console.log(labels)
+-    });
+-  }
++
++    ngOnInit(): void {
++        this.notesService.getLabels().subscribe(labels => {
++        });
++    }
+ 
+ }
+Index: src/app/components/modal/edit-modal.component.html
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/app/components/modal/edit-modal.component.html b/src/app/components/modal/edit-modal.component.html
+--- a/src/app/components/modal/edit-modal.component.html	(revision 9585c550b7cc9d1a5fed15c9ad1ad29a54df7c45)
++++ b/src/app/components/modal/edit-modal.component.html	(revision ecf7f2a4ffb3a3384170c7135106b3c080dc514c)
+@@ -1,25 +1,25 @@
+ <div class="container">
+-  <form class="drop-note" (ngSubmit)="updateNote(selectedNote)">
+-    <input type="text" class="note-title" name="noteTitle" placeholder="Title" [(ngModel)]="data.note.noteTitle">
+-    <input class="note-text" type="text" name="noteText" [(ngModel)]="data.note.noteText">
++    <form class="drop-note" (ngSubmit)="updateNote(selectedNote)">
++        <input type="text" class="note-title" name="noteTitle" placeholder="Title" [(ngModel)]="data.note.noteTitle">
++        <input class="note-text" type="text" name="noteText" [(ngModel)]="data.note.noteText">
+ 
+-    <div class="form-actions">
+-      <div class="icons">
+-        <div class="tooltip" (click)="archiveNote(selectedNote)">
+-          <span class="material-icons-outlined hover small-icon">archive</span>
+-          <span class="tooltip-text">Archive</span>
+-        </div>
+-        <div class="tooltip" (click)="toggleDropdownMenu(selectedNote,$event)">
+-          <span class="material-icons-outlined hover small-icon">more_vert</span>
+-          <span class="tooltip-text">More</span>
+-        </div>
+-      </div>
+-      <button class="close-btn" type="submit">Close</button>
+-    </div>
+-  </form>
+-  <div *ngIf="selectedNote.showDropdownMenu" class="dropdownSelected">
+-    <div class="drop-els-selected" (click)="deleteNote(selectedNote)">Delete Note</div>
+-    <div class="drop-els-selected" (click)="addLabel(selectedNote)">Add label</div>
+-  </div>
++        <div class="form-actions">
++            <div class="icons">
++                <div class="tooltip" (click)="archiveNote(selectedNote)">
++                    <span class="material-icons-outlined hover small-icon">archive</span>
++                    <span class="tooltip-text">Archive</span>
++                </div>
++                <div class="tooltip" (click)="toggleDropdownMenu(selectedNote,$event)">
++                    <span class="material-icons-outlined hover small-icon">more_vert</span>
++                    <span class="tooltip-text">More</span>
++                </div>
++            </div>
++            <button class="close-btn" type="submit">Close</button>
++        </div>
++    </form>
++    <div *ngIf="selectedNote.showDropdownMenu" class="dropdownSelected">
++        <div class="drop-els-selected" (click)="deleteNote(selectedNote)">Delete Note</div>
++        <div class="drop-els-selected">Add label</div>
++    </div>
+ </div>
+ 
+Index: src/app/components/modal/edit-modal.component.ts
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/app/components/modal/edit-modal.component.ts b/src/app/components/modal/edit-modal.component.ts
+--- a/src/app/components/modal/edit-modal.component.ts	(revision 9585c550b7cc9d1a5fed15c9ad1ad29a54df7c45)
++++ b/src/app/components/modal/edit-modal.component.ts	(revision ecf7f2a4ffb3a3384170c7135106b3c080dc514c)
+@@ -1,4 +1,4 @@
+-import {Component,OnInit, Inject} from '@angular/core';
++import {Component, OnInit, Inject} from '@angular/core';
+ 
+ import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
+ 
+@@ -7,53 +7,52 @@
+ import {NotesService} from "../notes-service";
+ 
+ @Component({
+-  selector: 'app-edit-modal',
+-  templateUrl: './edit-modal.component.html',
+-  styleUrls: ['./edit-modal.component.scss']
++    selector: 'app-edit-modal',
++    templateUrl: './edit-modal.component.html',
++    styleUrls: ['./edit-modal.component.scss']
+ })
+ export class EditModalComponent implements OnInit {
+-
+-  selectedNote!: Note;
++    notes: Note[] = []
++    selectedNote!: Note;
+ 
+-  constructor(@Inject(MAT_DIALOG_DATA) public data: { note: Note },
+-              private notesService: NotesService, private dialogRef: MatDialogRef<EditModalComponent>) {
+-  }
++    constructor(@Inject(MAT_DIALOG_DATA) public data: { note: Note },
++                private notesService: NotesService, private dialogRef: MatDialogRef<EditModalComponent>) {
++    }
+ 
+-  notes: Note[] = []
+-
+-  ngOnInit() {
+-    this.selectedNote = this.data.note;
+-    this.notesService.getNotes().subscribe((notes) => {
+-      this.notes = notes;
+-    });
+-  }
++    ngOnInit() {
++        this.selectedNote = this.data.note;
++        this.notesService.getNotes().subscribe((notes) => {
++            this.notes = notes;
++        });
++        this.dialogRef.afterClosed().subscribe(() => {
++            this.updateNote(this.selectedNote)
++        });
++    }
+ 
+-  toggleDropdownMenu(note: Note, event: Event) {
+-    event.stopPropagation();
+-    note.showDropdownMenu = !note.showDropdownMenu;
+-  }
++    toggleDropdownMenu(note: Note, event: Event) {
++        event.stopPropagation();
++        note.showDropdownMenu = !note.showDropdownMenu;
++    }
+ 
+-  deleteNote(noteToDelete: Note) {
+-    this.notesService.deleteNotes(noteToDelete).subscribe({
+-      next: updatedNotes => {
+-        this.notes = updatedNotes;
+-      }
+-    });
+-  }
++    deleteNote(noteToDelete: Note) {
++        this.notesService.deleteNotes(noteToDelete).subscribe({
++            next: updatedNotes => {
++                this.notes = updatedNotes;
++            }
++        });
++    }
+ 
+-  archiveNote(note: Note) {
+-    note.isArchived = !note.isArchived;
+-    this.notesService.archiveNotes(note).subscribe(updatedNotes => {
+-      this.notes = updatedNotes;
+-    });
+-  }
++    archiveNote(note: Note) {
++        note.isArchived = !note.isArchived;
++        this.notesService.archiveNotes(note).subscribe(updatedNotes => {
++            this.notes = updatedNotes;
++        });
++    }
+ 
+-  updateNote(selectedNote: Note) {
+-    this.notesService.updateNote(selectedNote);
+-    selectedNote.display = false;
+-    this.dialogRef.close();
+-  }
++    updateNote(selectedNote: Note) {
++        this.notesService.updateNote(selectedNote);
++        selectedNote.display = false;
++        this.dialogRef.close();
++    }
+ 
+-  addLabel(note: Note) {
+-  }
+ }
+Index: src/app/components/navbar/navbar.component.html
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/app/components/navbar/navbar.component.html b/src/app/components/navbar/navbar.component.html
+--- a/src/app/components/navbar/navbar.component.html	(revision 9585c550b7cc9d1a5fed15c9ad1ad29a54df7c45)
++++ b/src/app/components/navbar/navbar.component.html	(revision ecf7f2a4ffb3a3384170c7135106b3c080dc514c)
+@@ -1,49 +1,51 @@
+ <section class="main-container">
+-  <div class="navbar">
+-    <div class="first-col">
+-      <div class="pic-container H">
+-        <img src="./assets/images/svg/menu.svg" class="menu-icon" alt="menu">
+-      </div>
+-      <div class="first-col" *ngIf="!isArchiveRoute()">
+-        <div class="keep-img" >
+-          <img src="./assets/images/keep.png" width="40">
+-        </div>
+-        <div>
+-          <span class="text">Keep</span>
+-        </div>
+-      </div>
++    <div class="navbar">
++        <div class="first-col">
++            <div class="pic-container H">
++                <img src="./assets/images/svg/menu.svg" class="menu-icon" alt="menu">
++            </div>
++            <div class="first-col" *ngIf="!isArchiveRoute()">
++                <div class="keep-img">
++                    <img src="./assets/images/keep.png" width="40">
++                </div>
++                <div>
++                    <span class="text">Keep</span>
++                </div>
++            </div>
+ 
+-      <div>
+-        <span class="text" *ngIf="isArchiveRoute()">Archive</span>
+-      </div>
+-    </div>
++            <div>
++                <span class="text" *ngIf="isArchiveRoute()">Archive</span>
++            </div>
++        </div>
+ 
+-    <div class="sec-col">
+-      <div class="form-container" >
+-          <form class="form input-container" [class.background]="isFocused">
+-            <input id="search" name="search" class="input" autocomplete="off" [(ngModel)]="searchQuery" (input)="onSearchInputChange()"
+-                   (blur)="onBlur()" (focus)="onFocus()"  placeholder="Search" value="" type="text">
+-          <button class="btn left" aria-label="Clear search" type="button">
+-            <img class="pic H" src="./assets/images/svg/search.svg" alt="x-btn">
+-          </button>
+-          <button #Btn class="btn" aria-label="Clear search" type="button"  (click)="clearSearchField()" hidden>
+-            <img class="pic H" src="./assets/images/svg/x-btn.svg" alt="x-btn">
+-          </button>
+-        </form>
+-      </div>
+-      <div class="btns-container">
+-        <div class="search H pop" data-pop="Search"></div>
+-        <div class="refresh H pop" data-pop="Refresh"></div>
+-        <div class="view H pop" data-pop="List view"></div>
+-        <div class="settings H pop disabled" data-pop="Settings"></div>
+-      </div>
+-    </div>
++        <div class="sec-col">
++            <div class="form-container">
++                <form class="form input-container" [class.background]="isFocused">
++                    <input id="search" name="search" class="input" autocomplete="off" [(ngModel)]="searchQuery"
++                           (input)="onSearchInputChange()"
++                           (blur)="onBlur()" (focus)="onFocus()" placeholder="Search" value="" type="text">
++                    <button class="btn left" aria-label="Clear search" type="button">
++                        <img class="pic H" src="./assets/images/svg/search.svg" alt="x-btn">
++                    </button>
++                    <button #Btn class="btn" aria-label="Clear search" type="button" (click)="clearSearchField()"
++                            hidden>
++                        <img class="pic H" src="./assets/images/svg/x-btn.svg" alt="x-btn">
++                    </button>
++                </form>
++            </div>
++            <div class="btns-container">
++                <div class="search H pop" data-pop="Search"></div>
++                <div class="refresh H pop" data-pop="Refresh"></div>
++                <div class="view H pop" data-pop="List view"></div>
++                <div class="settings H pop disabled" data-pop="Settings"></div>
++            </div>
++        </div>
+ 
+-    <div class="th-col">
+-      <div class="apps H disabled pop" data-pop="Google Apps"></div>
+-      <div class="user-pic-container">
+-        <img class="user-pic" src="./assets/images/user.jpg">
+-      </div>
+-    </div>
+-  </div>
++        <div class="th-col">
++            <div class="apps H disabled pop" data-pop="Google Apps"></div>
++            <div class="user-pic-container">
++                <img class="user-pic" src="./assets/images/user.jpg">
++            </div>
++        </div>
++    </div>
+ </section>
+Index: src/app/components/navbar/navbar.component.ts
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/app/components/navbar/navbar.component.ts b/src/app/components/navbar/navbar.component.ts
+--- a/src/app/components/navbar/navbar.component.ts	(revision 9585c550b7cc9d1a5fed15c9ad1ad29a54df7c45)
++++ b/src/app/components/navbar/navbar.component.ts	(revision ecf7f2a4ffb3a3384170c7135106b3c080dc514c)
+@@ -1,51 +1,49 @@
+-import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
++import {Component, ElementRef, ViewChild} from '@angular/core';
+ 
+ import {NotesService} from "../notes-service";
+ 
+ import {Router} from "@angular/router";
+ 
+ @Component({
+-  selector: 'app-navbar',
+-  templateUrl: './navbar.component.html',
+-  styleUrls: ['./navbar.component.scss']
++    selector: 'app-navbar',
++    templateUrl: './navbar.component.html',
++    styleUrls: ['./navbar.component.scss']
+ })
+ export class NavbarComponent {
+-  @ViewChild('Btn') Btn!: ElementRef;
++    @ViewChild('Btn') Btn!: ElementRef;
+ 
+-  searchQuery: string = '';
++    searchQuery: string = '';
+ 
+-  isFocused: boolean = false;
++    isFocused: boolean = false;
+ 
+-  onFocus() {
+-    this.isFocused = true;
+-  }
+-  onBlur() {
+-    this.isFocused = false;
+-  }
+-  constructor(private noteService: NotesService, private router: Router) {
+-  }
++    constructor(private noteService: NotesService, private router: Router) {
++    }
++
++    onFocus() {
++        this.isFocused = true;
++    }
++
++    onBlur() {
++        this.isFocused = false;
++    }
+ 
+-  isArchiveRoute(): boolean {
+-    return this.router.url === '/archived';
+-  }
++    isArchiveRoute(): boolean {
++        return this.router.url === '/archived';
++    }
+ 
+-  onSearchInputChange() {
+-    this.noteService.setSearchQuery(this.searchQuery)
+-    this.router.navigate(['/search']);
+-    this.Btn.nativeElement.hidden = false;
+-  }
++    onSearchInputChange() {
++        this.noteService.setSearchQuery(this.searchQuery)
++        this.router.navigate(['/search']);
++        this.Btn.nativeElement.hidden = false;
++    }
+ 
+-  refresh() {
+-    window.location.reload()
+-  }
+-  clearSearchField() {
+-
+-    const searchQuery = document.getElementById('search') as HTMLInputElement;
+-    if (searchQuery) {
+-      searchQuery.value = '';
+-    }
+-    this.router.navigate(['/notes']);
+-    this.Btn.nativeElement.hidden = true;
+-  }
++    clearSearchField() {
++        const searchQuery = document.getElementById('search') as HTMLInputElement;
++        if (searchQuery) {
++            searchQuery.value = '';
++        }
++        this.router.navigate(['/notes']);
++        this.Btn.nativeElement.hidden = true;
++    }
+ 
+ }
+Index: src/app/components/note-template/note-template.component.html
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/app/components/note-template/note-template.component.html b/src/app/components/note-template/note-template.component.html
+--- a/src/app/components/note-template/note-template.component.html	(revision 9585c550b7cc9d1a5fed15c9ad1ad29a54df7c45)
++++ b/src/app/components/note-template/note-template.component.html	(revision ecf7f2a4ffb3a3384170c7135106b3c080dc514c)
+@@ -1,63 +1,102 @@
+ <div class="notes-container">
+-  <div *ngFor="let note of (highLight ? filteredNotes : notes)">
+-    <div #noteElement class="note" (click)="onNoteSelected(note)" [hidden]="note.display"
+-         *ngIf="(isArchiveNote ? note.isArchived : !note.isArchived)">
+-      <span class="material-icons check-circle">check_circle</span>
++    <div *ngFor="let note of (highLight ? filteredNotes : notes)">
++        <div #noteElement class="note" (click)="onNoteSelected(note)" [hidden]="note.display"
++             *ngIf="(isArchiveNote ? note.isArchived : !note.isArchived)">
++            <span class="material-icons check-circle">check_circle</span>
+ 
+-      <div *ngIf="highLight; else originalContent">
+-        <div class="title" [innerHTML]="highlightMatches(note.noteTitle ?? '', highlightedSearchQuery)"></div>
+-        <div class="noteText" [innerHTML]="highlightMatches(note.noteText ?? '', highlightedSearchQuery)"></div>
+-      </div>
++            <div *ngIf="highLight; else originalContent">
++                <div class="title" [innerHTML]="highlightMatches(note.noteTitle ?? '', highlightedSearchQuery)"></div>
++                <div class="noteText" [innerHTML]="highlightMatches(note.noteText ?? '', highlightedSearchQuery)"></div>
++            </div>
+ 
+-      <ng-template #originalContent>
+-        <div class="title">{{ note.noteTitle }}</div>
+-        <div class="noteText">{{ note.noteText }}</div>
+-      </ng-template>
++            <ng-template #originalContent>
++                <div class="title">{{ note.noteTitle }}</div>
++                <div class="noteText">{{ note.noteText }}</div>
++                <div class="label-flex" (click)="stopPropagation($event)">
++                    <div *ngFor="let label of note.labels" class="label">
++                        <div class="label-content">
++                            {{ label.labelTitle }}
++                            <div class="tooltip cancel-tooltip">
++                                <img class="cancel-icon" src="./assets/images/svg/cancel.svg" alt="cancel icon"
++                                     (click)="associateLabelWithNote(label, note)">
++                                <span class="tooltip-text">Remove label</span>
++                            </div>
++                        </div>
++                    </div>
++                </div>
++            </ng-template>
+ 
+-      <div class="note-footer">
+-        <div class="tooltip">
+-          <span class="material-icons-outlined hover small-icon">add_alert</span>
+-          <span class="tooltip-text">Remind me</span>
+-        </div>
+-        <div class="tooltip">
+-          <span class="material-icons-outlined hover small-icon">person_add</span>
+-          <span class="tooltip-text">Collaborator</span>
+-        </div>
+-        <div class="tooltip">
+-          <span class="material-icons-outlined hover small-icon">palette</span>
+-          <span class="tooltip-text">Change Color</span>
+-        </div>
+-        <div class="tooltip">
+-          <span class="material-icons-outlined hover small-icon">image</span>
+-          <span class="tooltip-text">Add Image</span>
+-        </div>
+-        <div class="tooltip" (click)="archiveNote(note)">
+-          <span class="material-icons-outlined hover small-icon">archive</span>
+-          <span class="tooltip-text">Archive</span>
+-        </div>
+-        <div class="tooltip" (click)="toggleDropdownMenu(note, $event)">
+-          <span class="material-icons-outlined hover small-icon">more_vert</span>
+-          <span class="tooltip-text">More</span>
+-        </div>
+-        <div *ngIf="note.showDropdownMenu" class="dropdown-menu">
+-          <div class="drop-els" (click)="deleteNote(note)">Delete Note</div>
+-          <div class="drop-els" (click)="toggleLabelMenu($event)">Add label</div>
+-        </div>
+-        <div #labelMenuTt *ngIf="labelMenuOpen" class="dropdown-menu">
+-          <div class="title">Label note</div>
+-          <div class="search">
+-            <input type="text" maxlength="50" placeholder="Enter label name">
+-            <div class="search-icon"></div>
+-          </div>
+-          <div class="label-list-container">
+-            <div class="label-list">
+-              <div class="check-icon"></div>
+-              <div class="label-name"></div>
+-            </div>
+-          </div>
+-        </div>
+-      </div>
+-    </div>
+-  </div>
++            <div class="note-footer">
++                <div class="tooltip">
++                    <span class="material-icons-outlined hover small-icon">add_alert</span>
++                    <span class="tooltip-text">Remind me</span>
++                </div>
++                <div class="tooltip">
++                    <span class="material-icons-outlined hover small-icon">person_add</span>
++                    <span class="tooltip-text">Collaborator</span>
++                </div>
++                <div class="tooltip">
++                    <span class="material-icons-outlined hover small-icon">palette</span>
++                    <span class="tooltip-text">Change Color</span>
++                </div>
++                <div class="tooltip">
++                    <span class="material-icons-outlined hover small-icon">image</span>
++                    <span class="tooltip-text">Add Image</span>
++                </div>
++                <div class="tooltip" (click)="archiveNote(note)">
++                    <span class="material-icons-outlined hover small-icon">archive</span>
++                    <span class="tooltip-text">Archive</span>
++                </div>
++                <div class="tooltip" (click)="toggleDropdownMenu(note, $event)">
++                    <span class="material-icons-outlined hover small-icon">more_vert</span>
++                    <span class="tooltip-text">More</span>
++                </div>
++                <div *ngIf="note.showDropdownMenu" class="dropdown-menu">
++                    <div class="drop-els" (click)="deleteNote(note)">Delete Note</div>
++                    <div class="drop-els" *ngIf="note.labels.length < 1" (click)="toggleLabelMenu(note, $event)">Add
++                        label
++                    </div>
++                    <div class="drop-els" *ngIf="note.labels.length >= 1" (click)="toggleLabelMenu(note, $event)">Change
++                        Label
++                    </div>
++                </div>
++                <div *ngIf="note.showLabelMenu" class="label-menu" (click)="stopPropagation($event)">
++                    <div class="label-title">Label note</div>
++                    <div class="search">
++                        <input class="input" type="text" maxlength="50" [(ngModel)]="labelTitle"
++                               placeholder="Enter label name">
++                        <div>
++                            <img class="search-icon" src="./assets/images/svg/search.svg" alt="x-btn">
++                        </div>
++                    </div>
++                    <div class="label-area-container" *ngIf="labelTitle.length>0"
++                         (click)="createLabel(labelTitle,note)">
++                        <div class="label-area">
++                            <div class="plus-icon">
++                                <img src="./assets/images/svg/plus.svg" alt="plus icon">
++                            </div>
++                            <div class="search-text">Create "<span class="bold">{{labelTitle}}</span> "</div>
++                        </div>
++                    </div>
++                    <div>
++                        <div *ngIf="labels.length >= 1" class="show-labels">
++                            <div class="save-labels-area" *ngFor="let label of labels">
++                                <div class="check-box">
++                                    <img *ngIf="note.labels.includes(label)" class=""
++                                         src="./assets/images/svg/checkedi.svg"
++                                         alt="checked-btn" (click)="associateLabelWithNote(label, note)">
++                                    <img *ngIf="!note.labels.includes(label)" class=""
++                                         src="./assets/images/svg/uncheckedi.svg"
++                                         alt="unchecked-btn" (click)="associateLabelWithNote(label, note)">
++                                </div>
++                                <div class="save-label-text">{{label.labelTitle}}</div>
++                            </div>
++                        </div>
++                    </div>
++
++                </div>
++            </div>
++        </div>
++    </div>
+ 
+ </div>
+Index: src/app/components/note-template/note-template.component.scss
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/app/components/note-template/note-template.component.scss b/src/app/components/note-template/note-template.component.scss
+--- a/src/app/components/note-template/note-template.component.scss	(revision 9585c550b7cc9d1a5fed15c9ad1ad29a54df7c45)
++++ b/src/app/components/note-template/note-template.component.scss	(revision ecf7f2a4ffb3a3384170c7135106b3c080dc514c)
+@@ -80,7 +80,125 @@
+   height: 100%;
+   vertical-align: top;
+ }
+-
++.label{
++  display: flex;
++  align-items: center;
++  height: 18px;
++  justify-content: center;
++  padding: 3px 5px;
++  margin: 6px 6px 0 0;
++  background-color: rgba(0,0,0,.08);
++  border-radius: 12px;
++  box-shadow: inset 0 0 0 1px transparent;
++  box-sizing: border-box;
++  letter-spacing: .01785714em;
++  font-family: "Google Sans",Roboto,Arial,sans-serif;
++  font-size: .875rem;
++  font-weight: 500;
++  line-height: 1.25rem;
++  position: relative;
++  width: 35px;
++}
++.label-content{
++  display: flex;
++  align-items: center;
++  height: 18px;
++  justify-content: center;
++  min-width: 35px;
++  padding: 3px 5px;
++}
++.label-flex{
++  display: flex;
++  flex-wrap: wrap;
++  padding: 5px 10px;
++  align-items: center;
++}
++.cancel-icon{
++  height: 1em;
++  width: 1em;
++}
++.save-labels-area{
++  display: flex;
++}
++.label-menu{
++  min-width: 14.0625em;
++  min-height: 4.75em;
++  background-color: #fff;
++  border-width: 0;
++  box-shadow: 0 0.0625em 0.125em 0 rgba(60, 64, 67, 0.302), 0 0.125em 0.375em 0.125em rgba(60, 64, 67, 0.149);
++  position: absolute;
++  -webkit-border-radius: 0.25em;
++  border-radius: 0.2em;
++  z-index: 5003;
++  padding: 0.375em 0;
++  opacity: 1;
++  left: 0em;
++  top: 13em;
++}
++.label-title{
++  height: 1.25em;
++  width: inherit;
++  cursor: default;
++  font-size: 0.875em;
++  padding: 0 0.75em;
++  margin: 3.5px;
++}
++.label-area-container{
++  border-top: 0.1px solid #dadce0;
++  width: 14.0625em;
++  height: 1.875em;
++  cursor: pointer;
++  display: block;
++  outline: none;
++  padding: 5px 0.625em 3px;
++  position: relative;
++}
++.label-area{
++  display: flex;
++  width: 12.8125em;
++  height: 1.3125em;
++}
++.search{
++  display: flex;
++  width: 14.0625em;
++  height: 2.25em;
++  padding: 8px 0.75em;
++  position: relative;
++  -webkit-transition: box-shadow 0.218s;
++  transition: box-shadow 0.218s;
++  margin-top: 0.4375em;
++}
++.search-icon{
++  margin-top: 0.22em;
++  width: 1.125em;
++  height: 1em;
++  -webkit-background-size: 0.875em 0.875em;
++  background-size: 0.875em 0.875em;
++  opacity: 0.35;
++  position: absolute;
++  right: 0.6875em;
++  top: 0.5em;
++}
++.search-text{
++  min-width: 3.5em;
++  min-height: 1.0625em;
++  display: inline-block;
++  margin-left: 7px;
++  max-width: 10em;
++  padding-top: 2px;
++  vertical-align: top;
++  word-wrap: break-word;
++  font-size: small;
++  margin-top: 0.15em;
++}
++.input{
++  box-sizing: border-box;
++  height: auto;
++  padding: 2px 1.375em 2px 2px;
++  width: 100%;
++  border: none;
++  outline: none;
++}
+ .note {
+   background: white;
+   width: 15em;
+Index: src/app/components/note-template/note-template.component.ts
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/app/components/note-template/note-template.component.ts b/src/app/components/note-template/note-template.component.ts
+--- a/src/app/components/note-template/note-template.component.ts	(revision 9585c550b7cc9d1a5fed15c9ad1ad29a54df7c45)
++++ b/src/app/components/note-template/note-template.component.ts	(revision ecf7f2a4ffb3a3384170c7135106b3c080dc514c)
+@@ -1,4 +1,4 @@
+-import {ChangeDetectionStrategy, Component, ElementRef, HostListener, Input, OnInit, ViewChild} from '@angular/core';
++import {ChangeDetectionStrategy, Component, Input, OnInit} from '@angular/core';
+ 
+ import {NotesService} from "../notes-service";
+ 
+@@ -10,90 +10,117 @@
+ 
+ import {Observable} from "rxjs";
+ 
++import {Label} from "../label";
++
++import {v4 as uuidv4} from 'uuid';
++
++
+ @Component({
+-  selector: 'app-note-template',
+-  templateUrl: './note-template.component.html',
+-  styleUrls: ['./note-template.component.scss'],
+-  changeDetection: ChangeDetectionStrategy.Default
++    selector: 'app-note-template',
++    templateUrl: './note-template.component.html',
++    styleUrls: ['./note-template.component.scss'],
++    changeDetection: ChangeDetectionStrategy.Default
+ })
+ export class NoteTemplateComponent implements OnInit {
+-  @Input() isArchiveNote: boolean = false;
+-  @Input() highLight: boolean = false;
+-  @ViewChild('labelMenuTt') labelMenu!: ElementRef;
++    @Input() isArchiveNote: boolean = false;
++    @Input() highLight: boolean = false;
+ 
+-  showMixedNotes: boolean = false;
+-  highlightedSearchQuery: string | null = null;
+-  labelMenuOpen: boolean = false;
+-
+-  notes: Note[] = []
+-  filteredNotes: Note[] | null = null;
+-  searchQuery$!: Observable<string | null>;
+-  constructor(private noteService: NotesService, private dialog: MatDialog) {
+-    this.searchQuery$ = this.noteService.searchQuery$;
+-  }
++    showMixedNotes: boolean = false;
++    highlightedSearchQuery: string | null = null;
++    notes: Note[] = []
++    labels: Label[] = [];
++    filteredNotes: Note[] | null = null;
++    searchQuery$!: Observable<string | null>;
++    selectedNote!: Note | null;
++    labelTitle: string = '';
++
++    constructor(private noteService: NotesService, private dialog: MatDialog) {
++        this.searchQuery$ = this.noteService.searchQuery$;
++    }
+ 
+-  selectedNote!: Note | null;
+-
+-  @HostListener('document:click', ['$event'])
+-  onClick(event: Event) {
+-    if (!this.labelMenu.nativeElement.contains(event.target)) {
+-      this.labelMenuOpen = false;
+-    }
+-  }
+-  toggleLabelMenu( event: Event) {
+-    event.stopPropagation();
+-    this.labelMenuOpen = !this.labelMenuOpen;
+-  }
+-  ngOnInit() {
+-    this.noteService.getNotes().subscribe((notes) => {
+-      this.notes = notes;
+-    });
+-
+-    this.noteService.getFilteredNotes().subscribe(filteredNotes => {
+-      this.filteredNotes = filteredNotes.reverse();
+-      this.showMixedNotes = false;
+-    });
+-    this.searchQuery$.subscribe(query => {
+-      this.highlightedSearchQuery = query;
+-    });
++    ngOnInit() {
++        this.noteService.getNotes().subscribe((notes) => {
++            this.notes = notes;
++        });
++        this.noteService.getLabels().subscribe(labels => {
++            this.labels = labels;
++        });
++        this.noteService.getFilteredNotes().subscribe(filteredNotes => {
++            this.filteredNotes = filteredNotes.reverse();
++            this.showMixedNotes = false;
++        });
++        this.searchQuery$.subscribe(query => {
++            this.highlightedSearchQuery = query;
++        });
++    }
+ 
+-  }
++    toggleDropdownMenu(note: Note, event: Event) {
++        event.stopPropagation();
++        note.showDropdownMenu = !note.showDropdownMenu;
++    }
++
++    toggleLabelMenu(note: Note, event: Event) {
++        event.stopPropagation();
++        note.showLabelMenu = !note.showLabelMenu;
++    }
+ 
+-  highlightMatches(text: string, query: string | null): string {
+-    if (query === null || query.trim() === '') return text;
+-    const regex = new RegExp(query, 'gi');
+-    return text.replace(regex, match => `<span class="highlighted">${match}</span>`);
+-  }
++    highlightMatches(text: string, query: string | null): string {
++        if (query === null || query.trim() === '') return text;
++        const regex = new RegExp(query, 'gi');
++        return text.replace(regex, match => `<span class="highlighted">${match}</span>`);
++    }
+ 
+-  onNoteSelected(note: Note) {
+-    this.selectedNote = note;
+-    note.display = true;
+-    const dialogRef = this.dialog.open(EditModalComponent, {
+-      data: {note},
+-    });
+-    dialogRef.afterClosed().subscribe(result => {
+-    });
+-  }
++    onNoteSelected(note: Note) {
++        this.selectedNote = note;
++        note.display = true;
++        const dialogRef = this.dialog.open(EditModalComponent, {
++            data: {note},
++        });
++        dialogRef.afterClosed().subscribe(result => {
++        });
++    }
+ 
+-  toggleDropdownMenu(note: Note, event: Event) {
+-    event.stopPropagation();
+-    note.showDropdownMenu = !note.showDropdownMenu;
+-  }
+-
+-  deleteNote(noteToDelete: Note) {
+-    this.noteService.deleteNotes(noteToDelete).subscribe({
+-      next: updatedNotes => {
+-        this.notes = updatedNotes;
+-      }
+-    });
+-  }
++    deleteNote(noteToDelete: Note) {
++        this.noteService.deleteNotes(noteToDelete).subscribe({
++            next: updatedNotes => {
++                this.notes = updatedNotes;
++            }
++        });
++    }
+ 
+-  archiveNote(note: Note) {
+-    note.isArchived = !note.isArchived;
+-    this.noteService.archiveNotes(note).subscribe(updatedNotes => {
+-      this.notes = updatedNotes;
+-      this.selectedNote = null;
+-    });
+-  }
++    archiveNote(note: Note) {
++        note.isArchived = !note.isArchived;
++        this.noteService.archiveNotes(note).subscribe(updatedNotes => {
++            this.notes = updatedNotes;
++            this.selectedNote = null;
++        });
++    }
+ 
++    stopPropagation(event: Event) {
++        event.stopPropagation();
++    }
++
++    createLabel(labelTitle: string, note: Note) {
++        if (labelTitle) {
++            const newLabel: Label = {
++                labelId: uuidv4(),
++                labelTitle: labelTitle,
++                isPathVisible: true
++            };
++            this.noteService.createLabel(newLabel, note);
++            this.associateLabelWithNote(newLabel, note);
++        }
++    }
++
++    associateLabelWithNote(label: Label, note: Note) {
++        label.isPathVisible = !label.isPathVisible;
++        this.noteService.associateLabelWithNote(label, note).subscribe();
++    }
++
++    deleteLabel(label: Label, note: Note): void {
++        this.noteService.deleteLabel(label).subscribe(updatedLabels => {
++            this.labels = updatedLabels;
++        });
++    }
++
+ }
+Index: src/app/components/note.ts
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/app/components/note.ts b/src/app/components/note.ts
+--- a/src/app/components/note.ts	(revision 9585c550b7cc9d1a5fed15c9ad1ad29a54df7c45)
++++ b/src/app/components/note.ts	(revision ecf7f2a4ffb3a3384170c7135106b3c080dc514c)
+@@ -1,8 +1,11 @@
++import {Label} from "./label";
+ export interface Note{
+-  noteId: number;
++  noteId: string;
+   noteTitle?: string;
+   noteText?: string;
+   isArchived: boolean;
+   showDropdownMenu?: boolean;
++  showLabelMenu?: boolean;
+   display?: boolean;
++  labels: Label[];
+ }
+Index: src/app/components/notes-service.ts
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/app/components/notes-service.ts b/src/app/components/notes-service.ts
+--- a/src/app/components/notes-service.ts	(revision 9585c550b7cc9d1a5fed15c9ad1ad29a54df7c45)
++++ b/src/app/components/notes-service.ts	(revision ecf7f2a4ffb3a3384170c7135106b3c080dc514c)
+@@ -3,108 +3,164 @@
+ import {BehaviorSubject, map, Observable, of} from "rxjs";
+ 
+ import {Note} from './note';
++
+ import {Label} from "./label";
+ 
+ @Injectable({
+-  providedIn: 'root'
++    providedIn: 'root'
+ })
+ export class NotesService {
+ 
+-  labels: string[] = [];
+-
+-  getLabels(): Observable<string[]> {
+-    return of(this.labels);
+-  }
+-
+-  private searchQuerySubject = new BehaviorSubject<string>('');
+-  searchQuery$: Observable<string> = this.searchQuerySubject.asObservable();
++    private searchQuerySubject = new BehaviorSubject<string>('');
++    searchQuery$: Observable<string> = this.searchQuerySubject.asObservable();
+ 
+-  setSearchQuery(searchQuery$: string) {
+-    this.searchQuerySubject.next(searchQuery$);
+-  }
++    setSearchQuery(searchQuery$: string) {
++        this.searchQuerySubject.next(searchQuery$);
++    }
+ 
+-  getFilteredNotes(): Observable<Note[]> {
+-    return this.searchQuerySubject.pipe(
+-      map(searchQuery => {
+-        const trimmedQuery = searchQuery.trim().toLowerCase();
+-        if (trimmedQuery === '') {
+-          return [];
+-        }
+-        const notesList = this.getNotesListFromLocalStorage();
+-        return notesList.filter(note =>
+-          note.noteTitle?.toLowerCase().includes(trimmedQuery) ||
+-          note.noteText?.toLowerCase().includes(trimmedQuery)
+-        );
+-      })
+-    );
+-  }
++    getFilteredNotes(): Observable<Note[]> {
++        return this.searchQuerySubject.pipe(
++            map(searchQuery => {
++                const trimmedQuery = searchQuery.trim().toLowerCase();
++                if (trimmedQuery === '') {
++                    return [];
++                }
++                const notesList = this.getNotesListFromLocalStorage();
++                return notesList.filter(note =>
++                    note.noteTitle?.toLowerCase().includes(trimmedQuery) ||
++                    note.noteText?.toLowerCase().includes(trimmedQuery) ||
++                    note.labels.some(label => label.labelTitle.toLowerCase().includes(trimmedQuery))
++                );
++            })
++        );
++    }
+ 
+-  private getNotesListFromLocalStorage(): Note[] {
+-    const notesListString = localStorage.getItem('notesList');
+-    return notesListString ? JSON.parse(notesListString) : [];
+-  }
++    private getNotesListFromLocalStorage(): Note[] {
++        const notesListString = localStorage.getItem('notesList');
++        return notesListString ? JSON.parse(notesListString) : [];
++    }
+ 
+-  private setNotesListToLocalStorage(notesList: Note[]): void {
+-    localStorage.setItem('notesList', JSON.stringify(notesList));
+-  }
++    private setNotesListToLocalStorage(notesList: Note[]): void {
++        localStorage.setItem('notesList', JSON.stringify(notesList));
++    }
+ 
+-  getArchivedNotes(): Observable<Note[]> {
+-    const notesList = this.getNotesListFromLocalStorage();
+-    const archivedNotes = notesList.filter(note => note.isArchived);
+-    return of(archivedNotes)
+-  }
++    getArchivedNotes(): Observable<Note[]> {
++        const notesList = this.getNotesListFromLocalStorage();
++        const archivedNotes = notesList.filter(note => note.isArchived);
++        return of(archivedNotes)
++    }
+ 
+-  createNote(newNote: Note): Observable<Note[]> {
+-    const notesList = this.getNotesListFromLocalStorage();
+-    notesList.push(newNote);
+-    this.setNotesListToLocalStorage(notesList);
++    createNote(newNote: Note): Observable<Note[]> {
++        const notesList = this.getNotesListFromLocalStorage();
++        notesList.push(newNote);
++        this.setNotesListToLocalStorage(notesList);
+ 
+-    return of(notesList);
+-  }
++        return of(notesList);
++    }
+ 
+-  getNotes(): Observable<Note[]> {
+-    const notesList = this.getNotesListFromLocalStorage();
+-    return of(notesList);
+-  }
++    getNotes(): Observable<Note[]> {
++        const notesList = this.getNotesListFromLocalStorage();
++        return of(notesList);
++    }
+ 
+-  deleteNotes(newNote: Note): Observable<Note[]> {
+-    const notesList = this.getNotesListFromLocalStorage();
+-    const updatedNotes = notesList.filter(note => note.noteTitle !== newNote.noteTitle);
+-    this.setNotesListToLocalStorage(updatedNotes);
+-    return of(updatedNotes);
+-  }
++    deleteNotes(newNote: Note): Observable<Note[]> {
++        const notesList = this.getNotesListFromLocalStorage();
++        const updatedNotes = notesList.filter(note => note.noteTitle !== newNote.noteTitle);
++        this.setNotesListToLocalStorage(updatedNotes);
++        return of(updatedNotes);
++    }
+ 
+-  archiveNotes(archiveNote: Note): Observable<Note[]> {
+-    const notesList = this.getNotesListFromLocalStorage();
+-    const updatedNotes = notesList.map(note => {
+-      if (note.noteTitle === archiveNote.noteTitle) {
+-        return {...note, ...archiveNote, display: false};
+-      }
+-      return note;
+-    });
+-    this.setNotesListToLocalStorage(updatedNotes);
+-    return of(updatedNotes);
+-  }
++    archiveNotes(archiveNote: Note): Observable<Note[]> {
++        const notesList = this.getNotesListFromLocalStorage();
++        const updatedNotes = notesList.map(note => {
++            if (note.noteTitle === archiveNote.noteTitle) {
++                return {...note, ...archiveNote, display: false};
++            }
++            return note;
++        });
++        this.setNotesListToLocalStorage(updatedNotes);
++        return of(updatedNotes);
++    }
+ 
+-  updateNote(updatedNote: Note): Observable<Note[]> {
+-    const notesList = this.getNotesListFromLocalStorage();
+-    const index = notesList.findIndex(note => note.noteId === updatedNote.noteId);
+-    if (index !== -1) {
+-      notesList[index] = updatedNote;
+-      this.setNotesListToLocalStorage(notesList);
+-      this.setNoteDisplayToLocalStorage(updatedNote);
+-    }
+-    return of(notesList);
+-  }
++    updateNote(updatedNote: Note): Observable<Note[]> {
++        const notesList = this.getNotesListFromLocalStorage();
++        const index = notesList.findIndex(note => note.noteId === updatedNote.noteId);
++        if (index !== -1) {
++            notesList[index] = updatedNote;
++            this.setNotesListToLocalStorage(notesList);
++            this.setNoteDisplayToLocalStorage(updatedNote);
++        }
++        return of(notesList);
++    }
+ 
+-  private setNoteDisplayToLocalStorage(updatedNote: Note): void {
+-    const notesList = this.getNotesListFromLocalStorage();
+-    const index = notesList.findIndex(note => note.noteId === updatedNote.noteId);
++    private setNoteDisplayToLocalStorage(updatedNote: Note): void {
++        const notesList = this.getNotesListFromLocalStorage();
++        const index = notesList.findIndex(note => note.noteId === updatedNote.noteId);
+ 
+-    if (index !== -1) {
+-      notesList[index].display = false;
+-      this.setNotesListToLocalStorage(notesList);
+-    }
+-  }
++        if (index !== -1) {
++            notesList[index].display = false;
++            this.setNotesListToLocalStorage(notesList);
++        }
++    }
++
++    private getLabelsFromLocalStorage(): Label[] {
++        const labelsString = localStorage.getItem('labels');
++        return labelsString ? JSON.parse(labelsString) : [];
++    }
++
++    private setLabelsToLocalStorage(labels: Label[]): void {
++        localStorage.setItem('labels', JSON.stringify(labels));
++    }
++
++    createLabel(newLabel: Label, note: Note): Observable<Label[]> {
++        const labels: Label[] = this.getLabelsFromLocalStorage();
++        const existingLabel = labels.find(label => label.labelTitle === newLabel.labelTitle);
++
++        if (existingLabel) {
++            return of([existingLabel]);
++        }
++        labels.push(newLabel);
++        this.setLabelsToLocalStorage(labels);
++        return of(labels);
++    }
++
++    getLabels(): Observable<Label[]> {
++        const labelsList = this.getLabelsFromLocalStorage();
++        return of(labelsList);
++    }
++
++    deleteLabel(labelToDelete: Label): Observable<Label[]> {
++        const labelsList = this.getLabelsFromLocalStorage();
++        const updatedLabels = labelsList.filter(label => label.labelTitle !== labelToDelete.labelTitle);
++        this.setLabelsToLocalStorage(updatedLabels);
++        return of(updatedLabels);
++    }
++
++    associateLabelWithNote(label: Label, note: Note): Observable<Label[]> {
++        if (!note.labels) {
++            note.labels = [];
++        }
++
++        const labelIndex = note.labels.findIndex(l => l.labelId === label.labelId);
++
++        if (labelIndex !== -1) {
++            note.labels.splice(labelIndex, 1);
++        } else {
++            note.labels.push(label);
++
++        }
++        this.setNoteLabelsToLocalStorage(note);
++        return of(note.labels);
++    }
++
++    private setNoteLabelsToLocalStorage(updatedNote: Note): void {
++        const notesList = this.getNotesListFromLocalStorage();
++        const index = notesList.findIndex(note => note.noteId === updatedNote.noteId);
++
++        if (index !== -1) {
++            notesList[index].labels = updatedNote.labels;
++            this.setNotesListToLocalStorage(notesList);
++        }
++    }
+ 
+ }
+Index: src/app/components/notes/notes.component.html
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/app/components/notes/notes.component.html b/src/app/components/notes/notes.component.html
+--- a/src/app/components/notes/notes.component.html	(revision 9585c550b7cc9d1a5fed15c9ad1ad29a54df7c45)
++++ b/src/app/components/notes/notes.component.html	(revision ecf7f2a4ffb3a3384170c7135106b3c080dc514c)
+@@ -1,18 +1,18 @@
+ <div class="noteBody">
+-  <section *ngIf="notes.length < 1">
+-    <div class="no-notes">
+-      <div class="note-image"><img src="./assets/images/svg/lamp.svg" alt="lamp" class="pic"></div>
+-      <div>
+-        <span class="text">Notes you add appear here</span>
+-      </div>
+-    </div>
+-  </section>
++    <section *ngIf="notes.length < 1">
++        <div class="no-notes">
++            <div class="note-image"><img src="./assets/images/svg/lamp.svg" alt="lamp" class="pic"></div>
++            <div>
++                <span class="text">Notes you add appear here</span>
++            </div>
++        </div>
++    </section>
+ 
+-  <div class="notes-container">
+-    <app-note-template
+-      [isArchiveNote]="false"
+-    ></app-note-template>
+-  </div>
++    <div class="notes-container">
++        <app-note-template
++                [isArchiveNote]="false"
++        ></app-note-template>
++    </div>
+ </div>
+ 
+ 
+Index: src/app/components/search/search.component.html
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/app/components/search/search.component.html b/src/app/components/search/search.component.html
+--- a/src/app/components/search/search.component.html	(revision 9585c550b7cc9d1a5fed15c9ad1ad29a54df7c45)
++++ b/src/app/components/search/search.component.html	(revision ecf7f2a4ffb3a3384170c7135106b3c080dc514c)
+@@ -1,30 +1,30 @@
+ <div class="no-notes" *ngIf="filteredNotes!.length < 1 && (searchQuery$ | async)?.trim() != ''">
+-  <div class="notText">
+-    <span class="noText">No matching results.</span>
+-  </div>
++    <div class="notText">
++        <span class="noText">No matching results.</span>
++    </div>
+ </div>
+ 
+ <div class="container">
+-  <div class="flex-notes">
+-    <div class="notes-container">
+-      <app-note-template
+-        [isArchiveNote]="false"
+-        [highLight]="true"
+-      ></app-note-template>
+-    </div>
+-  </div>
++    <div class="flex-notes">
++        <div class="notes-container">
++            <app-note-template
++                    [isArchiveNote]="false"
++                    [highLight]="true"
++            ></app-note-template>
++        </div>
++    </div>
+ 
+-  <div *ngIf="showMixedNotes" class="flex-note" >
+-    <span class="archived-text">ARCHIVE</span>
+-  </div>
+-  <div class="flex-notes">
+-    <div class="notes-container">
+-      <app-note-template
+-        [isArchiveNote]="true"
+-        [highLight]="true"
+-      ></app-note-template>
+-    </div>
+-  </div>
++    <div *ngIf="showMixedNotes" class="flex-note">
++        <span class="archived-text">ARCHIVE</span>
++    </div>
++    <div class="flex-notes">
++        <div class="notes-container">
++            <app-note-template
++                    [isArchiveNote]="true"
++                    [highLight]="true"
++            ></app-note-template>
++        </div>
++    </div>
+ 
+ </div>
+ 
+Index: src/app/components/search/search.component.ts
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/app/components/search/search.component.ts b/src/app/components/search/search.component.ts
+--- a/src/app/components/search/search.component.ts	(revision 9585c550b7cc9d1a5fed15c9ad1ad29a54df7c45)
++++ b/src/app/components/search/search.component.ts	(revision ecf7f2a4ffb3a3384170c7135106b3c080dc514c)
+@@ -7,31 +7,31 @@
+ import {Observable} from "rxjs";
+ 
+ @Component({
+-  selector: 'app-search',
+-  templateUrl: './search.component.html',
+-  styleUrls: ['./search.component.scss'],
+-  changeDetection: ChangeDetectionStrategy.Default
++    selector: 'app-search',
++    templateUrl: './search.component.html',
++    styleUrls: ['./search.component.scss'],
++    changeDetection: ChangeDetectionStrategy.Default
+ })
+ export class SearchComponent implements OnInit {
+ 
+-  filteredNotes: Note[] | null = null;
+-  searchQuery$: Observable<string | null>;
+-  showMixedNotes: boolean = false;
++    filteredNotes: Note[] | null = null;
++    searchQuery$: Observable<string | null>;
++    showMixedNotes: boolean = false;
+ 
+-  constructor(private noteService: NotesService) {
+-    this.searchQuery$ = this.noteService.searchQuery$;
+-  }
++    constructor(private noteService: NotesService) {
++        this.searchQuery$ = this.noteService.searchQuery$;
++    }
+ 
+-  ngOnInit(): void {
+-    this.noteService.getFilteredNotes().subscribe(filteredNotes => {
+-      this.filteredNotes = filteredNotes.reverse();
+-      this.showMixedNotes = false;
+-      const hasMixedArchivedStatus = this.filteredNotes.some(note => note.isArchived)
+-        && this.filteredNotes.some(note => !note.isArchived);
+-      if (hasMixedArchivedStatus) {
+-        this.showMixedNotes = true;
+-      }
+-    });
+-  }
++    ngOnInit(): void {
++        this.noteService.getFilteredNotes().subscribe(filteredNotes => {
++            this.filteredNotes = filteredNotes.reverse();
++            this.showMixedNotes = false;
++            const hasMixedArchivedStatus = this.filteredNotes.some(note => note.isArchived)
++                && this.filteredNotes.some(note => !note.isArchived);
++            if (hasMixedArchivedStatus) {
++                this.showMixedNotes = true;
++            }
++        });
++    }
+ 
+ }
+Index: src/app/components/sidenav/sidenav.component.html
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/app/components/sidenav/sidenav.component.html b/src/app/components/sidenav/sidenav.component.html
+--- a/src/app/components/sidenav/sidenav.component.html	(revision 9585c550b7cc9d1a5fed15c9ad1ad29a54df7c45)
++++ b/src/app/components/sidenav/sidenav.component.html	(revision ecf7f2a4ffb3a3384170c7135106b3c080dc514c)
+@@ -1,24 +1,24 @@
+ <div sideBar class="main-sidebar">
+-  <div>
+-    <div class="item" routerLink="/notes">
+-      <img src="./assets/images/svg/lamp.svg" alt="lamp" class="pic">
+-      <span class="text">Notes</span>
+-    </div>
+-    <div class="item">
+-      <img src="./assets/images/svg/reminder.svg" alt="reminder" class="pic">
+-      <span class="text">Reminders</span>
+-    </div>
+-    <div class="item" (click)="openEditLabelsModal()">
+-      <img src="./assets/images/svg/pen.svg" alt="pen" class="pic">
+-      <span class="text">Edit labels</span>
+-    </div>
+-    <div class="item" routerLink="/archived">
+-      <img src="./assets/images/svg/archive.svg" alt="archive" class="pic">
+-      <span class="text">Archive</span>
+-    </div>
+-    <div routerLink="/trash" class="item">
+-      <img src="./assets/images/svg/trash.svg" alt="trash" class="pic">
+-      <span class="text">Trash</span>
+-    </div>
+-  </div>
++    <div>
++        <div class="item" routerLink="/notes">
++            <img src="./assets/images/svg/lamp.svg" alt="lamp" class="pic">
++            <span class="text">Notes</span>
++        </div>
++        <div class="item">
++            <img src="./assets/images/svg/reminder.svg" alt="reminder" class="pic">
++            <span class="text">Reminders</span>
++        </div>
++        <div class="item" (click)="openEditLabelsModal()">
++            <img src="./assets/images/svg/pen.svg" alt="pen" class="pic">
++            <span class="text">Edit labels</span>
++        </div>
++        <div class="item" routerLink="/archived">
++            <img src="./assets/images/svg/archive.svg" alt="archive" class="pic">
++            <span class="text">Archive</span>
++        </div>
++        <div routerLink="/trash" class="item">
++            <img src="./assets/images/svg/trash.svg" alt="trash" class="pic">
++            <span class="text">Trash</span>
++        </div>
++    </div>
+ </div>
+Index: src/app/components/sidenav/sidenav.component.ts
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/app/components/sidenav/sidenav.component.ts b/src/app/components/sidenav/sidenav.component.ts
+--- a/src/app/components/sidenav/sidenav.component.ts	(revision 9585c550b7cc9d1a5fed15c9ad1ad29a54df7c45)
++++ b/src/app/components/sidenav/sidenav.component.ts	(revision ecf7f2a4ffb3a3384170c7135106b3c080dc514c)
+@@ -5,18 +5,18 @@
+ import {LabelComponent} from "../label/label.component";
+ 
+ @Component({
+-  selector: 'app-sidenav',
+-  templateUrl: './sidenav.component.html',
+-  styleUrls: ['./sidenav.component.scss']
++    selector: 'app-sidenav',
++    templateUrl: './sidenav.component.html',
++    styleUrls: ['./sidenav.component.scss']
+ })
+ export class SidenavComponent {
+-  constructor(public dialog: MatDialog) {
+-  }
++    constructor(public dialog: MatDialog) {
++    }
+ 
+-  openEditLabelsModal(): void {
+-    const dialogRef = this.dialog.open(LabelComponent, {});
+-    dialogRef.afterClosed().subscribe(result => {
+-    });
+-  }
++    openEditLabelsModal(): void {
++        const dialogRef = this.dialog.open(LabelComponent, {});
++        dialogRef.afterClosed().subscribe(result => {
++        });
++    }
+ 
+ }
+Index: src/app/todo.txt
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/app/todo.txt b/src/app/todo.txt
+new file mode 100644
+--- /dev/null	(revision ecf7f2a4ffb3a3384170c7135106b3c080dc514c)
++++ b/src/app/todo.txt	(revision ecf7f2a4ffb3a3384170c7135106b3c080dc514c)
+@@ -0,0 +1,23 @@
++ notesList: Note[] = [];
++  constructor(private formBuilder: FormBuilder, private notesService: NotesService) {
++    this.notesService.notesList$.subscribe(notes => {
++      this.notesList = notes;
++    });
++  }
++
++<ng-template #originalContent>
++        <div class="title">{{ note.noteTitle }}</div>
++        <div class="noteText">{{ note.noteText }}</div>
++        <div class="label-flex" (click)="stopPropagation($event)">
++          <div *ngFor="let label of labels" class="label">
++            <div class="label-content">
++              {{ label.labelTitle }}
++              <div class="tooltip cancel-tooltip">
++                <img class="cancel-icon" src="./assets/images/svg/cancel.svg" alt="cancel icon"
++                     (click)="deleteLabel(label, note)">
++                <span class="tooltip-text">Remove label</span>
++              </div>
++            </div>
++          </div>
++        </div>
++      </ng-template>
+Index: src/assets/images/svg/box-checked.svg
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/assets/images/svg/box-checked.svg b/src/assets/images/svg/box-checked.svg
+--- a/src/assets/images/svg/box-checked.svg	(revision 9585c550b7cc9d1a5fed15c9ad1ad29a54df7c45)
++++ b/src/assets/images/svg/box-checked.svg	(revision ecf7f2a4ffb3a3384170c7135106b3c080dc514c)
+@@ -1,3 +1,4 @@
+-<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="#ffffff"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V5h14v14z"/>
++<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="#9f9f9f">
++  <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V5h14v14z"/>
+   <path d="M18 9l-1.4-1.4-6.6 6.6-2.6-2.6L6 13l4 4z"/>
+ </svg>
+Index: src/assets/images/svg/checkedi.svg
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/assets/images/svg/checkedi.svg b/src/assets/images/svg/checkedi.svg
+new file mode 100644
+--- /dev/null	(revision ecf7f2a4ffb3a3384170c7135106b3c080dc514c)
++++ b/src/assets/images/svg/checkedi.svg	(revision ecf7f2a4ffb3a3384170c7135106b3c080dc514c)
+@@ -0,0 +1,3 @@
++<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="#000"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V5h14v14z"/>
++  <path d="M18 9l-1.4-1.4-6.6 6.6-2.6-2.6L6 13l4 4z"/>
++</svg>
+Index: src/assets/images/svg/uncheckedi.svg
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/assets/images/svg/uncheckedi.svg b/src/assets/images/svg/uncheckedi.svg
+new file mode 100644
+--- /dev/null	(revision ecf7f2a4ffb3a3384170c7135106b3c080dc514c)
++++ b/src/assets/images/svg/uncheckedi.svg	(revision ecf7f2a4ffb3a3384170c7135106b3c080dc514c)
+@@ -0,0 +1,3 @@
++<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="#000">
++  <path d="M19 5v14H5V5h14m0-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"/>
++</svg>

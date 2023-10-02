@@ -1,4 +1,5 @@
 export interface Label{
-  labelId: number;
+  labelId: string;
   labelTitle: string;
+  isPathVisible: boolean;
 }

@@ -1,63 +1,102 @@
 <div class="notes-container">
-  <div *ngFor="let note of (highLight ? filteredNotes : notes)">
-    <div #noteElement class="note" (click)="onNoteSelected(note)" [hidden]="note.display"
-         *ngIf="(isArchiveNote ? note.isArchived : !note.isArchived)">
-      <span class="material-icons check-circle">check_circle</span>
+    <div *ngFor="let note of (highLight ? filteredNotes : notes)">
+        <div #noteElement class="note" (click)="onNoteSelected(note)" [hidden]="note.display"
+             *ngIf="(isArchiveNote ? note.isArchived : !note.isArchived)">
+            <span class="material-icons check-circle">check_circle</span>
 
-      <div *ngIf="highLight; else originalContent">
-        <div class="title" [innerHTML]="highlightMatches(note.noteTitle ?? '', highlightedSearchQuery)"></div>
-        <div class="noteText" [innerHTML]="highlightMatches(note.noteText ?? '', highlightedSearchQuery)"></div>
-      </div>
-
-      <ng-template #originalContent>
-        <div class="title">{{ note.noteTitle }}</div>
-        <div class="noteText">{{ note.noteText }}</div>
-      </ng-template>
-
-      <div class="note-footer">
-        <div class="tooltip">
-          <span class="material-icons-outlined hover small-icon">add_alert</span>
-          <span class="tooltip-text">Remind me</span>
-        </div>
-        <div class="tooltip">
-          <span class="material-icons-outlined hover small-icon">person_add</span>
-          <span class="tooltip-text">Collaborator</span>
-        </div>
-        <div class="tooltip">
-          <span class="material-icons-outlined hover small-icon">palette</span>
-          <span class="tooltip-text">Change Color</span>
-        </div>
-        <div class="tooltip">
-          <span class="material-icons-outlined hover small-icon">image</span>
-          <span class="tooltip-text">Add Image</span>
-        </div>
-        <div class="tooltip" (click)="archiveNote(note)">
-          <span class="material-icons-outlined hover small-icon">archive</span>
-          <span class="tooltip-text">Archive</span>
-        </div>
-        <div class="tooltip" (click)="toggleDropdownMenu(note, $event)">
-          <span class="material-icons-outlined hover small-icon">more_vert</span>
-          <span class="tooltip-text">More</span>
-        </div>
-        <div *ngIf="note.showDropdownMenu" class="dropdown-menu">
-          <div class="drop-els" (click)="deleteNote(note)">Delete Note</div>
-          <div class="drop-els" (click)="toggleLabelMenu($event)">Add label</div>
-        </div>
-        <div #labelMenuTt *ngIf="labelMenuOpen" class="dropdown-menu">
-          <div class="title">Label note</div>
-          <div class="search">
-            <input type="text" maxlength="50" placeholder="Enter label name">
-            <div class="search-icon"></div>
-          </div>
-          <div class="label-list-container">
-            <div class="label-list">
-              <div class="check-icon"></div>
-              <div class="label-name"></div>
+            <div *ngIf="highLight; else originalContent">
+                <div class="title" [innerHTML]="highlightMatches(note.noteTitle ?? '', highlightedSearchQuery)"></div>
+                <div class="noteText" [innerHTML]="highlightMatches(note.noteText ?? '', highlightedSearchQuery)"></div>
             </div>
-          </div>
+
+            <ng-template #originalContent>
+                <div class="title">{{ note.noteTitle }}</div>
+                <div class="noteText">{{ note.noteText }}</div>
+                <div class="label-flex" (click)="stopPropagation($event)">
+                    <div *ngFor="let label of note.labels" class="label">
+                        <div class="label-content">
+                            {{ label.labelTitle }}
+                            <div class="tooltip cancel-tooltip">
+                                <img class="cancel-icon" src="./assets/images/svg/cancel.svg" alt="cancel icon"
+                                     (click)="associateLabelWithNote(label, note)">
+                                <span class="tooltip-text">Remove label</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </ng-template>
+
+            <div class="note-footer">
+                <div class="tooltip">
+                    <span class="material-icons-outlined hover small-icon">add_alert</span>
+                    <span class="tooltip-text">Remind me</span>
+                </div>
+                <div class="tooltip">
+                    <span class="material-icons-outlined hover small-icon">person_add</span>
+                    <span class="tooltip-text">Collaborator</span>
+                </div>
+                <div class="tooltip">
+                    <span class="material-icons-outlined hover small-icon">palette</span>
+                    <span class="tooltip-text">Change Color</span>
+                </div>
+                <div class="tooltip">
+                    <span class="material-icons-outlined hover small-icon">image</span>
+                    <span class="tooltip-text">Add Image</span>
+                </div>
+                <div class="tooltip" (click)="archiveNote(note)">
+                    <span class="material-icons-outlined hover small-icon">archive</span>
+                    <span class="tooltip-text">Archive</span>
+                </div>
+                <div class="tooltip" (click)="toggleDropdownMenu(note, $event)">
+                    <span class="material-icons-outlined hover small-icon">more_vert</span>
+                    <span class="tooltip-text">More</span>
+                </div>
+                <div *ngIf="note.showDropdownMenu" class="dropdown-menu">
+                    <div class="drop-els" (click)="deleteNote(note)">Delete Note</div>
+                    <div class="drop-els" *ngIf="note.labels.length < 1" (click)="toggleLabelMenu(note, $event)">Add
+                        label
+                    </div>
+                    <div class="drop-els" *ngIf="note.labels.length >= 1" (click)="toggleLabelMenu(note, $event)">Change
+                        Label
+                    </div>
+                </div>
+                <div *ngIf="note.showLabelMenu" class="label-menu" (click)="stopPropagation($event)">
+                    <div class="label-title">Label note</div>
+                    <div class="search">
+                        <input class="input" type="text" maxlength="50" [(ngModel)]="labelTitle"
+                               placeholder="Enter label name">
+                        <div>
+                            <img class="search-icon" src="./assets/images/svg/search.svg" alt="x-btn">
+                        </div>
+                    </div>
+                    <div class="label-area-container" *ngIf="labelTitle.length>0"
+                         (click)="createLabel(labelTitle,note)">
+                        <div class="label-area">
+                            <div class="plus-icon">
+                                <img src="./assets/images/svg/plus.svg" alt="plus icon">
+                            </div>
+                            <div class="search-text">Create "<span class="bold">{{labelTitle}}</span> "</div>
+                        </div>
+                    </div>
+                    <div>
+                        <div *ngIf="labels.length >= 1" class="show-labels">
+                            <div class="save-labels-area" *ngFor="let label of labels">
+                                <div class="check-box">
+                                    <img *ngIf="note.labels.includes(label)" class=""
+                                         src="./assets/images/svg/checkedi.svg"
+                                         alt="checked-btn" (click)="associateLabelWithNote(label, note)">
+                                    <img *ngIf="!note.labels.includes(label)" class=""
+                                         src="./assets/images/svg/uncheckedi.svg"
+                                         alt="unchecked-btn" (click)="associateLabelWithNote(label, note)">
+                                </div>
+                                <div class="save-label-text">{{label.labelTitle}}</div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
         </div>
-      </div>
     </div>
-  </div>
 
 </div>

@@ -1,0 +1,23 @@
+ notesList: Note[] = [];
+  constructor(private formBuilder: FormBuilder, private notesService: NotesService) {
+    this.notesService.notesList$.subscribe(notes => {
+      this.notesList = notes;
+    });
+  }
+
+<ng-template #originalContent>
+        <div class="title">{{ note.noteTitle }}</div>
+        <div class="noteText">{{ note.noteText }}</div>
+        <div class="label-flex" (click)="stopPropagation($event)">
+          <div *ngFor="let label of labels" class="label">
+            <div class="label-content">
+              {{ label.labelTitle }}
+              <div class="tooltip cancel-tooltip">
+                <img class="cancel-icon" src="./assets/images/svg/cancel.svg" alt="cancel icon"
+                     (click)="deleteLabel(label, note)">
+                <span class="tooltip-text">Remove label</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </ng-template>

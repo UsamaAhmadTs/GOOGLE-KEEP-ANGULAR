@@ -1,18 +1,18 @@
 <div class="noteBody">
-  <section *ngIf="notes.length < 1">
-    <div class="no-notes">
-      <div class="note-image"><img src="./assets/images/svg/lamp.svg" alt="lamp" class="pic"></div>
-      <div>
-        <span class="text">Notes you add appear here</span>
-      </div>
-    </div>
-  </section>
+    <section *ngIf="notes.length < 1">
+        <div class="no-notes">
+            <div class="note-image"><img src="./assets/images/svg/lamp.svg" alt="lamp" class="pic"></div>
+            <div>
+                <span class="text">Notes you add appear here</span>
+            </div>
+        </div>
+    </section>
 
-  <div class="notes-container">
-    <app-note-template
-      [isArchiveNote]="false"
-    ></app-note-template>
-  </div>
+    <div class="notes-container">
+        <app-note-template
+                [isArchiveNote]="false"
+        ></app-note-template>
+    </div>
 </div>
 
 

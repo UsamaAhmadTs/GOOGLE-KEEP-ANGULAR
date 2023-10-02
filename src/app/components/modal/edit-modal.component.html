@@ -1,25 +1,25 @@
 <div class="container">
-  <form class="drop-note" (ngSubmit)="updateNote(selectedNote)">
-    <input type="text" class="note-title" name="noteTitle" placeholder="Title" [(ngModel)]="data.note.noteTitle">
-    <input class="note-text" type="text" name="noteText" [(ngModel)]="data.note.noteText">
+    <form class="drop-note" (ngSubmit)="updateNote(selectedNote)">
+        <input type="text" class="note-title" name="noteTitle" placeholder="Title" [(ngModel)]="data.note.noteTitle">
+        <input class="note-text" type="text" name="noteText" [(ngModel)]="data.note.noteText">
 
-    <div class="form-actions">
-      <div class="icons">
-        <div class="tooltip" (click)="archiveNote(selectedNote)">
-          <span class="material-icons-outlined hover small-icon">archive</span>
-          <span class="tooltip-text">Archive</span>
+        <div class="form-actions">
+            <div class="icons">
+                <div class="tooltip" (click)="archiveNote(selectedNote)">
+                    <span class="material-icons-outlined hover small-icon">archive</span>
+                    <span class="tooltip-text">Archive</span>
+                </div>
+                <div class="tooltip" (click)="toggleDropdownMenu(selectedNote,$event)">
+                    <span class="material-icons-outlined hover small-icon">more_vert</span>
+                    <span class="tooltip-text">More</span>
+                </div>
+            </div>
+            <button class="close-btn" type="submit">Close</button>
         </div>
-        <div class="tooltip" (click)="toggleDropdownMenu(selectedNote,$event)">
-          <span class="material-icons-outlined hover small-icon">more_vert</span>
-          <span class="tooltip-text">More</span>
-        </div>
-      </div>
-      <button class="close-btn" type="submit">Close</button>
+    </form>
+    <div *ngIf="selectedNote.showDropdownMenu" class="dropdownSelected">
+        <div class="drop-els-selected" (click)="deleteNote(selectedNote)">Delete Note</div>
+        <div class="drop-els-selected">Add label</div>
     </div>
-  </form>
-  <div *ngIf="selectedNote.showDropdownMenu" class="dropdownSelected">
-    <div class="drop-els-selected" (click)="deleteNote(selectedNote)">Delete Note</div>
-    <div class="drop-els-selected" (click)="addLabel(selectedNote)">Add label</div>
-  </div>
 </div>
 

@@ -3,6 +3,7 @@ import {Component,OnInit} from '@angular/core';
 import {Note} from "../note";
 
 import {NotesService} from "../notes-service";
+
 import {Observable} from "rxjs";
 
 @Component({

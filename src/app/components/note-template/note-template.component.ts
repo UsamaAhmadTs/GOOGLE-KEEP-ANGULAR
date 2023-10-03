@@ -8,12 +8,9 @@ import {EditModalComponent} from "../modal/edit-modal.component";
 
 import {MatDialog} from "@angular/material/dialog";
 
-import {Observable} from "rxjs";
+import {Observable, of} from "rxjs";
 
 import {Label} from "../label";
-
-import {v4 as uuidv4} from 'uuid';
-
 
 @Component({
     selector: 'app-note-template',
@@ -27,7 +24,7 @@ export class NoteTemplateComponent implements OnInit {
 
     showMixedNotes: boolean = false;
     highlightedSearchQuery: string | null = null;
-    notes: Note[] = []
+    notes$: Observable<Note[]>;
     labels: Label[] = [];
     filteredNotes: Note[] | null = null;
     searchQuery$!: Observable<string | null>;
@@ -36,12 +33,7 @@ export class NoteTemplateComponent implements OnInit {
 
     constructor(private noteService: NotesService, private dialog: MatDialog) {
         this.searchQuery$ = this.noteService.searchQuery$;
-    }
-
-    ngOnInit() {
-        this.noteService.getNotes().subscribe((notes) => {
-            this.notes = notes;
-        });
+        this.notes$ = this.noteService.getNotes();
         this.noteService.getLabels().subscribe(labels => {
             this.labels = labels;
         });
@@ -49,6 +41,18 @@ export class NoteTemplateComponent implements OnInit {
             this.filteredNotes = filteredNotes.reverse();
             this.showMixedNotes = false;
         });
+    }
+
+    ngOnInit() {
+      this.notes$ = this.noteService.getNotes();
+      this.notes$.subscribe((notes) => {
+        if (Array.isArray(notes)) {
+          this.notes$ = new Observable((observer) => {
+            observer.next(notes);
+            observer.complete();
+          });
+        }
+      });
         this.searchQuery$.subscribe(query => {
             this.highlightedSearchQuery = query;
         });
@@ -57,11 +61,15 @@ export class NoteTemplateComponent implements OnInit {
     toggleDropdownMenu(note: Note, event: Event) {
         event.stopPropagation();
         note.showDropdownMenu = !note.showDropdownMenu;
+        if (note.showDropdownMenu) {
+            note.showLabelMenu = false;
+        }
     }
 
     toggleLabelMenu(note: Note, event: Event) {
         event.stopPropagation();
         note.showLabelMenu = !note.showLabelMenu;
+        note.showDropdownMenu = !note.showDropdownMenu;
     }
 
     highlightMatches(text: string, query: string | null): string {
@@ -72,18 +80,17 @@ export class NoteTemplateComponent implements OnInit {
 
     onNoteSelected(note: Note) {
         this.selectedNote = note;
-        note.display = true;
+        this.selectedNote.display = false;
+        console.log(this.selectedNote.display)
         const dialogRef = this.dialog.open(EditModalComponent, {
             data: {note},
-        });
-        dialogRef.afterClosed().subscribe(result => {
         });
     }
 
     deleteNote(noteToDelete: Note) {
         this.noteService.deleteNotes(noteToDelete).subscribe({
             next: updatedNotes => {
-                this.notes = updatedNotes;
+                this.notes$ = of(updatedNotes);
             }
         });
     }
@@ -91,8 +98,7 @@ export class NoteTemplateComponent implements OnInit {
     archiveNote(note: Note) {
         note.isArchived = !note.isArchived;
         this.noteService.archiveNotes(note).subscribe(updatedNotes => {
-            this.notes = updatedNotes;
-            this.selectedNote = null;
+            this.notes$ = of(updatedNotes);
         });
     }
 
@@ -100,27 +106,15 @@ export class NoteTemplateComponent implements OnInit {
         event.stopPropagation();
     }
 
-    createLabel(labelTitle: string, note: Note) {
-        if (labelTitle) {
-            const newLabel: Label = {
-                labelId: uuidv4(),
-                labelTitle: labelTitle,
-                isPathVisible: true
-            };
-            this.noteService.createLabel(newLabel, note);
-            this.associateLabelWithNote(newLabel, note);
-        }
+    onMouseEnter(label: Label) {
+        label.showCancel = true;
     }
 
+    onMouseLeave(label: Label) {
+        label.showCancel = false;
+    }
     associateLabelWithNote(label: Label, note: Note) {
-        label.isPathVisible = !label.isPathVisible;
         this.noteService.associateLabelWithNote(label, note).subscribe();
-    }
-
-    deleteLabel(label: Label, note: Note): void {
-        this.noteService.deleteLabel(label).subscribe(updatedLabels => {
-            this.labels = updatedLabels;
-        });
     }
 
 }

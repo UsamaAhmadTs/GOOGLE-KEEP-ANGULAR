@@ -6,7 +6,7 @@ import {AppRoutingModule} from './app-routing.module';
 
 import {AppComponent} from './app.component';
 
-import {MainComponent} from './components/main/main.component';
+
 
 import {NavbarComponent} from './components/navbar/navbar.component';
 
@@ -25,12 +25,11 @@ import {MatButtonModule} from "@angular/material/button";
 import {MatDialogModule} from "@angular/material/dialog";
 import { EditModalComponent } from './components/modal/edit-modal.component';
 import { NoteTemplateComponent } from './components/note-template/note-template.component';
-import { LabelComponent } from './components/label/label.component';
+import { LabelMenuComponent } from './components/label-menu/label-menu.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    MainComponent,
     NavbarComponent,
     SidenavComponent,
     InputComponent,
@@ -39,7 +38,7 @@ import { LabelComponent } from './components/label/label.component';
     SearchComponent,
     EditModalComponent,
     NoteTemplateComponent,
-    LabelComponent
+    LabelMenuComponent
   ],
   imports: [
     BrowserModule,

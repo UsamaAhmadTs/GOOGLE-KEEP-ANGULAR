@@ -10,7 +10,7 @@ import {Router} from "@angular/router";
     styleUrls: ['./navbar.component.scss']
 })
 export class NavbarComponent {
-    @ViewChild('Btn') Btn!: ElementRef;
+    @ViewChild('clearSearch') clearSearch!: ElementRef;
 
     searchQuery: string = '';
 
@@ -34,7 +34,7 @@ export class NavbarComponent {
     onSearchInputChange() {
         this.noteService.setSearchQuery(this.searchQuery)
         this.router.navigate(['/search']);
-        this.Btn.nativeElement.hidden = false;
+        this.clearSearch.nativeElement.hidden = false;
     }
 
     clearSearchField() {
@@ -43,7 +43,7 @@ export class NavbarComponent {
             searchQuery.value = '';
         }
         this.router.navigate(['/notes']);
-        this.Btn.nativeElement.hidden = true;
+        this.clearSearch.nativeElement.hidden = true;
     }
 
 }

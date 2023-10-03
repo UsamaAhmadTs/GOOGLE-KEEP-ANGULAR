@@ -1,9 +1,21 @@
 <div class="container">
     <form class="drop-note" (ngSubmit)="updateNote(selectedNote)">
-        <input type="text" class="note-title" name="noteTitle" placeholder="Title" [(ngModel)]="data.note.noteTitle">
-        <input class="note-text" type="text" name="noteText" [(ngModel)]="data.note.noteText">
-
-        <div class="form-actions">
+        <input type="text" class="note-title" name="noteTitle" placeholder="Title" [(ngModel)]="selectedNote.noteTitle">
+        <input class="note-text" type="text" name="noteText" [(ngModel)]="selectedNote.noteText">
+        <div class="label-flex" (click)="stopPropagation($event)">
+            <div *ngFor="let label of selectedNote.labels" class="label" (mouseenter)="onMouseEnter(label)"
+                 (mouseleave)="onMouseLeave(label)">
+                <div class="label-content">
+                    {{ label.labelTitle }}
+                    <div class="tooltip cancel-tooltip" *ngIf="label.showCancel">
+                        <img class="cancel-icon" src="./assets/images/svg/cancel.svg" alt="cancel icon"
+                             (click)="associateLabelWithNote(label, selectedNote)">
+                        <span class="tooltip-text">Remove label</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="form-actions" [ngClass]="{'form-actions-label': selectedNote.labels.length >= 1}">
             <div class="icons">
                 <div class="tooltip" (click)="archiveNote(selectedNote)">
                     <span class="material-icons-outlined hover small-icon">archive</span>
@@ -18,8 +30,15 @@
         </div>
     </form>
     <div *ngIf="selectedNote.showDropdownMenu" class="dropdownSelected">
-        <div class="drop-els-selected" (click)="deleteNote(selectedNote)">Delete Note</div>
-        <div class="drop-els-selected">Add label</div>
+        <div class="drop-els" (click)="deleteNote(selectedNote)">Delete Note</div>
+        <div class="drop-els" *ngIf="selectedNote.labels.length < 1" (click)="toggleLabelMenu(selectedNote, $event)">Add
+            label
+        </div>
+        <div class="drop-els" *ngIf="selectedNote.labels.length >= 1" (click)="toggleLabelMenu(selectedNote, $event)">Change
+            Label
+        </div>
     </div>
+    <app-label-menu [note]="selectedNote" [searchLabelText]="labelTitle"
+                    [DialogBoxOpen]="false"></app-label-menu>
 </div>
 

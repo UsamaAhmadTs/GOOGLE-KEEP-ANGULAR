@@ -48,12 +48,15 @@
   justify-content: center;
 
 }
-
+.dropdown-menu-label{
+  left: 16em !important;
+  top: 13.6em !important;
+}
 .dropdown-menu{
   user-select: none;
   opacity: 1;
   left: 15.5em;
-  top: 10.2em;
+  top: 11.2em;
   background-color: #fff;
   box-shadow: 0 0.0625em 0.125em 0 rgba(60, 64, 67, 0.302), 0 0.125em 0.375em 0.125em rgba(60, 64, 67, 0.149);
   position: absolute;
@@ -85,7 +88,7 @@
   align-items: center;
   height: 18px;
   justify-content: center;
-  padding: 3px 5px;
+  padding: 12px 22px;
   margin: 6px 6px 0 0;
   background-color: rgba(0,0,0,.08);
   border-radius: 12px;
@@ -114,8 +117,16 @@
   align-items: center;
 }
 .cancel-icon{
-  height: 1em;
-  width: 1em;
+  margin-left:0.8em;
+  height: 1.3em;
+  width: 1.3em;
+}
+.cancel-icon:hover{
+  cursor: pointer;
+  color: #202124;
+  border-radius: 50%;
+  opacity: 1;
+  background-color: lightgray;
 }
 .save-labels-area{
   display: flex;
@@ -132,8 +143,12 @@
   z-index: 5003;
   padding: 0.375em 0;
   opacity: 1;
-  left: 0em;
-  top: 13em;
+  left: 13em;
+  top: 9em;
+}
+.dLabel-menu{
+  left: 13em;
+  top: 10.8em;
 }
 .label-title{
   height: 1.25em;
@@ -157,6 +172,10 @@
   display: flex;
   width: 12.8125em;
   height: 1.3125em;
+}
+.check{
+  margin-right:0.3em ;
+  margin-left:0.5em ;
 }
 .search{
   display: flex;

@@ -27,17 +27,17 @@
                     <button class="btn left" aria-label="Clear search" type="button">
                         <img class="pic H" src="./assets/images/svg/search.svg" alt="x-btn">
                     </button>
-                    <button #Btn class="btn" aria-label="Clear search" type="button" (click)="clearSearchField()"
+                    <button #clearSearch class="btn" aria-label="Clear search" type="button" (click)="clearSearchField()"
                             hidden>
                         <img class="pic H" src="./assets/images/svg/x-btn.svg" alt="x-btn">
                     </button>
                 </form>
             </div>
             <div class="btns-container">
-                <div class="search H pop" data-pop="Search"></div>
-                <div class="refresh H pop" data-pop="Refresh"></div>
-                <div class="view H pop" data-pop="List view"></div>
-                <div class="settings H pop disabled" data-pop="Settings"></div>
+                <div class="search pop" data-pop="Search"></div>
+                <div class="refresh pop" data-pop="Refresh"></div>
+                <div class="view pop" data-pop="List view"></div>
+                <div class="settings pop disabled" data-pop="Settings"></div>
             </div>
         </div>
 

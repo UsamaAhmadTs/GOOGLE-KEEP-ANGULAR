@@ -1,0 +1,36 @@
+<div *ngIf="note.showLabelMenu" class="label-menu" [ngClass]="{'dLabel-menu': note.labels.length >= 1}"
+     (click)="stopPropagation($event)">
+    <div class="label-title">Label note</div>
+    <div class="search">
+        <input class="input" type="text" maxlength="50" [(ngModel)]="labelTitle"
+               placeholder="Enter label name" (input)="searchLabel()">
+        <div>
+            <img class="search-icon" src="./assets/images/svg/search.svg" alt="x-btn">
+        </div>
+    </div>
+    <div class="label-area-container" *ngIf="labelTitle.length>0"
+         (click)="createLabel(labelTitle,note)">
+        <div class="label-area">
+            <div class="plus-icon">
+                <img src="./assets/images/svg/plus.svg" alt="plus icon">
+            </div>
+            <div class="search-text">Create "<span class="bold">{{labelTitle}}</span> "</div>
+        </div>
+    </div>
+    <div>
+        <div *ngIf="labels.length >= 1" class="show-labels">
+            <div class="save-labels-area" *ngFor="let label of (labelTitle ? searchLabels : labels)">
+                <div class="check-box">
+                    <img *ngIf="checkedBox(note,label)" class="check"
+                         src="./assets/images/svg/checkedi.svg"
+                         alt="checked-btn" (click)="associateLabelWithNote(label, note)">
+                    <img *ngIf="!checkedBox(note,label)" class="check"
+                         src="./assets/images/svg/uncheckedi.svg"
+                         alt="unchecked-btn" (click)="associateLabelWithNote(label, note)">
+                </div>
+                <div class="save-label-text">{{label.labelTitle}}</div>
+            </div>
+        </div>
+    </div>
+
+</div>

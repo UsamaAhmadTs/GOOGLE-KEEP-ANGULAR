@@ -1,0 +1,135 @@
+.label{
+  display: flex;
+  align-items: center;
+  height: 18px;
+  justify-content: center;
+  padding: 12px 22px;
+  margin: 6px 6px 0 0;
+  background-color: rgba(0,0,0,.08);
+  border-radius: 12px;
+  box-shadow: inset 0 0 0 1px transparent;
+  box-sizing: border-box;
+  letter-spacing: .01785714em;
+  font-family: "Google Sans",Roboto,Arial,sans-serif;
+  font-size: .875rem;
+  font-weight: 500;
+  line-height: 1.25rem;
+  position: relative;
+  width: 35px;
+}
+.label-content{
+  display: flex;
+  align-items: center;
+  height: 18px;
+  justify-content: center;
+  min-width: 35px;
+  padding: 3px 5px;
+}
+.label-flex{
+  display: flex;
+  flex-wrap: wrap;
+  padding: 5px 10px;
+  align-items: center;
+}
+.cancel-icon{
+  margin-left:0.8em;
+  height: 1.3em;
+  width: 1.3em;
+}
+.cancel-icon:hover{
+  cursor: pointer;
+  color: #202124;
+  border-radius: 50%;
+  opacity: 1;
+  background-color: lightgray;
+}
+.save-labels-area{
+  display: flex;
+}
+.label-menu{
+  min-width: 14.0625em;
+  min-height: 4.75em;
+  background-color: #fff;
+  border-width: 0;
+  box-shadow: 0 0.0625em 0.125em 0 rgba(60, 64, 67, 0.302), 0 0.125em 0.375em 0.125em rgba(60, 64, 67, 0.149);
+  position: absolute;
+  -webkit-border-radius: 0.25em;
+  border-radius: 0.2em;
+  z-index: 5003;
+  padding: 0.375em 0;
+  opacity: 1;
+  left: 13em;
+  top: 9em;
+}
+.dLabel-menu{
+  left: 13em;
+  top: 10.8em;
+}
+.label-title{
+  height: 1.25em;
+  width: inherit;
+  cursor: default;
+  font-size: 0.875em;
+  padding: 0 0.75em;
+  margin: 3.5px;
+}
+.label-area-container{
+  border-top: 0.1px solid #dadce0;
+  width: 14.0625em;
+  height: 1.875em;
+  cursor: pointer;
+  display: block;
+  outline: none;
+  padding: 5px 0.625em 3px;
+  position: relative;
+}
+.label-area{
+  display: flex;
+  width: 12.8125em;
+  height: 1.3125em;
+}
+.check{
+  margin-right:0.3em ;
+  margin-left:0.5em ;
+}
+.search{
+  display: flex;
+  width: 14.0625em;
+  height: 2.25em;
+  padding: 8px 0.75em;
+  position: relative;
+  -webkit-transition: box-shadow 0.218s;
+  transition: box-shadow 0.218s;
+  margin-top: 0.4375em;
+}
+.search-icon{
+  margin-top: 0.22em;
+  width: 1.125em;
+  height: 1em;
+  -webkit-background-size: 0.875em 0.875em;
+  background-size: 0.875em 0.875em;
+  opacity: 0.35;
+  position: absolute;
+  right: 0.6875em;
+  top: 0.5em;
+}
+.search-text{
+  min-width: 3.5em;
+  min-height: 1.0625em;
+  display: inline-block;
+  margin-left: 7px;
+  max-width: 10em;
+  padding-top: 2px;
+  vertical-align: top;
+  word-wrap: break-word;
+  font-size: small;
+  margin-top: 0.15em;
+}
+.input{
+  box-sizing: border-box;
+  height: auto;
+  padding: 2px 1.375em 2px 2px;
+  width: 100%;
+  border: none;
+  outline: none;
+}

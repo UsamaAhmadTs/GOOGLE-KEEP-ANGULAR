@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component} from '@angular/core';
 
 import {Note} from "../note";
 
@@ -9,16 +9,14 @@ import {NotesService} from "../notes-service";
   templateUrl: './notes.component.html',
   styleUrls: ['./notes.component.scss']
 })
-export class NotesComponent implements OnInit {
+export class NotesComponent{
 
   notes: Note[] = [];
 
   constructor(private notesService: NotesService) {
-  }
-
-  ngOnInit() {
     this.notesService.getNotes().subscribe((notes) => {
-      this.notes = notes;
+      this.notes = notes.reverse();
     });
   }
+
 }

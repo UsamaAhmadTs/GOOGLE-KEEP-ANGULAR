@@ -5,7 +5,7 @@ export interface Note{
   noteText?: string;
   isArchived: boolean;
   showDropdownMenu?: boolean;
-  showLabelMenu?: boolean;
-  display?: boolean;
+  showLabelMenu: boolean;
+  display: boolean;
   labels: Label[];
 }

@@ -1,4 +1,4 @@
-import {Component,OnInit} from '@angular/core';
+import {Component} from '@angular/core';
 
 import {Note} from "../note";
 
@@ -11,11 +11,9 @@ import {Observable} from "rxjs";
   templateUrl: './archive.component.html',
   styleUrls: ['./archive.component.scss']
 })
-export class ArchiveComponent implements OnInit {
+export class ArchiveComponent {
   archiveNotes$!: Observable<Note[]>;
   constructor(private notesService: NotesService) {
-  }
-  ngOnInit() {
     this.archiveNotes$ = this.notesService.getArchivedNotes();
   }
 

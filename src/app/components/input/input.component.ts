@@ -1,8 +1,6 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, ElementRef, HostListener, OnInit, ViewChild} from '@angular/core';
 
 import {Note} from "../note";
-
-import {BehaviorSubject} from 'rxjs';
 
 import {FormBuilder, FormGroup} from "@angular/forms";
 
@@ -16,26 +14,28 @@ import {v4 as uuidv4} from "uuid";
   styleUrls: ['./input.component.scss']
 })
 export class InputComponent implements OnInit {
-  private notesSubject = new BehaviorSubject<Note[]>([]);
-  notes$ = this.notesSubject.asObservable();
+  @ViewChild('dropNote') dropNote!: ElementRef;
+  @ViewChild('mainNote') mainNote!: ElementRef;
+
   showFirst = true;
   showDropdownMenu = false;
   notes!: FormGroup;
 
   constructor(private formBuilder: FormBuilder, private notesService: NotesService) {
-    this.notesService.getNotes().subscribe(notes => {
-      this.notesSubject.next(notes);
-    });
   }
 
   ngOnInit(): void {
-    this.notesService.getNotes().subscribe(notes => {
-      this.notesSubject.next(notes);
-    });
     this.notes = this.formBuilder.group({
       title: '',
       note: ''
     })
+  }
+
+  @HostListener('document:click', ['$event'])
+  clickOutside(event: Event) {
+    if (!this.dropNote.nativeElement.contains(event.target)) {
+      this.createNote();
+    }
   }
 
   createNote() {
@@ -53,7 +53,6 @@ export class InputComponent implements OnInit {
         showLabelMenu: false
       };
       this.notesService.createNote(newNote).subscribe(updatedNotes => {
-        this.notesSubject.next(updatedNotes);
         this.notes.reset();
         this.showFirst = !this.showFirst;
       });

@@ -5,8 +5,6 @@ import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 import {Note} from "../note";
 
 import {NotesService} from "../notes-service";
-import {Label} from "../label";
-import {v4 as uuidv4} from "uuid";
 
 @Component({
     selector: 'app-edit-modal',
@@ -63,32 +61,7 @@ export class EditModalComponent implements OnInit {
 
     updateNote(selectedNote: Note) {
         this.notesService.updateNote(selectedNote);
-        selectedNote.display = false;
         this.dialogRef.close();
     }
-    stopPropagation(event: Event) {
-        event.stopPropagation();
-    }
 
-    onMouseEnter(label: Label) {
-        label.showCancel = true;
-    }
-
-    onMouseLeave(label: Label) {
-        label.showCancel = false;
-    }
-    associateLabelWithNote(label: Label, note: Note) {
-        this.notesService.associateLabelWithNote(label, note).subscribe();
-    }
-    createLabel(labelTitle: string, note: Note) {
-        if (labelTitle) {
-            const newLabel: Label = {
-                labelId: uuidv4(),
-                labelTitle: labelTitle,
-                showCancel: false
-            };
-            this.notesService.createLabel(newLabel, note);
-            this.associateLabelWithNote(newLabel, note);
-        }
-    }
 }

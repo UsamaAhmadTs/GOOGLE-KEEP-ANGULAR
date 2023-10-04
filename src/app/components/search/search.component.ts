@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 
 import {NotesService} from "../notes-service";
 
@@ -7,31 +7,26 @@ import {Note} from "../note";
 import {Observable} from "rxjs";
 
 @Component({
-    selector: 'app-search',
-    templateUrl: './search.component.html',
-    styleUrls: ['./search.component.scss'],
-    changeDetection: ChangeDetectionStrategy.Default
+  selector: 'app-search',
+  templateUrl: './search.component.html',
+  styleUrls: ['./search.component.scss'],
 })
 export class SearchComponent implements OnInit {
+  filteredNotes$: Observable<Note[]>;
+  searchQuery$: Observable<string | null>;
+  notes: Note[] = [];
+  constructor(private noteService: NotesService) {
+    this.searchQuery$ = this.noteService.searchQuery$;
+    this.filteredNotes$ = this.noteService.filteredNotes$;
+  }
 
-    filteredNotes: Note[] | null = null;
-    searchQuery$: Observable<string | null>;
-    showMixedNotes: boolean = false;
+  isMixedNotes(): boolean {
+    return this.noteService.isMixedNotes();
+  }
 
-    constructor(private noteService: NotesService) {
-        this.searchQuery$ = this.noteService.searchQuery$;
-    }
-
-    ngOnInit(): void {
-        this.noteService.getFilteredNotes().subscribe(filteredNotes => {
-            this.filteredNotes = filteredNotes.reverse();
-            this.showMixedNotes = false;
-            const hasMixedArchivedStatus = this.filteredNotes.some(note => note.isArchived)
-                && this.filteredNotes.some(note => !note.isArchived);
-            if (hasMixedArchivedStatus) {
-                this.showMixedNotes = true;
-            }
-        });
-    }
-
+  ngOnInit(): void {
+    this.filteredNotes$.subscribe((filteredNotes) => {
+      this.notes = filteredNotes;
+    });
+  }
 }

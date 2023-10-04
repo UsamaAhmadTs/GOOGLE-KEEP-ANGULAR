@@ -1,12 +1,10 @@
-.container{
-  height: 177px;
-  width: 600px;
-  border-radius: 8px;
-  overflow-x: hidden;
-  overflow-y: hidden;
-  position: relative;
-  z-index: 1;
-}
+//.container{
+//  height: 177px;
+//  width: 600px;
+//  border-radius: 8px;
+//  position: relative;
+//z-index: 1;
+//}
 
 .noteText{
   font-family: "Google Sans",Roboto,Arial,sans-serif;
@@ -29,35 +27,49 @@
   vertical-align: top;
   cursor: pointer;
 }
-.drop-els-selected{
-  letter-spacing: .01428571em;
-  font-family: Roboto,Arial,sans-serif;
-  font-size: .875rem;
-  font-weight: 400;
-  line-height: 1.25rem;
-  border: 1px solid transparent;
-  padding: 5px 10px 5px 17px;
-  color: #3c4043;
-  height: 100%;
-  vertical-align: top;
+.label-container{
+  height: 177px;
+  width: 600px;
+  border-radius: 8px;
+  position: relative;
+  z-index: 1;
+  overflow-x: hidden;
 }
-.dropdownSelected {
+.dropdown-menu {
   background-color: #fff;
-  min-width: 8.4875em; /* 7.8vw converted to em */
-  min-height: 2.16em; /* 13.5vh converted to em */
+  min-width: 8.4875em;
+  min-height: 2.16em;
   border-width: 0;
   box-shadow: 0 0.0625em 0.125em 0 rgba(60, 64, 67, 0.302), 0 0.125em 0.375em 0.125em rgba(60, 64, 67, 0.149);
-  position: absolute;
-  -webkit-border-radius: 0.25em; /* 4px converted to em */
-  border-radius: 0.25em; /* 4px converted to em */
-  z-index: 5003;
-  padding: 0.375em 0; /* 6px converted to em */
+  position: fixed;
+  -webkit-border-radius: 0.25em;
+  border-radius: 0.25em;
+  z-index: 5003 !important;
+  padding: 0.375em 0;
   opacity: 1;
-  left: 16.1em; /* 356px converted to em */
-  top: 2.25em; /* 277px converted to em */
+  left: 37.7em;
+  top: 32.25em;
   overflow-y: hidden;
 
 }
+
+//.dropdownSelected {
+//  background-color: #fff;
+//  min-width: 8.4875em;
+//  min-height: 2.16em;
+//  border-width: 0;
+//  box-shadow: 0 0.0625em 0.125em 0 rgba(60, 64, 67, 0.302), 0 0.125em 0.375em 0.125em rgba(60, 64, 67, 0.149);
+//  position: absolute;
+//  -webkit-border-radius: 0.25em;
+//  border-radius: 0.25em;
+//  z-index: 5003 !important;
+//  padding: 0.375em 0;
+//  opacity: 1;
+//  left: 16.1em;
+//  top: 2.25em;
+//  overflow-y: hidden;
+//
+//}
  .noteText {
   width: 100%;
   margin: 10px 0 0 15px;
@@ -98,7 +110,7 @@
   white-space: nowrap;
   border-radius: 5px;
   visibility: hidden;
-  z-index: 1;
+
 }
 
 .tooltip:hover .tooltip-text {
@@ -172,8 +184,9 @@
   font-size: .875rem;
   font-weight: 500;
   line-height: 1.25rem;
-  position: relative;
+  position: absolute;
   width: 35px;
+  z-index: 5;
 }
 .label-content{
   display: flex;

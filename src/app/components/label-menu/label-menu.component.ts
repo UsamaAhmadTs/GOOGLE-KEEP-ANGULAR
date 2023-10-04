@@ -13,7 +13,7 @@ import {v4 as uuidv4} from "uuid";
   templateUrl: './label-menu.component.html',
   styleUrls: ['./label-menu.component.scss']
 })
-export class LabelMenuComponent{
+export class LabelMenuComponent {
   @Input() labelDropdown: boolean = false;
   @Input() DialogBoxOpen: boolean = false;
   @Input() note!: Note;
@@ -21,15 +21,18 @@ export class LabelMenuComponent{
   labels: Label[] = [];
   searchLabels: Label[] = [];
   labelTitle: string = '';
+
   constructor(private noteService: NotesService) {
     this.noteService.getLabels().subscribe(labels => {
       this.labels = labels;
     });
   }
+
   associateLabelWithNote(label: Label, note: Note) {
 
     this.noteService.associateLabelWithNote(label, note).subscribe();
   }
+
   createLabel(labelTitle: string, note: Note) {
     if (labelTitle) {
       const newLabel: Label = {
@@ -42,9 +45,11 @@ export class LabelMenuComponent{
       this.labelTitle = '';
     }
   }
+
   stopPropagation(event: Event) {
     event.stopPropagation();
   }
+
   searchLabel(): void {
     if (this.labelTitle) {
       this.noteService.searchLabels(this.labelTitle).subscribe(filteredLabels => {
@@ -52,6 +57,7 @@ export class LabelMenuComponent{
       });
     }
   }
+
   checkedBox(note: Note, findLabel: Label): boolean {
     const found = note.labels.find(label => label.labelId === findLabel.labelId);
     return !!found;

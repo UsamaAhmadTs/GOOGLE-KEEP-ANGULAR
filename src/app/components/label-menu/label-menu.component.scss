@@ -49,21 +49,30 @@
 .label-menu{
   min-width: 14.0625em;
   min-height: 4.75em;
+  max-height: 37vh;
   background-color: #fff;
   border-width: 0;
   box-shadow: 0 0.0625em 0.125em 0 rgba(60, 64, 67, 0.302), 0 0.125em 0.375em 0.125em rgba(60, 64, 67, 0.149);
-  position: absolute;
+  position: fixed;
   -webkit-border-radius: 0.25em;
   border-radius: 0.2em;
   z-index: 5003;
   padding: 0.375em 0;
   opacity: 1;
-  left: 13em;
-  top: 9em;
+  left: 37.7em;
+  top: 32.25em;
+  overflow-y: auto;
+}
+.label-menu::-webkit-scrollbar-thumb {
+  background-color: #cccccc;
+}
+
+.label-menu::-webkit-scrollbar-track {
+  background-color: white;
 }
 .dLabel-menu{
-  left: 13em;
-  top: 10.8em;
+  left: 37.7em;
+  top: 32.25em;
 }
 .label-title{
   height: 1.25em;
@@ -91,6 +100,10 @@
 .check{
   margin-right:0.3em ;
   margin-left:0.5em ;
+  display: inline-block;
+  height: 18px;
+  opacity: 1;
+  width: 18px;
 }
 .search{
   display: flex;
@@ -132,4 +145,11 @@
   width: 100%;
   border: none;
   outline: none;
+}
+.save-label-text{
+  color: #202124;
+  direction: ltr;
+  font-family: "Roboto",arial,sans-serif;
+  font-size: 13px;
+  margin-top: 3px;
 }

@@ -12,10 +12,13 @@ import {Label} from "./label";
 export class NotesService {
   private notes: Note[] = [];
   private labels: Label[] = [];
-  private notesSubject: BehaviorSubject<Note[]> = new BehaviorSubject<Note[]>([]);
+   notesSubject: BehaviorSubject<Note[]> = new BehaviorSubject<Note[]>([]);
   private labelsSubject: BehaviorSubject<Label[]> = new BehaviorSubject<Label[]>([]);
   private searchQuerySubject = new BehaviorSubject<string>('');
   searchQuery$: Observable<string> = this.searchQuerySubject.asObservable();
+   filteredNotesSubject: BehaviorSubject<Note[]> = new BehaviorSubject<Note[]>([]);
+  filteredNotes$: Observable<Note[]> = this.filteredNotesSubject.asObservable();
+
 
   constructor() {
     this.getNotes().subscribe((notes) => {
@@ -34,49 +37,71 @@ export class NotesService {
     const notesList = this.getNotesListFromLocalStorage();
     this.notesSubject.next(notesList);
     return this.notesSubject.asObservable();
+
   }
   getLabels(): Observable<Label[]> {
     const labelsList = this.getLabelsFromLocalStorage();
     this.labelsSubject.next(labelsList);
     return this.labelsSubject.asObservable();
   }
-
   getFilteredNotes(): Observable<Note[]> {
     return this.searchQuerySubject.pipe(
       map(searchQuery => {
         const trimmedQuery = searchQuery.trim().toLowerCase();
         if (trimmedQuery === '') {
+          this.filteredNotesSubject.next([]);
           return [];
         }
         const notesList = this.getNotesListFromLocalStorage();
-        return notesList.filter(note =>
+        const filteredNotes = notesList.filter(note =>
           note.noteTitle?.toLowerCase().includes(trimmedQuery) ||
           note.noteText?.toLowerCase().includes(trimmedQuery) ||
           note.labels.some(label => label.labelTitle.toLowerCase().includes(trimmedQuery))
         );
+        this.filteredNotesSubject.next(filteredNotes);
+        return filteredNotes;
       })
     );
   }
 
-  private getNotesListFromLocalStorage(): Note[] {
+  // getFilteredNotes(): Observable<Note[]> {
+  //   return this.searchQuerySubject.pipe(
+  //     map(searchQuery => {
+  //       const trimmedQuery = searchQuery.trim().toLowerCase();
+  //       if (trimmedQuery === '') {
+  //         return [];
+  //       }
+  //       const notesList = this.getNotesListFromLocalStorage();
+  //       return notesList.filter(note =>
+  //         note.noteTitle?.toLowerCase().includes(trimmedQuery) ||
+  //         note.noteText?.toLowerCase().includes(trimmedQuery) ||
+  //         note.labels.some(label => label.labelTitle.toLowerCase().includes(trimmedQuery))
+  //       );
+  //     })
+  //   );
+  // }
+
+   getNotesListFromLocalStorage(): Note[] {
     const notesListString = localStorage.getItem('notesList');
     return notesListString ? JSON.parse(notesListString) : [];
   }
 
-  private setNotesListToLocalStorage(notesList: Note[]): void {
+   setNotesListToLocalStorage(notesList: Note[]): void {
     localStorage.setItem('notesList', JSON.stringify(notesList));
   }
 
   getArchivedNotes(): Observable<Note[]> {
-    const notesList = this.notes;
+    const notesList = this.getNotesListFromLocalStorage();
     const archivedNotes = notesList.filter(note => note.isArchived);
+    this.notesSubject.next(notesList);
     return of(archivedNotes)
   }
 
   createNote(newNote: Note): Observable<Note[]> {
-    const notesList = this.notes;
+    const notesList = this.getNotesListFromLocalStorage();
     notesList.push(newNote);
     this.setNotesListToLocalStorage(notesList);
+    this.notesSubject.next(notesList);
     return of(notesList);
   }
 
@@ -85,11 +110,12 @@ export class NotesService {
     const notesList = this.getNotesListFromLocalStorage();
     const updatedNotes = notesList.filter(note => note.noteTitle !== newNote.noteTitle);
     this.setNotesListToLocalStorage(updatedNotes);
+    this.notesSubject.next(notesList);
     return of(updatedNotes);
   }
 
   archiveNotes(archiveNote: Note): Observable<Note[]> {
-    const notesList = this.notes;
+    const notesList = this.getNotesListFromLocalStorage();
     const updatedNotes = notesList.map(note => {
       if (note.noteTitle === archiveNote.noteTitle) {
         return {...note, ...archiveNote, display: false};
@@ -97,6 +123,7 @@ export class NotesService {
       return note;
     });
     this.setNotesListToLocalStorage(updatedNotes);
+    this.notesSubject.next(notesList);
     return of(updatedNotes);
   }
 
@@ -105,19 +132,29 @@ export class NotesService {
     const index = notesList.findIndex(note => note.noteId === updatedNote.noteId);
     if (index !== -1) {
       notesList[index] = updatedNote;
+      this.setNoteDisplayToLocalStorage(updatedNote)
       this.setNotesListToLocalStorage(notesList);
-      this.setNoteDisplayToLocalStorage(updatedNote);
+      this.notesSubject.next(notesList);
     }
     return of(notesList);
   }
 
-  private setNoteDisplayToLocalStorage(updatedNote: Note): void {
+  isMixedNotes(): boolean {
+    const filteredNotes = this.filteredNotesSubject.getValue();
+    const archived = filteredNotes.some(note => note.isArchived);
+    const unArchived = filteredNotes.some(note => !note.isArchived);
+
+    return archived && unArchived;
+  }
+
+  setNoteDisplayToLocalStorage(updatedNote: Note): void {
     const notesList = this.getNotesListFromLocalStorage();
     const index = notesList.findIndex(note => note.noteId === updatedNote.noteId);
 
     if (index !== -1) {
-      notesList[index].display = false;
+      notesList[index].display = !notesList[index].display;
       this.setNotesListToLocalStorage(notesList);
+      this.notesSubject.next(notesList);
     }
   }
 

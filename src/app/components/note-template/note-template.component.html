@@ -1,75 +1,64 @@
 <div class="notes-container">
-    <div *ngFor="let note of (highLight ? filteredNotes : notes$ | async)">
-        <div #noteElement class="note" (click)="onNoteSelected(note)" [hidden]="note.display"
-             *ngIf="(isArchiveNote ? note.isArchived : !note.isArchived)">
-            <span class="material-icons check-circle">check_circle</span>
+  <div *ngFor="let note of (highLight ? filteredNotes : notes$ | async)">
+    <div #noteElement class="note" (click)="onNoteSelected(note)" [hidden]="note.display"
+         *ngIf="(isArchiveNote ? note.isArchived : !note.isArchived)">
+      <span class="material-icons check-circle">check_circle</span>
 
-            <div *ngIf="highLight; else originalContent">
-                <div class="title" [innerHTML]="highlightMatches(note.noteTitle ?? '', highlightedSearchQuery)"></div>
-                <div class="noteText" [innerHTML]="highlightMatches(note.noteText ?? '', highlightedSearchQuery)"></div>
-            </div>
+      <div *ngIf="highLight; else originalContent">
+        <div class="title" [innerHTML]="highlightMatches(note.noteTitle ?? '', highlightedSearchQuery)"></div>
+        <div class="noteText" [innerHTML]="highlightMatches(note.noteText ?? '', highlightedSearchQuery)"></div>
+        <app-note-label-tag [slice]="true" [note]="note"></app-note-label-tag>
+      </div>
 
-            <ng-template #originalContent>
-                <div class="title">{{ note.noteTitle }}</div>
-                <div class="noteText">{{ note.noteText }}</div>
-                <div class="label-flex" (click)="stopPropagation($event)">
-                    <div *ngFor="let label of note.labels.slice(0, 2)" class="label" (mouseenter)="onMouseEnter(label)"
-                         (mouseleave)="onMouseLeave(label)">
-                        <div class="label-content">
-                            {{ label.labelTitle }}
-                            <div class="tooltip cancel-tooltip" *ngIf="label.showCancel">
-                                <img class="cancel-icon" src="./assets/images/svg/cancel.svg" alt="cancel icon"
-                                     (click)="associateLabelWithNote(label, note)">
-                                <span class="tooltip-text">Remove label</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div *ngIf="note.labels.length > 2" class="label">
-                        <div class="note-label" *ngIf="note.labels.length === 3">{{note.labels[2].labelTitle}}</div>
-                        <div class="note-label-more" *ngIf="note.labels.length > 3">+{{note.labels.length - 2}}</div>
-                    </div>
-                </div>
-            </ng-template>
+      <ng-template #originalContent>
+        <div class="title">{{ note.noteTitle }}</div>
+        <div class="noteText">{{ note.noteText }}</div>
+        <app-note-label-tag [note]="note"></app-note-label-tag>
+      </ng-template>
 
-            <div class="note-footer">
-                <div class="tooltip">
-                    <span class="material-icons-outlined hover small-icon">add_alert</span>
-                    <span class="tooltip-text">Remind me</span>
-                </div>
-                <div class="tooltip">
-                    <span class="material-icons-outlined hover small-icon">person_add</span>
-                    <span class="tooltip-text">Collaborator</span>
-                </div>
-                <div class="tooltip">
-                    <span class="material-icons-outlined hover small-icon">palette</span>
-                    <span class="tooltip-text">Change Color</span>
-                </div>
-                <div class="tooltip">
-                    <span class="material-icons-outlined hover small-icon">image</span>
-                    <span class="tooltip-text">Add Image</span>
-                </div>
-                <div class="tooltip" (click)="archiveNote(note)">
-                    <span class="material-icons-outlined hover small-icon">archive</span>
-                    <span class="tooltip-text">Archive</span>
-                </div>
-                <div class="tooltip" (click)="toggleDropdownMenu(note, $event)">
-                    <span class="material-icons-outlined hover small-icon">more_vert</span>
-                    <span class="tooltip-text">More</span>
-                </div>
-                <div [ngClass]="{'dropdown-menu-label': note.labels.length >= 1}"
-                     *ngIf="note.showDropdownMenu" class="dropdown-menu">
-                    <div class="drop-els" (click)="deleteNote(note)">Delete Note</div>
-                    <div class="drop-els" *ngIf="note.labels.length < 1" (click)="toggleLabelMenu(note, $event)">Add
-                        label
-                    </div>
-                    <div class="drop-els" *ngIf="note.labels.length >= 1" (click)="toggleLabelMenu(note, $event)">Change
-                        Label
-                    </div>
-                </div>
-                <app-label-menu [note]="note" [searchLabelText]="labelTitle"
-                                         [DialogBoxOpen]="false"></app-label-menu>
-            </div>
+      <div class="note-footer">
+        <div class="tooltip">
+          <span class="material-icons-outlined hover small-icon">add_alert</span>
+          <span class="tooltip-text">Remind me</span>
         </div>
+        <div class="tooltip">
+          <span class="material-icons-outlined hover small-icon">person_add</span>
+          <span class="tooltip-text">Collaborator</span>
+        </div>
+        <div class="tooltip">
+          <span class="material-icons-outlined hover small-icon">palette</span>
+          <span class="tooltip-text">Change Color</span>
+        </div>
+        <div class="tooltip">
+          <span class="material-icons-outlined hover small-icon">image</span>
+          <span class="tooltip-text">Add Image</span>
+        </div>
+        <div class="tooltip" *ngIf="!note.isArchived" (click)="archiveNote(note)">
+          <span class="material-icons-outlined hover small-icon">archive</span>
+          <span class="tooltip-text">Archive</span>
+        </div>
+        <div class="tooltip" *ngIf="note.isArchived" (click)="archiveNote(note)">
+          <span class="material-icons-outlined hover small-icon">archive</span>
+          <span class="tooltip-text">Unarchive</span>
+        </div>
+        <div class="tooltip" (click)="toggleDropdownMenu(note, $event)">
+          <span class="material-icons-outlined hover small-icon">more_vert</span>
+          <span class="tooltip-text">More</span>
+        </div>
+        <div [ngClass]="{'dropdown-menu-label': note.labels.length >= 1}"
+             *ngIf="note.showDropdownMenu" class="dropdown-menu">
+          <div class="drop-els" (click)="deleteNote(note)">Delete Note</div>
+          <div class="drop-els" *ngIf="note.labels.length < 1" (click)="toggleLabelMenu(note, $event)">Add
+            label
+          </div>
+          <div class="drop-els" *ngIf="note.labels.length >= 1" (click)="toggleLabelMenu(note, $event)">Change
+            Label
+          </div>
+        </div>
+        <app-label-menu [note]="note" [searchLabelText]="labelTitle"
+                        [DialogBoxOpen]="false"></app-label-menu>
+      </div>
     </div>
+  </div>
 
 </div>

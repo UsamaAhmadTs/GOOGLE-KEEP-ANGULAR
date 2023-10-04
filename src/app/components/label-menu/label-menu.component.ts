@@ -21,6 +21,7 @@ export class LabelMenuComponent {
   labels: Label[] = [];
   searchLabels: Label[] = [];
   labelTitle: string = '';
+  openedFromEditModal: boolean = true;
 
   constructor(private noteService: NotesService) {
     this.noteService.getLabels().subscribe(labels => {

@@ -37,7 +37,26 @@ export class InputComponent implements OnInit {
       this.createNote();
     }
   }
-
+  createAndArchiveNote() {
+    const title = this.notes.value.title;
+    const noteText = this.notes.value.note;
+    if (title || noteText) {
+      const newNote: Note = {
+        noteId: uuidv4(),
+        noteTitle: title || '',
+        noteText: noteText || '',
+        isArchived: true,
+        display: false,
+        showDropdownMenu: false,
+        labels: [],
+        showLabelMenu: false
+      };
+      this.notesService.createNote(newNote).subscribe(updatedNotes => {
+        this.notes.reset();
+        this.showFirst = !this.showFirst;
+      });
+    }
+  }
   createNote() {
     const title = this.notes.value.title;
     const noteText = this.notes.value.note;

@@ -1,4 +1,8 @@
-<div *ngIf="note.showLabelMenu" class="label-menu" [ngClass]="{'dLabel-menu': note.labels.length >= 1}"
+<div *ngIf="note.showLabelMenu" [ngClass]="{
+       'dLabel-menu': note.labels.length >= 1,
+       'edit-modal-style': openedFromEditModal,
+       'note-template-style': !openedFromEditModal
+     }" class="label-menu" [ngClass]="{'dLabel-menu': note.labels.length >= 1}"
      (click)="stopPropagation($event)">
   <div class="label-title">Label note</div>
   <div class="search">

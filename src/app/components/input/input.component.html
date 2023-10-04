@@ -13,7 +13,7 @@
             <input class="note-text" type="text" placeholder="Take a note..." formControlName="note"/>
             <div class="form-actions">
                 <div class="icons">
-                    <div class="tooltip">
+                    <div class="tooltip" (click)="createAndArchiveNote()">
                         <span class="material-icons-outlined hover small-icon">archive</span>
                         <span class="tooltip-text">Archive</span>
                     </div>

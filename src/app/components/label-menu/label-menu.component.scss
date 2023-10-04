@@ -63,6 +63,14 @@
   top: 32.25em;
   overflow-y: auto;
 }
+.edit-modal-style {
+  /* Styles for label menu opened from edit modal */
+}
+
+.note-template-style {
+  /* Styles for label menu opened from note template component */
+}
+
 .label-menu::-webkit-scrollbar-thumb {
   background-color: #cccccc;
 }

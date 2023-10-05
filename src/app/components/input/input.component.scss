@@ -35,6 +35,9 @@ width: 77vw;
   margin-left: 0.625em;
   width: 100%;
   margin-right: 0.625em;
+  font-weight: 500;
+  letter-spacing: .00625em;
+  font-family: "Google Sans",Roboto,Arial,sans-serif;
 }
 
 .note-text {
@@ -45,8 +48,12 @@ width: 77vw;
   margin-left: 0.625em;
   width: 100%;
   margin-right: 0.625em;
+  font-family: Roboto,Arial,sans-serif;
 }
-
+.note-text::placeholder {
+  color: #4c4c4c;
+  font-size: 1rem;
+}
 .form-actions {
   display: flex;
 }

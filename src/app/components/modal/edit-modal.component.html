@@ -1,23 +1,16 @@
 <div class="label-container">
-  <form class="drop-note" (ngSubmit)="updateNote(selectedNote)">
+  <form class="drop-note">
     <input type="text" class="note-title" name="noteTitle" placeholder="Title" [(ngModel)]="selectedNote.noteTitle">
     <input class="note-text" type="text" name="noteText" [(ngModel)]="selectedNote.noteText">
     <app-note-label-tag [slice]="false" [note]="selectedNote" [showAdditionalLabels]="false"></app-note-label-tag>
-    <div class="form-actions" [ngClass]="{'form-actions-label': selectedNote.labels.length >= 1}">
+    <div class="form-actions" [ngClass]="{'form-actions-without-label': selectedNote.labels.length === 0}">
       <div class="icons">
-        <div class="tooltip" (click)="archiveNote(selectedNote)">
-          <span class="material-icons-outlined hover small-icon">archive</span>
-          <span class="tooltip-text">Archive</span>
-        </div>
-        <div class="tooltip" (click)="toggleDropdownMenu(selectedNote,$event)">
-          <span class="material-icons-outlined hover small-icon">more_vert</span>
-          <span class="tooltip-text">More</span>
-        </div>
+        <app-note-footer [note]="selectedNote" style="display: flex;"></app-note-footer>
       </div>
-      <button class="close-btn" type="submit">Close</button>
+      <button class="close-btn" type="submit" (click)="updateNote(selectedNote)">Close</button>
     </div>
   </form>
-  <div *ngIf="selectedNote.showDropdownMenu" class="dropdown-menu">
+  <div *ngIf="selectedNote.showDropdownMenu" class="dropdown-menu" [ngClass]="{'dropdown-menu-label': selectedNote.labels.length >= 1}">
     <div class="drop-els" (click)="deleteNote(selectedNote)">Delete Note</div>
     <div class="drop-els" *ngIf="selectedNote.labels.length < 1" (click)="toggleLabelMenu(selectedNote, $event)">Add
       label
@@ -27,6 +20,6 @@
     </div>
   </div>
   <app-label-menu [note]="selectedNote" [searchLabelText]="labelTitle"
-                  [DialogBoxOpen]="false"></app-label-menu>
+                  [DialogBoxOpen]="true"></app-label-menu>
 </div>
 

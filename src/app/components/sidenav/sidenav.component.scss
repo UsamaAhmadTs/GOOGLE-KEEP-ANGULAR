@@ -3,7 +3,7 @@
   flex-direction: column;
   width: 280px;
   transition: width 0.08s;
-
+  margin-top: 1em;
   @media (max-width: 599px) {
     &:not(.close) {
       position: fixed;
@@ -62,7 +62,11 @@
       opacity: 1;
       padding: 0 12px;
     }
-
+    item:focus,
+    .item:active{
+      background-color: #FEEFC3;
+      opacity: 1.5;
+    }
     .text {
       overflow: hidden;
       text-overflow: ellipsis;
@@ -75,8 +79,11 @@
     }
 
     &:hover:not(.active) {
-      background-color: #FEEFC3;
+      background-color: #f1f3f4;
     }
   }
+}
+.focused {
+  background-color: yellow;
 }
 

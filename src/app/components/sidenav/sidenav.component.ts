@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, ElementRef} from '@angular/core';
 
 @Component({
     selector: 'app-sidenav',
@@ -6,4 +6,9 @@ import {Component} from '@angular/core';
     styleUrls: ['./sidenav.component.scss']
 })
 export class SidenavComponent {
+  onItemClick(item: ElementRef) {
+    const items = document.querySelectorAll('.item');
+    items.forEach((el) => el.classList.remove('focused'));
+    item.nativeElement.classList.add('focused');
+  }
 }

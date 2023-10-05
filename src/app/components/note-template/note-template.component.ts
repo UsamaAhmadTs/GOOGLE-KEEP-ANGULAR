@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, Input, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, Component, HostListener, Input, OnInit, Renderer2} from '@angular/core';
 
 import {NotesService} from "../notes-service";
 
@@ -21,6 +21,7 @@ import {Label} from "../label";
 export class NoteTemplateComponent implements OnInit {
   @Input() isArchiveNote: boolean = false;
   @Input() highLight: boolean = false;
+  @Input() display: boolean = false;
 
   showMixedNotes: boolean = false;
   highlightedSearchQuery: string | null = null;
@@ -30,8 +31,9 @@ export class NoteTemplateComponent implements OnInit {
   filteredNotes: Note[] | null = null;
   searchQuery$!: Observable<string | null>;
   labelTitle: string = '';
+  selectedNote: Note | null = null;
 
-  constructor(private noteService: NotesService, private dialog: MatDialog) {
+  constructor(private noteService: NotesService, private dialog: MatDialog, private renderer: Renderer2) {
     this.searchQuery$ = this.noteService.searchQuery$;
     this.notes$ = this.noteService.getNotes();
     this.notes$.subscribe((notes) => {
@@ -57,12 +59,13 @@ export class NoteTemplateComponent implements OnInit {
 
   toggleDropdownMenu(note: Note, event: Event) {
     event.stopPropagation();
+    this.selectedNote = note;
+    this.noteService.dropdownsClose(note);
     note.showDropdownMenu = !note.showDropdownMenu;
     if (note.showDropdownMenu) {
       note.showLabelMenu = false;
     }
   }
-
   toggleLabelMenu(note: Note, event: Event) {
     event.stopPropagation();
     note.showLabelMenu = !note.showLabelMenu;
@@ -77,15 +80,23 @@ export class NoteTemplateComponent implements OnInit {
 
   onNoteSelected(note: Note) {
     this.noteService.setNoteDisplayToLocalStorage(note)
+    this.selectedNote = note
     const dialogRef = this.dialog.open(EditModalComponent, {
-      data: {note},
+      data: {note}
+    });
+    if (note.showDropdownMenu || note.showLabelMenu) {
+      note.showDropdownMenu = false;
+      note.showLabelMenu = false;
+    }
+    dialogRef.afterClosed().subscribe(result => {
+      this.selectedNote=null
     });
   }
 
   deleteNote(noteToDelete: Note) {
     this.noteService.deleteNotes(noteToDelete).subscribe({
       next: updatedNotes => {
-        this.notes$ = of(updatedNotes);
+        this.notes$ = of(updatedNotes.reverse());
       }
     });
   }

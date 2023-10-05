@@ -26,8 +26,13 @@ export class EditModalComponent implements OnInit {
     ngOnInit() {
         this.selectedNote = this.data.note;
         this.dialogRef.afterClosed().subscribe(() => {
-            this.updateNote(this.selectedNote)
+            this.updateNote(this.selectedNote);
+            this.selectedNote.showDropdownMenu = false;
+            this.selectedNote.showLabelMenu = false;
         });
+      window.addEventListener('beforeunload', () => {
+        this.dialogRef.close();
+      });
     }
 
     toggleDropdownMenu(note: Note, event: Event) {
@@ -56,6 +61,7 @@ export class EditModalComponent implements OnInit {
         note.isArchived = !note.isArchived;
         this.notesService.archiveNotes(note).subscribe(updatedNotes => {
             this.notes = updatedNotes;
+          this.dialogRef.close();
         });
     }
 

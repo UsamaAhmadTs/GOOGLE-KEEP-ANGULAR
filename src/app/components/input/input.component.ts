@@ -20,6 +20,7 @@ export class InputComponent implements OnInit {
   showFirst = true;
   showDropdownMenu = false;
   notes!: FormGroup;
+  clickCounter: number = 0;
 
   constructor(private formBuilder: FormBuilder, private notesService: NotesService) {
   }
@@ -34,52 +35,30 @@ export class InputComponent implements OnInit {
   @HostListener('document:click', ['$event'])
   clickOutside(event: Event) {
     if (!this.dropNote.nativeElement.contains(event.target)) {
-      this.createNote();
-    }
-  }
-  createAndArchiveNote() {
-    const title = this.notes.value.title;
-    const noteText = this.notes.value.note;
-    if (title || noteText) {
-      const newNote: Note = {
-        noteId: uuidv4(),
-        noteTitle: title || '',
-        noteText: noteText || '',
-        isArchived: true,
-        display: false,
-        showDropdownMenu: false,
-        labels: [],
-        showLabelMenu: false
-      };
-      this.notesService.createNote(newNote).subscribe(updatedNotes => {
-        this.notes.reset();
-        this.showFirst = !this.showFirst;
-      });
-    }
-  }
-  createNote() {
-    const title = this.notes.value.title;
-    const noteText = this.notes.value.note;
-    if (title || noteText) {
-      const newNote: Note = {
-        noteId: uuidv4(),
-        noteTitle: title || '',
-        noteText: noteText || '',
-        isArchived: false,
-        display: false,
-        showDropdownMenu: false,
-        labels: [],
-        showLabelMenu: false
-      };
-      this.notesService.createNote(newNote).subscribe(updatedNotes => {
-        this.notes.reset();
-        this.showFirst = !this.showFirst;
-      });
+      this.createNote(false);
     }
   }
 
-  toggleDropdownMenu() {
-    this.showDropdownMenu = !this.showDropdownMenu;
+  createNote(isArchived: boolean) {
+    const title = this.notes.value.title;
+    const noteText = this.notes.value.note;
+
+    if (title || noteText) {
+      const newNote: Note = {
+        noteId: uuidv4(),
+        noteTitle: title || '',
+        noteText: noteText || '',
+        isArchived,
+        display: false,
+        showDropdownMenu: false,
+        labels: [],
+        showLabelMenu: false
+      };
+      this.notesService.createNote(newNote).subscribe(updatedNotes => {
+        this.notes.reset();
+        this.showFirst = !this.showFirst;
+      });
+    }
   }
 
   toggleDivs() {

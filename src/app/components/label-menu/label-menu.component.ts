@@ -15,13 +15,12 @@ import {v4 as uuidv4} from "uuid";
 })
 export class LabelMenuComponent {
   @Input() labelDropdown: boolean = false;
-  @Input() DialogBoxOpen: boolean = false;
+  @Input() DialogBoxOpen!: boolean;
   @Input() note!: Note;
   @ Input() searchLabelText: string = '';
   labels: Label[] = [];
   searchLabels: Label[] = [];
   labelTitle: string = '';
-  openedFromEditModal: boolean = true;
 
   constructor(private noteService: NotesService) {
     this.noteService.getLabels().subscribe(labels => {

@@ -1,0 +1,12 @@
+<div class="tooltip" *ngIf="!note.isArchived" (click)="archiveNote(note)">
+  <span class="material-icons-outlined hover small-icon">archive</span>
+  <span class="tooltip-text">Archive</span>
+</div>
+<div class="tooltip" *ngIf="note.isArchived" (click)="archiveNote(note)">
+  <span class="material-icons-outlined hover small-icon">archive</span>
+  <span class="tooltip-text">Unarchive</span>
+</div>
+<div class="tooltip" (click)="toggleDropdownMenu(note, $event)">
+  <span class="material-icons-outlined hover small-icon">more_vert</span>
+  <span class="tooltip-text">More</span>
+</div>

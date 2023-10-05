@@ -42,15 +42,19 @@
 .notes-container {
   display: flex;
   flex-wrap: wrap;
-
+  margin-left: 5em;
   flex: 0 0 33.33%; /* Three notes in a row */
   box-sizing: border-box;
   padding: 0.5em; /* Add some spacing around each note */
-  justify-content: center;
+  justify-content: flex-start;
 }
 .dropdown-menu-label{
   left: 16em !important;
   top: 13.6em !important;
+}
+.single-input-note{
+  left: 16em !important;
+  top: 9em !important;
 }
 .dropdown-menu{
   user-select: none;
@@ -313,4 +317,23 @@
 .material-icons-outline {
   color: #5f6368;
 }
+.note-opacity{
+  opacity: 0 ;
+}
+.emptyNote {
+  min-height: 4.875em;
+  .dropdown-menu, .label-menu {
+    left: 15.3em;
+    top: 13em;
+  }
+}
+.empty {
+  color: #5f6368;
+  font-family: "Google Sans", Roboto, Arial, sans-serif;
+  font-size: 1.375rem;
+  font-weight: 400;
+  letter-spacing: 0;
+  line-height: 1.75rem;
+  padding: 1.875em 0.9375em 0 0.9375em;
 
+}

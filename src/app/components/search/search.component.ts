@@ -4,7 +4,7 @@ import {NotesService} from "../notes-service";
 
 import {Note} from "../note";
 
-import {Observable} from "rxjs";
+import {Observable, Subject} from "rxjs";
 
 @Component({
   selector: 'app-search',
@@ -15,6 +15,7 @@ export class SearchComponent implements OnInit {
   filteredNotes$: Observable<Note[]>;
   searchQuery$: Observable<string | null>;
   notes: Note[] = [];
+
   constructor(private noteService: NotesService) {
     this.searchQuery$ = this.noteService.searchQuery$;
     this.filteredNotes$ = this.noteService.filteredNotes$;

@@ -5,7 +5,9 @@
   opacity: 0.2;
   width: 120px;
 }
-
+.noteBody{
+  align-items: center;
+}
 .text{
   color: #5f6368;
   cursor: default;
@@ -28,6 +30,6 @@
   flex-wrap: wrap;
   flex: 0 0 33.33%; /* Three notes in a row */
   box-sizing: border-box;
-  padding: 8px; /* Add some spacing around each note */
+  padding: 8px;
   justify-content: flex-start;
 }

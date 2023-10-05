@@ -59,9 +59,27 @@
   z-index: 5003;
   padding: 0.375em 0;
   opacity: 1;
-  left: 37.7em;
-  top: 32.25em;
+  left: 32em;
+  top: 21.25em;
   overflow-y: auto;
+}
+.simple-Label-menu-without-label{
+  position: absolute;
+  left: 13em;
+  top: 9.25em;
+}
+.simple-Label-menu-with-label{
+  position: absolute;
+  left: 13em;
+  top: 11.25em;
+}
+.modal-Label-menu-with-label{
+  left: 37.7em;
+  top: 33.4em;
+}
+.modal-Label-menu-without-label{
+  left: 37.7em;
+  top: 33.5em;
 }
 .edit-modal-style {
   /* Styles for label menu opened from edit modal */
@@ -80,7 +98,7 @@
 }
 .dLabel-menu{
   left: 37.7em;
-  top: 32.25em;
+  top: 33.3em;
 }
 .label-title{
   height: 1.25em;

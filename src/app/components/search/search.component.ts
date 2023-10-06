@@ -4,7 +4,7 @@ import {NotesService} from "../notes-service";
 
 import {Note} from "../note";
 
-import {Observable, Subject} from "rxjs";
+import {Observable} from "rxjs";
 
 @Component({
   selector: 'app-search',
@@ -21,13 +21,14 @@ export class SearchComponent implements OnInit {
     this.filteredNotes$ = this.noteService.filteredNotes$;
   }
 
-  isMixedNotes(): boolean {
-    return this.noteService.isMixedNotes();
-  }
-
   ngOnInit(): void {
     this.filteredNotes$.subscribe((filteredNotes) => {
       this.notes = filteredNotes;
     });
   }
+
+  isMixedNotes(): boolean {
+    return this.noteService.isMixedNotes();
+  }
+
 }

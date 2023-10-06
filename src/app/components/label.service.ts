@@ -1,7 +1,11 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
+
 import {Label} from "./label";
+
 import {Note} from "./note";
+
 import {BehaviorSubject, Observable, of} from "rxjs";
+
 import {NotesService} from "./notes-service";
 
 @Injectable({
@@ -10,7 +14,19 @@ import {NotesService} from "./notes-service";
 export class LabelService {
   private labels: Label[] = [];
   private labelsSubject: BehaviorSubject<Label[]> = new BehaviorSubject<Label[]>([]);
-  constructor(private noteService: NotesService) { }
+
+  constructor(private noteService: NotesService) {
+    this.getLabels().subscribe((labels) => {
+      this.labels = labels;
+    });
+  }
+
+  getLabels(): Observable<Label[]> {
+    const labelsList = this.getLabelsFromLocalStorage();
+    this.labelsSubject.next(labelsList);
+    return this.labelsSubject.asObservable();
+  }
+
   private getLabelsFromLocalStorage(): Label[] {
     const labelsString = localStorage.getItem('labels');
     return labelsString ? JSON.parse(labelsString) : [];
@@ -20,7 +36,7 @@ export class LabelService {
     localStorage.setItem('labels', JSON.stringify(labels));
   }
 
-  createLabel(newLabel: Label, note: Note): Observable<Label[]> {
+  createLabel(newLabel: Label): Observable<Label[]> {
     const labels: Label[] = this.labels;
     const existingLabel = labels.find(label => label.labelTitle === newLabel.labelTitle);
 
@@ -30,13 +46,6 @@ export class LabelService {
     labels.push(newLabel);
     this.setLabelsToLocalStorage(labels);
     return of(labels);
-  }
-
-  deleteLabel(labelToDelete: Label): Observable<Label[]> {
-    const labelsList = this.getLabelsFromLocalStorage();
-    const updatedLabels = labelsList.filter(label => label.labelTitle !== labelToDelete.labelTitle);
-    this.setLabelsToLocalStorage(updatedLabels);
-    return of(updatedLabels);
   }
 
   associateLabelWithNote(label: Label, note: Note): Observable<Label[]> {

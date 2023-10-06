@@ -16,11 +16,9 @@ import {v4 as uuidv4} from "uuid";
 export class InputComponent implements OnInit {
   @ViewChild('dropNote') dropNote!: ElementRef;
   @ViewChild('mainNote') mainNote!: ElementRef;
-
+  note!: Note;
   showFirst = true;
-  showDropdownMenu = false;
   notes!: FormGroup;
-  clickCounter: number = 0;
 
   constructor(private formBuilder: FormBuilder, private notesService: NotesService) {
   }
@@ -30,13 +28,6 @@ export class InputComponent implements OnInit {
       title: '',
       note: ''
     })
-  }
-
-  @HostListener('document:click', ['$event'])
-  clickOutside(event: Event) {
-    if (!this.dropNote.nativeElement.contains(event.target)) {
-      this.createNote(false);
-    }
   }
 
   createNote(isArchived: boolean) {
@@ -58,11 +49,13 @@ export class InputComponent implements OnInit {
         this.notes.reset();
         this.showFirst = !this.showFirst;
       });
+    } else {
+      this.showFirst = !this.showFirst;
     }
   }
 
   toggleDivs() {
-    this.showFirst = !this.showFirst;
+    this.showFirst = !this.showFirst
   }
 
 }

@@ -11,6 +11,7 @@ import {MatDialog} from "@angular/material/dialog";
 import {Observable, of} from "rxjs";
 
 import {Label} from "../label";
+import {LabelService} from "../label.service";
 
 @Component({
   selector: 'app-note-template',
@@ -26,14 +27,13 @@ export class NoteTemplateComponent implements OnInit {
   showMixedNotes: boolean = false;
   highlightedSearchQuery: string | null = null;
   notes$: Observable<Note[]> = this.noteService.notesSubject.asObservable();
-
   labels: Label[] = [];
   filteredNotes: Note[] | null = null;
   searchQuery$!: Observable<string | null>;
   labelTitle: string = '';
   selectedNote: Note | null = null;
 
-  constructor(private noteService: NotesService, private dialog: MatDialog, private renderer: Renderer2) {
+  constructor(private noteService: NotesService,private labelService: LabelService, private dialog: MatDialog, private renderer: Renderer2) {
     this.searchQuery$ = this.noteService.searchQuery$;
     this.notes$ = this.noteService.getNotes();
     this.notes$.subscribe((notes) => {
@@ -42,7 +42,7 @@ export class NoteTemplateComponent implements OnInit {
         observer.complete();
       });
     });
-    this.noteService.getLabels().subscribe(labels => {
+    this.labelService.getLabels().subscribe(labels => {
       this.labels = labels;
     });
     this.noteService.getFilteredNotes().subscribe(filteredNotes => {
@@ -55,11 +55,11 @@ export class NoteTemplateComponent implements OnInit {
     this.searchQuery$.subscribe(query => {
       this.highlightedSearchQuery = query;
     });
+    this.noteService.dropClose()
   }
 
   toggleDropdownMenu(note: Note, event: Event) {
     event.stopPropagation();
-    this.selectedNote = note;
     this.noteService.dropdownsClose(note);
     note.showDropdownMenu = !note.showDropdownMenu;
     if (note.showDropdownMenu) {
@@ -81,24 +81,26 @@ export class NoteTemplateComponent implements OnInit {
   onNoteSelected(note: Note) {
     this.noteService.setNoteDisplayToLocalStorage(note)
     this.selectedNote = note
-    const dialogRef = this.dialog.open(EditModalComponent, {
-      data: {note}
-    });
     if (note.showDropdownMenu || note.showLabelMenu) {
       note.showDropdownMenu = false;
       note.showLabelMenu = false;
     }
+    const dialogRef = this.dialog.open(EditModalComponent, {
+      data: {note}
+    });
+
     dialogRef.afterClosed().subscribe(result => {
       this.selectedNote=null
     });
   }
 
-  deleteNote(noteToDelete: Note) {
+  deleteNote(noteToDelete: Note, event: Event) {
     this.noteService.deleteNotes(noteToDelete).subscribe({
       next: updatedNotes => {
         this.notes$ = of(updatedNotes.reverse());
       }
     });
+    event.stopPropagation();
   }
 
   archiveNote(note: Note) {

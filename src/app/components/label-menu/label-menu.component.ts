@@ -4,9 +4,9 @@ import {Label} from "../label";
 
 import {Note} from "../note";
 
-import {NotesService} from "../notes-service";
-
 import {v4 as uuidv4} from "uuid";
+
+import {LabelService} from "../label.service";
 
 @Component({
   selector: 'app-label-menu',
@@ -17,20 +17,20 @@ export class LabelMenuComponent {
   @Input() labelDropdown: boolean = false;
   @Input() DialogBoxOpen!: boolean;
   @Input() note!: Note;
-  @ Input() searchLabelText: string = '';
+  @Input() searchLabelText: string = '';
   labels: Label[] = [];
   searchLabels: Label[] = [];
   labelTitle: string = '';
 
-  constructor(private noteService: NotesService) {
-    this.noteService.getLabels().subscribe(labels => {
+  constructor(private labelService: LabelService) {
+    this.labelService.getLabels().subscribe(labels => {
       this.labels = labels;
     });
   }
 
   associateLabelWithNote(label: Label, note: Note) {
 
-    this.noteService.associateLabelWithNote(label, note).subscribe();
+    this.labelService.associateLabelWithNote(label, note).subscribe();
   }
 
   createLabel(labelTitle: string, note: Note) {
@@ -40,7 +40,7 @@ export class LabelMenuComponent {
         labelTitle: labelTitle,
         showCancel: false
       };
-      this.noteService.createLabel(newLabel, note);
+      this.labelService.createLabel(newLabel);
       this.associateLabelWithNote(newLabel, note);
       this.labelTitle = '';
     }
@@ -52,7 +52,7 @@ export class LabelMenuComponent {
 
   searchLabel(): void {
     if (this.labelTitle) {
-      this.noteService.searchLabels(this.labelTitle).subscribe(filteredLabels => {
+      this.labelService.searchLabels(this.labelTitle).subscribe(filteredLabels => {
         this.searchLabels = filteredLabels;
       });
     }

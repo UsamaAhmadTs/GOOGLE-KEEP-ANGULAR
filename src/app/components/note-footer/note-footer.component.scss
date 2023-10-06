@@ -5,7 +5,7 @@
 
 .form-actions .icons {
   display: flex;
-  margin-left: 14em;
+  margin-left: 1em;
 }
 
 .form-actions {
@@ -13,6 +13,7 @@
   justify-content: space-between;
   width: 100%;
   margin-top: 1.75em;
+
 }
 
 .close-btn {
@@ -31,6 +32,7 @@
 
 .tooltip {
   position: relative;
+  margin-right: 1em;
 }
 
 .tooltip-text {
@@ -53,7 +55,7 @@
   visibility: visible;
 }
 .material-icons-outlined {
-  color: #5f6368;
+  color: #5f6368 !important;
 }
 
 .small-icon {

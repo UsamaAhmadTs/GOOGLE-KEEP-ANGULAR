@@ -11,27 +11,19 @@ import {defaultIfEmpty, map, Observable} from "rxjs";
   templateUrl: './notes.component.html',
   styleUrls: ['./notes.component.scss']
 })
-export class NotesComponent {
-
-  notes$: Observable<Note[]> = this.notesService.notesSubject.asObservable();
-  archivePresent$: Observable<boolean>;
-  notesPresent$: Observable<boolean>;
-
-  constructor(private notesService: NotesService) {
-    this.notes$ = this.notesService.getNotes();
-    this.notes$.subscribe((notes) => {
-      this.notes$ = new Observable((observer) => {
-        observer.next(notes);
-        observer.complete();
-      });
-    });
-    this.archivePresent$ = this.notes$.pipe(
+export class NotesComponent{
+  notes$: Observable<Note[]>;
+  notesPresent$!: Observable<number>;
+  archiveNotesPresent$!: Observable<boolean>;
+  constructor(private noteService: NotesService) {
+    this.notes$ = this.noteService.getNotes();
+    this.notesPresent$ = this.notes$.pipe(
+      map((notes) => notes.length),
+      defaultIfEmpty(0)
+    );
+    this.archiveNotesPresent$ = this.notes$.pipe(
       map(notes => notes.every(note => note.isArchived))
     );
-
-    this.notesPresent$ = this.notes$.pipe(
-      map(notes => notes.length > 0),
-      defaultIfEmpty(false)
-    );
   }
+
 }

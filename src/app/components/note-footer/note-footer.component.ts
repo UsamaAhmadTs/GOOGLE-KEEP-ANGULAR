@@ -1,12 +1,8 @@
-import {Component, Input} from '@angular/core';
+import {Component, EventEmitter, Input, Output} from '@angular/core';
 
 import {Note} from "../note";
 
-import {EditModalComponent} from "../modal/edit-modal.component";
-
 import {NotesService} from "../notes-service";
-
-import {MatDialogRef} from "@angular/material/dialog";
 
 @Component({
   selector: 'app-note-footer',
@@ -15,7 +11,9 @@ import {MatDialogRef} from "@angular/material/dialog";
 })
 export class NoteFooterComponent {
   @Input() note!: Note;
-  constructor(private noteService: NotesService, private dialogRef: MatDialogRef<EditModalComponent>) {
+  @Output() archiveEvent: EventEmitter<void> = new EventEmitter<void>();
+  @Input() createArchive = true;
+  constructor(private noteService: NotesService) {
   }
   toggleDropdownMenu(note: Note, event: Event) {
     event.stopPropagation();
@@ -27,8 +25,9 @@ export class NoteFooterComponent {
   archiveNote(note: Note) {
     note.isArchived = !note.isArchived;
     this.noteService.archiveNotes(note).subscribe(updatedNotes => {
-      this.dialogRef.close();
+      this.archiveEvent.emit();
     });
   }
+
 }
 

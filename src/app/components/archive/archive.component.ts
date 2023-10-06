@@ -13,6 +13,7 @@ import {Observable} from "rxjs";
 })
 export class ArchiveComponent {
   archiveNotes$!: Observable<Note[]>;
+
   constructor(private notesService: NotesService) {
     this.archiveNotes$ = this.notesService.getArchivedNotes();
   }

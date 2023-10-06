@@ -2,6 +2,7 @@
   <div class="notes-container">
     <div *ngFor="let note of (highLight ? filteredNotes : notes$ | async)">
       <div #noteElement class="note" (click)="onNoteSelected(note)" [hidden]="note.display"
+           [style.opacity]="selectedNote === note ? '0' : '1'"
            [ngStyle]="{'emptyNote': note.noteTitle=='' || note.noteText==''}"
            *ngIf="(isArchiveNote ? note.isArchived : !note.isArchived)">
         <div>
@@ -53,7 +54,7 @@
             <div [ngClass]="{'dropdown-menu-label': note.labels.length >= 1,
           'single-input-note': note.noteTitle === '' || note.noteText === ''}"
                  *ngIf="note.showDropdownMenu" class="dropdown-menu">
-              <div class="drop-els" (click)="deleteNote(note)">Delete Note</div>
+              <div class="drop-els" (click)="deleteNote(note, $event)">Delete Note</div>
               <div class="drop-els" *ngIf="note.labels.length < 1" (click)="toggleLabelMenu(note, $event)">Add
                 label
               </div>

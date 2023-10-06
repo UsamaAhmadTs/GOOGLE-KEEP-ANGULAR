@@ -80,8 +80,10 @@ width: 77vw;
   background: none;
   border: none;
   cursor: pointer;
-  font-size: 1rem;
-  color: #5f6368;
+  font-size: 0.875rem;
+  font-family: "Google Sans",Roboto,Arial,sans-serif;
+  color: rgba(0,0,0,.87);
+  margin-right: 2em;
 }
 
 .small-icon {
@@ -99,11 +101,27 @@ width: 77vw;
   border-radius: 50%;
   cursor: pointer;
 }
+.tooltip-undo{
+  margin-top: 0.5em;
+  margin-right: 1em;
+}
+.tooltip-redo{
+  margin-top: 0.5em;
+  margin-left: 1em;
 
+}
 .tooltip {
   position: relative;
+  margin-left: 2em;
 }
-
+.tooltip-last{
+  position: relative;
+  margin-left: 2em;
+  margin-right: 2em;
+}
+.form-actions .icons {
+  display: flex;
+}
 .tooltip-text {
   position: absolute;
   left: 0;
@@ -169,5 +187,5 @@ input:focus {
 }
 
 .material-icons-outlined {
-  color: #5f6368;
+  color: #5f6368 !important;
 }

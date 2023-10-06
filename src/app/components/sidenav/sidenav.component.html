@@ -1,6 +1,6 @@
 <div sideBar class="main-sidebar">
     <div>
-        <div class="item" routerLink="/notes" #notesItem >
+        <div class="item" routerLink="/notes" (click)="onNoteClick()" [ngClass]="{'background-color':notesClicked}" >
             <img src="./assets/images/svg/lamp.svg" alt="lamp" class="pic">
             <span class="text">Notes</span>
         </div>
@@ -12,7 +12,7 @@
             <img src="./assets/images/svg/pen.svg" alt="pen" class="pic">
             <span class="text">Edit labels</span>
         </div>
-        <div class="item" routerLink="/archived">
+        <div class="item" routerLink="/archived" (click)="onArchiveClick()" [ngClass]="{'background-color':archiveClicked}">
             <img src="./assets/images/svg/archive.svg" alt="archive" class="pic">
             <span class="text">Archive</span>
         </div>

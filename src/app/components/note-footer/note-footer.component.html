@@ -1,3 +1,23 @@
+<div class="tooltip">
+  <span class="material-icons-outlined hover small-icon">add_alert</span>
+  <span class="tooltip-text">Remind me</span>
+</div>
+<div class="tooltip">
+  <span class="material-icons-outlined hover small-icon">person_add</span>
+  <span class="tooltip-text">Collaborator</span>
+</div>
+<div class="tooltip">
+  <span class="material-icons-outlined hover small-icon">palette</span>
+  <span class="tooltip-text">Change Color</span>
+</div>
+<div class="tooltip">
+  <span class="material-icons-outlined hover small-icon">image</span>
+  <span class="tooltip-text">Add Image</span>
+</div>
+<div class="tooltip" *ngIf="createArchive" >
+  <span class="material-icons-outlined hover small-icon">archive</span>
+  <span class="tooltip-text">Archive</span>
+</div>
 <div class="tooltip" *ngIf="!note.isArchived" (click)="archiveNote(note)">
   <span class="material-icons-outlined hover small-icon">archive</span>
   <span class="tooltip-text">Archive</span>

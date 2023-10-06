@@ -149,3 +149,9 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
   top: 2.25em;
   overflow-y: hidden;
 }
+
+.mat-mdc-dialog-container .mdc-dialog__surface{
+  border-radius: 0.5em!important;
+  position: relative !important;
+  top: -8em !important;
+}

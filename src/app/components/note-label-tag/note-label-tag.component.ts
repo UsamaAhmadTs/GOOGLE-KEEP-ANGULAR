@@ -4,7 +4,7 @@ import {Note} from "../note";
 
 import {Label} from "../label";
 
-import {NotesService} from "../notes-service";
+import {LabelService} from "../label.service";
 
 @Component({
   selector: 'app-note-label-tag',
@@ -16,7 +16,7 @@ export class NoteLabelTagComponent {
   @Input() showAdditionalLabels: boolean = true;
   @Input() slice: boolean = true;
 
-  constructor(private noteService: NotesService) {
+  constructor(private labelService: LabelService) {
   }
 
   stopPropagation(event: Event) {
@@ -36,6 +36,6 @@ export class NoteLabelTagComponent {
   }
 
   associateLabelWithNote(label: Label, note: Note) {
-    this.noteService.associateLabelWithNote(label, note).subscribe();
+    this.labelService.associateLabelWithNote(label, note).subscribe();
   }
 }

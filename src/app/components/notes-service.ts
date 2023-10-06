@@ -1,37 +1,30 @@
 import {Injectable} from '@angular/core';
 
-import {BehaviorSubject, map, Observable, of, tap} from "rxjs";
+import {BehaviorSubject, map, Observable, of} from "rxjs";
 
 import {Note} from './note';
-
-import {Label} from "./label";
 
 @Injectable({
   providedIn: 'root'
 })
 export class NotesService {
   private notes: Note[] = [];
-  private labels: Label[] = [];
-   notesSubject: BehaviorSubject<Note[]> = new BehaviorSubject<Note[]>([]);
-  private labelsSubject: BehaviorSubject<Label[]> = new BehaviorSubject<Label[]>([]);
+  notesSubject: BehaviorSubject<Note[]> = new BehaviorSubject<Note[]>([]);
   private searchQuerySubject = new BehaviorSubject<string>('');
   searchQuery$: Observable<string> = this.searchQuerySubject.asObservable();
-   filteredNotesSubject: BehaviorSubject<Note[]> = new BehaviorSubject<Note[]>([]);
+  filteredNotesSubject: BehaviorSubject<Note[]> = new BehaviorSubject<Note[]>([]);
   filteredNotes$: Observable<Note[]> = this.filteredNotesSubject.asObservable();
-
 
   constructor() {
     this.getNotes().subscribe((notes) => {
       this.notes = notes.reverse();
-    });
-    this.getLabels().subscribe((labels) => {
-      this.labels = labels;
     });
   }
 
   setSearchQuery(searchQuery$: string) {
     this.searchQuerySubject.next(searchQuery$);
   }
+
   dropdownsClose(noteSelected: Note): void {
     this.notes.forEach((note) => {
       if ((note.showDropdownMenu || note.showLabelMenu) && note !== noteSelected) {
@@ -40,18 +33,25 @@ export class NotesService {
       }
     });
   }
+
+  dropClose(): void {
+    this.notes.forEach((note) => {
+      if ((note.showDropdownMenu || note.showLabelMenu)) {
+        note.showDropdownMenu = false;
+        note.showLabelMenu = false;
+      }
+    });
+  }
+
   getNotes(): Observable<Note[]> {
     const notesList = this.getNotesListFromLocalStorage();
     this.notesSubject.next(notesList);
     return this.notesSubject.asObservable();
 
   }
-  getLabels(): Observable<Label[]> {
-    const labelsList = this.getLabelsFromLocalStorage();
-    this.labelsSubject.next(labelsList);
-    return this.labelsSubject.asObservable();
-  }
+
   getFilteredNotes(): Observable<Note[]> {
+    this.dropClose();
     return this.searchQuerySubject.pipe(
       map(searchQuery => {
         const trimmedQuery = searchQuery.trim().toLowerCase();
@@ -69,14 +69,15 @@ export class NotesService {
         return filteredNotes;
       })
     );
+
   }
 
-   getNotesListFromLocalStorage(): Note[] {
+  getNotesListFromLocalStorage(): Note[] {
     const notesListString = localStorage.getItem('notesList');
     return notesListString ? JSON.parse(notesListString) : [];
   }
 
-   setNotesListToLocalStorage(notesList: Note[]): void {
+  setNotesListToLocalStorage(notesList: Note[]): void {
     localStorage.setItem('notesList', JSON.stringify(notesList));
   }
 
@@ -98,16 +99,18 @@ export class NotesService {
 
   deleteNotes(newNote: Note): Observable<Note[]> {
     const notesList = this.getNotesListFromLocalStorage();
-    const updatedNotes = notesList.filter(note => note.noteTitle !== newNote.noteTitle);
+    const updatedNotes = notesList.filter(note => note.noteId !== newNote.noteId);
     this.setNotesListToLocalStorage(updatedNotes);
+
     this.notesSubject.next(notesList);
     return of(updatedNotes);
   }
 
   archiveNotes(archiveNote: Note): Observable<Note[]> {
+    this.dropClose()
     const notesList = this.getNotesListFromLocalStorage();
     const updatedNotes = notesList.map(note => {
-      if (note.noteTitle === archiveNote.noteTitle) {
+      if (note.noteId === archiveNote.noteId) {
         return {...note, ...archiveNote, display: false};
       }
       return note;
@@ -122,7 +125,6 @@ export class NotesService {
     const index = notesList.findIndex(note => note.noteId === updatedNote.noteId);
     if (index !== -1) {
       notesList[index] = updatedNote;
-      this.setNoteDisplayToLocalStorage(updatedNote)
       this.setNotesListToLocalStorage(notesList);
       this.notesSubject.next(notesList);
     }
@@ -146,69 +148,6 @@ export class NotesService {
       this.setNotesListToLocalStorage(notesList);
       this.notesSubject.next(notesList);
     }
-  }
-
-  private getLabelsFromLocalStorage(): Label[] {
-    const labelsString = localStorage.getItem('labels');
-    return labelsString ? JSON.parse(labelsString) : [];
-  }
-
-  private setLabelsToLocalStorage(labels: Label[]): void {
-    localStorage.setItem('labels', JSON.stringify(labels));
-  }
-
-  createLabel(newLabel: Label, note: Note): Observable<Label[]> {
-    const labels: Label[] = this.labels;
-    const existingLabel = labels.find(label => label.labelTitle === newLabel.labelTitle);
-
-    if (existingLabel) {
-      return of([existingLabel]);
-    }
-    labels.push(newLabel);
-    this.setLabelsToLocalStorage(labels);
-    return of(labels);
-  }
-
-  deleteLabel(labelToDelete: Label): Observable<Label[]> {
-    const labelsList = this.getLabelsFromLocalStorage();
-    const updatedLabels = labelsList.filter(label => label.labelTitle !== labelToDelete.labelTitle);
-    this.setLabelsToLocalStorage(updatedLabels);
-    return of(updatedLabels);
-  }
-
-  associateLabelWithNote(label: Label, note: Note): Observable<Label[]> {
-    if (!note.labels) {
-      note.labels = [];
-    }
-
-    const labelIndex = note.labels.findIndex(l => l.labelId === label.labelId);
-
-    if (labelIndex !== -1) {
-      note.labels.splice(labelIndex, 1);
-    } else {
-      note.labels.push(label);
-
-    }
-    this.setNoteLabelsToLocalStorage(note);
-    return of(note.labels);
-  }
-
-  private setNoteLabelsToLocalStorage(updatedNote: Note): void {
-    const notesList = this.getNotesListFromLocalStorage();
-    const index = notesList.findIndex(note => note.noteId === updatedNote.noteId);
-
-    if (index !== -1) {
-      notesList[index].labels = updatedNote.labels;
-      this.setNotesListToLocalStorage(notesList);
-    }
-  }
-
-  searchLabels(searchText: string): Observable<Label[]> {
-    const labelsList = this.getLabelsFromLocalStorage();
-    const filteredLabels = labelsList.filter(label =>
-      label.labelTitle.toLowerCase().includes(searchText.toLowerCase())
-    );
-    return of(filteredLabels);
   }
 
 }

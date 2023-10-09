@@ -44,7 +44,7 @@ export class NoteTemplateComponent implements OnInit {
   highlightedSearchQuery: string | null = null;
   notes$: Observable<Note[]> = this.noteService.notesSubject.asObservable();
   labels: Label[] = [];
-  filteredNotes$: Observable<Note[]> = this.noteService.filteredNotesSubject.asObservable()
+  filteredNotes!: Note[]
   searchQuery$!: Observable<string | null>;
   labelTitle: string = '';
   selectedNote: Note | null = null;
@@ -64,16 +64,11 @@ export class NoteTemplateComponent implements OnInit {
       this.labels = labels;
     });
     this.filteredNotesSubscription = this.noteService.getFilteredNotes().subscribe(filteredNotes => {
-      console.log("filter")
-      this.filteredNotes$ = new Observable((observer) => {
-        observer.next(filteredNotes);
-        observer.complete();
-        this.showMixedNotes = false;
-      });
+      this.filteredNotes = filteredNotes;
+      this.showMixedNotes = false;
     });
   }
-  // this.filteredNotes = filteredNotes.reverse();
-  // this.showMixedNotes = false;
+
   ngOnInit() {
     this.searchQuery$.subscribe(query => {
       this.highlightedSearchQuery = query;
@@ -82,11 +77,14 @@ export class NoteTemplateComponent implements OnInit {
   }
   archiveNote(note: Note) {
     if (this.router.url === '/search'){
-      note.isArchived = !note.isArchived;
-      this.noteService.archiveSearchNotes(note).subscribe(({ updatedNotes, filteredNotes }) => {
-        this.filteredNotes$ = of(filteredNotes);
+      this.noteService.archiveSearchNotes(note).subscribe(({ updatedNotes }) => {
+        console.log(updatedNotes)
         this.notes$ = of(updatedNotes);
-        console.log(this.filteredNotes$)
+      });
+      this.filteredNotesSubscription = this.noteService.getFilteredNotes().subscribe(filteredNotes => {
+        this.filteredNotes = filteredNotes;
+        console.log(filteredNotes)
+        this.showMixedNotes = false;
       });
     }
     else if (!note.isArchived){

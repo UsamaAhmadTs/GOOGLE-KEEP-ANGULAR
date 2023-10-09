@@ -1,8 +1,9 @@
 import {Injectable} from '@angular/core';
 
-import {BehaviorSubject, map, mergeMap, Observable, of} from "rxjs";
+import {BehaviorSubject, map, Observable, of} from "rxjs";
 
 import {Note} from './note';
+
 import {Router} from "@angular/router";
 
 @Injectable({
@@ -71,8 +72,9 @@ export class NotesService {
     );
 
   }
-  archiveSearchNotes(archiveNote: Note): Observable<{ updatedNotes: Note[], filteredNotes: Note[] }> {
+  archiveSearchNotes(archiveNote: Note): Observable<{ updatedNotes: Note[]}> {
     this.dropClose();
+    archiveNote.isArchived = !archiveNote.isArchived;
     const notesList = this.getNotesListFromLocalStorage();
     const updatedNotes = notesList.map(note => {
       if (note.noteId === archiveNote.noteId) {
@@ -82,19 +84,7 @@ export class NotesService {
     });
     this.setNotesListToLocalStorage(updatedNotes);
     this.notesSubject.next(notesList);
-    // this.router.navigateByUrl('/search', { skipLocationChange: true }).then(() => {
-    //   this.router.navigate(['/search']);
-    // });
-    const filteredNotes = this.getFilteredNotes();
-
-    // Update filteredNotesSubject
-    filteredNotes.subscribe(filteredNotesValue => {
-      this.filteredNotesSubject.next(filteredNotesValue);
-    });
-
-    return filteredNotes.pipe(
-      map(filteredNotesValue => ({ updatedNotes, filteredNotes: filteredNotesValue }))
-    );
+    return of({updatedNotes})
   }
   getNotesListFromLocalStorage(): Note[] {
     const notesListString = localStorage.getItem('notesList');

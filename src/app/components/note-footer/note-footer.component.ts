@@ -4,6 +4,8 @@ import {Note} from "../note";
 
 import {NotesService} from "../notes-service";
 
+import {Router} from "@angular/router";
+
 @Component({
   selector: 'app-note-footer',
   templateUrl: './note-footer.component.html',
@@ -13,7 +15,7 @@ export class NoteFooterComponent {
   @Input() note!: Note;
   @Output() archiveEvent: EventEmitter<void> = new EventEmitter<void>();
   @Input() createArchive = true;
-  constructor(private noteService: NotesService) {
+  constructor(private noteService: NotesService, private router: Router) {
   }
   toggleDropdownMenu(note: Note, event: Event) {
     event.stopPropagation();
@@ -22,11 +24,25 @@ export class NoteFooterComponent {
       note.showLabelMenu = false;
     }
   }
+
   archiveNote(note: Note) {
-    note.isArchived = !note.isArchived;
-    this.noteService.archiveNotes(note).subscribe(updatedNotes => {
-      this.archiveEvent.emit();
-    });
+    if (this.router.url === '/search'){
+      note.isArchived = !note.isArchived;
+      this.noteService.archiveSearchNotes(note).subscribe(updatedNotes => {
+        this.archiveEvent.emit();
+      });
+    }
+    else if (!note.isArchived){
+      note.isArchived = !note.isArchived;
+      this.noteService.archiveNotes(note).subscribe(updatedNotes => {
+        this.archiveEvent.emit();
+      });
+    }else {
+      note.isArchived = !note.isArchived;
+      this.noteService.archiveNotesfromArchive(note).subscribe(updatedNotes => {
+        this.archiveEvent.emit();
+      });
+    }
   }
 
 }

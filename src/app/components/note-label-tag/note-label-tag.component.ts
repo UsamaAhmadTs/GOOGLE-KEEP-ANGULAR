@@ -38,4 +38,9 @@ export class NoteLabelTagComponent {
   associateLabelWithNote(label: Label, note: Note) {
     this.labelService.associateLabelWithNote(label, note).subscribe();
   }
+  transform(value: string, words: number): string {
+    if (!value) return '';
+    const wordArray = value.split(' ');
+    return wordArray.slice(0, words).join(' ') + (wordArray.length > words ? '...' : '');
+  }
 }

@@ -1,7 +1,7 @@
 <div class="input-body">
   <div #mainNote class="form-container" *ngIf="showFirst" (click)="toggleDivs()">
     <form class="main-note">
-      <input class="note-text" type="text" placeholder="Take a note..."/>
+      <input class="note-text-first" type="text" placeholder="Take a note..."/>
       <div class="form-actions">
         <div class="icons">
           <div class="tooltip">
@@ -25,14 +25,8 @@
       <div class="form-actions">
         <div class="icons">
           <app-note-footer [createArchive]="true" style="display: flex;"></app-note-footer>
-          <div class="tooltip-undo">
-            <img src="./assets/images/svg/undo.svg">
-          </div>
-          <div class="tooltip-redo">
-            <img src="./assets/images/svg/redo.svg">
-          </div>
         </div>
-        <button class="close-btn" type="submit">Close</button>
+        <button class="close-btn" type="submit" (click)="createNote(false)">Close</button>
       </div>
     </form>
   </div>

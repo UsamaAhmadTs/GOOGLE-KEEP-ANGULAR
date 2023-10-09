@@ -3,7 +3,7 @@
        (mouseenter)="onMouseEnter(label)"
        (mouseleave)="onMouseLeave(label)">
     <div class="label-content">
-      <div class="note-label">{{ label.labelTitle }}</div>
+      <div class="note-label">{{ label.labelTitle}}</div>
       <div class="tooltip cancel-tooltip" *ngIf="label.showCancel">
         <img class="cancel-icon" src="./assets/images/svg/cancel.svg" alt="cancel icon"
              (click)="associateLabelWithNote(label, note)">

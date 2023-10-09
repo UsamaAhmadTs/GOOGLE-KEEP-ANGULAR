@@ -34,8 +34,6 @@
   position: relative;
   min-width: 3.465em !important;
   min-height: 1.85em !important;
-
-
 }
 .label-content{
   min-width: 3.465em !important;
@@ -67,4 +65,12 @@
 
 .tooltip:hover .tooltip-text {
   visibility: visible;
+}
+.label-content:hover{
+  .note-label{
+    text-align: left;
+  }
+  .tooltip{
+    align-items: flex-end;
+  }
 }

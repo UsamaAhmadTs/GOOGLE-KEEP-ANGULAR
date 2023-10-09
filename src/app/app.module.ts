@@ -10,7 +10,7 @@ import {NavbarComponent} from './components/navbar/navbar.component';
 
 import {SidenavComponent} from './components/sidenav/sidenav.component';
 
-import {InputComponent} from './components/input/input.component';
+import {NoteInputComponent} from './components/noteInput/note-input.component';
 
 import {NotesComponent} from './components/notes/notes.component';
 
@@ -20,13 +20,13 @@ import {ArchiveComponent} from './components/archive/archive.component';
 
 import { SearchComponent } from './components/search/search.component';
 
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import {BrowserAnimationsModule, NoopAnimationsModule} from '@angular/platform-browser/animations';
 
 import {MatButtonModule} from "@angular/material/button";
 
 import {MatDialogModule} from "@angular/material/dialog";
 
-import { EditModalComponent } from './components/modal/edit-modal.component';
+import { EditModalComponent } from './components/note-modal/edit-modal.component';
 
 import { NoteTemplateComponent } from './components/note-template/note-template.component';
 
@@ -41,7 +41,7 @@ import { NoteFooterComponent } from './components/note-footer/note-footer.compon
     AppComponent,
     NavbarComponent,
     SidenavComponent,
-    InputComponent,
+    NoteInputComponent,
     NotesComponent,
     ArchiveComponent,
     SearchComponent,
@@ -58,7 +58,8 @@ import { NoteFooterComponent } from './components/note-footer/note-footer.compon
     FormsModule,
     MatDialogModule,
     MatButtonModule,
-    NoopAnimationsModule
+    NoopAnimationsModule,
+    BrowserAnimationsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

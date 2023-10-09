@@ -6,6 +6,8 @@ import {Note} from "../note";
 
 import {NotesService} from "../notes-service";
 
+import {Router} from "@angular/router";
+
 @Component({
   selector: 'app-edit-modal',
   templateUrl: './edit-modal.component.html',
@@ -18,7 +20,7 @@ export class EditModalComponent implements OnInit {
   labelTitle: string = '';
 
   constructor(@Inject(MAT_DIALOG_DATA) public data: { note: Note },
-              private notesService: NotesService, private dialogRef: MatDialogRef<EditModalComponent>) {
+              private notesService: NotesService, private dialogRef: MatDialogRef<EditModalComponent>, private router: Router) {
     this.notesService.getNotes().subscribe((notes) => {
       this.notes = notes;
     });
@@ -47,12 +49,27 @@ export class EditModalComponent implements OnInit {
   }
 
   deleteNote(noteToDelete: Note) {
-    this.notesService.deleteNotes(noteToDelete).subscribe({
+    if (this.router.url === '/search'){
+      this.notesService.deleteSearchNotes(noteToDelete).subscribe(updatedNotes => {
+        this.notes = (updatedNotes);
+        this.dialogRef.close();
+      });
+    }
+    else if (noteToDelete.isArchived){
+      this.notesService.deleteArchiveNotes(noteToDelete).subscribe({
+        next: updatedNotes => {
+          this.notes = (updatedNotes.reverse());
+          this.dialogRef.close();
+        }
+      });
+    }
+    else {this.notesService.deleteNotes(noteToDelete).subscribe({
       next: updatedNotes => {
-        this.notes = updatedNotes;
+        this.notes = (updatedNotes.reverse());
         this.dialogRef.close();
       }
-    });
+    });}
+
   }
 
   updateNote(selectedNote: Note) {

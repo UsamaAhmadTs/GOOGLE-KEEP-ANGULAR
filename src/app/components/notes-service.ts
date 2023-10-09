@@ -1,8 +1,9 @@
 import {Injectable} from '@angular/core';
 
-import {BehaviorSubject, map, Observable, of} from "rxjs";
+import {BehaviorSubject, map, mergeMap, Observable, of} from "rxjs";
 
 import {Note} from './note';
+import {Router} from "@angular/router";
 
 @Injectable({
   providedIn: 'root'
@@ -15,7 +16,7 @@ export class NotesService {
   filteredNotesSubject: BehaviorSubject<Note[]> = new BehaviorSubject<Note[]>([]);
   filteredNotes$: Observable<Note[]> = this.filteredNotesSubject.asObservable();
 
-  constructor() {
+  constructor(private router: Router) {
     this.getNotes().subscribe((notes) => {
       this.notes = notes.reverse();
     });
@@ -47,7 +48,6 @@ export class NotesService {
     const notesList = this.getNotesListFromLocalStorage();
     this.notesSubject.next(notesList);
     return this.notesSubject.asObservable();
-
   }
 
   getFilteredNotes(): Observable<Note[]> {
@@ -71,7 +71,31 @@ export class NotesService {
     );
 
   }
+  archiveSearchNotes(archiveNote: Note): Observable<{ updatedNotes: Note[], filteredNotes: Note[] }> {
+    this.dropClose();
+    const notesList = this.getNotesListFromLocalStorage();
+    const updatedNotes = notesList.map(note => {
+      if (note.noteId === archiveNote.noteId) {
+        return {...note, ...archiveNote};
+      }
+      return note;
+    });
+    this.setNotesListToLocalStorage(updatedNotes);
+    this.notesSubject.next(notesList);
+    // this.router.navigateByUrl('/search', { skipLocationChange: true }).then(() => {
+    //   this.router.navigate(['/search']);
+    // });
+    const filteredNotes = this.getFilteredNotes();
 
+    // Update filteredNotesSubject
+    filteredNotes.subscribe(filteredNotesValue => {
+      this.filteredNotesSubject.next(filteredNotesValue);
+    });
+
+    return filteredNotes.pipe(
+      map(filteredNotesValue => ({ updatedNotes, filteredNotes: filteredNotesValue }))
+    );
+  }
   getNotesListFromLocalStorage(): Note[] {
     const notesListString = localStorage.getItem('notesList');
     return notesListString ? JSON.parse(notesListString) : [];
@@ -96,13 +120,38 @@ export class NotesService {
     return of(notesList);
   }
 
-
   deleteNotes(newNote: Note): Observable<Note[]> {
     const notesList = this.getNotesListFromLocalStorage();
     const updatedNotes = notesList.filter(note => note.noteId !== newNote.noteId);
     this.setNotesListToLocalStorage(updatedNotes);
-
+    this.notes = updatedNotes;
     this.notesSubject.next(notesList);
+    this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
+      this.router.navigate(['/notes']);
+    });
+    return of(updatedNotes);
+  }
+  deleteSearchNotes(newNote: Note): Observable<Note[]> {
+    const notesList = this.getNotesListFromLocalStorage();
+    const updatedNotes = notesList.filter(note => note.noteId !== newNote.noteId);
+    this.setNotesListToLocalStorage(updatedNotes);
+    this.notes = updatedNotes;
+    newNote.display = true
+    this.notesSubject.next(notesList);
+    this.router.navigateByUrl('/search', { skipLocationChange: true }).then(() => {
+      this.router.navigate(['/search']);
+    });
+    return of(updatedNotes);
+  }
+  deleteArchiveNotes(newNote: Note): Observable<Note[]> {
+    const notesList = this.getNotesListFromLocalStorage();
+    const updatedNotes = notesList.filter(note => note.noteId !== newNote.noteId);
+    this.setNotesListToLocalStorage(updatedNotes);
+    this.notes = updatedNotes;
+    this.notesSubject.next(notesList);
+    this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
+      this.router.navigate(['/archived']);
+    });
     return of(updatedNotes);
   }
 
@@ -117,6 +166,27 @@ export class NotesService {
     });
     this.setNotesListToLocalStorage(updatedNotes);
     this.notesSubject.next(notesList);
+    this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
+      this.router.navigate(['/notes']);
+    });
+    return of(updatedNotes);
+  }
+
+  archiveNotesfromArchive(archiveNote: Note): Observable<Note[]> {
+    this.dropClose()
+    const notesList = this.getNotesListFromLocalStorage();
+    const updatedNotes = notesList.map(note => {
+      if (note.noteId === archiveNote.noteId) {
+        return {...note, ...archiveNote, display: false};
+      }
+      return note;
+    });
+    this.setNotesListToLocalStorage(updatedNotes);
+    this.notesSubject.next(notesList);
+    this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
+      this.router.navigate(['/archived']);
+
+    });
     return of(updatedNotes);
   }
 
@@ -139,9 +209,9 @@ export class NotesService {
     return archived && unArchived;
   }
 
-  setNoteDisplayToLocalStorage(updatedNote: Note): void {
+  setNoteDisplayToLocalStorage(updatedNoteId: string): void {
     const notesList = this.getNotesListFromLocalStorage();
-    const index = notesList.findIndex(note => note.noteId === updatedNote.noteId);
+    const index = notesList.findIndex(note => note.noteId === updatedNoteId);
 
     if (index !== -1) {
       notesList[index].display = true;

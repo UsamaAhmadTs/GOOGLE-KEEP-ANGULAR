@@ -16,6 +16,7 @@ export class NotesComponent{
   notesPresent$!: Observable<number>;
   archiveNotesPresent$!: Observable<boolean>;
   constructor(private noteService: NotesService) {
+
     this.notes$ = this.noteService.getNotes();
     this.notesPresent$ = this.notes$.pipe(
       map((notes) => notes.length),

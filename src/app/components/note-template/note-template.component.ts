@@ -1,23 +1,39 @@
-import {ChangeDetectionStrategy, Component, HostListener, Input, OnInit, Renderer2} from '@angular/core';
+import {ChangeDetectionStrategy, Component, HostListener, Input, OnInit} from '@angular/core';
 
 import {NotesService} from "../notes-service";
 
 import {Note} from "../note";
 
-import {EditModalComponent} from "../modal/edit-modal.component";
+import {EditModalComponent} from "../note-modal/edit-modal.component";
 
 import {MatDialog} from "@angular/material/dialog";
 
-import {Observable, of} from "rxjs";
+import {Observable, of, Subscription} from "rxjs";
 
 import {Label} from "../label";
+
 import {LabelService} from "../label.service";
+
+import {Router} from "@angular/router";
+
+import {animate, style, transition, trigger} from "@angular/animations";
 
 @Component({
   selector: 'app-note-template',
   templateUrl: './note-template.component.html',
   styleUrls: ['./note-template.component.scss'],
-  changeDetection: ChangeDetectionStrategy.Default
+  changeDetection: ChangeDetectionStrategy.Default,
+  animations: [
+    trigger('noteAnimation', [
+      transition(':enter', [
+        style({ opacity: 0, transform: 'translateX(-20px)' }),
+        animate('300ms', style({ opacity: 1, transform: 'translateX(0)' })),
+      ]),
+      transition(':leave', [
+        animate('300ms', style({ opacity: 0, transform: 'translateX(-20px)' })),
+      ]),
+    ]),
+  ],
 })
 export class NoteTemplateComponent implements OnInit {
   @Input() isArchiveNote: boolean = false;
@@ -28,36 +44,63 @@ export class NoteTemplateComponent implements OnInit {
   highlightedSearchQuery: string | null = null;
   notes$: Observable<Note[]> = this.noteService.notesSubject.asObservable();
   labels: Label[] = [];
-  filteredNotes: Note[] | null = null;
+  filteredNotes$: Observable<Note[]> = this.noteService.filteredNotesSubject.asObservable()
   searchQuery$!: Observable<string | null>;
   labelTitle: string = '';
   selectedNote: Note | null = null;
-
-  constructor(private noteService: NotesService,private labelService: LabelService, private dialog: MatDialog, private renderer: Renderer2) {
+  private notesSubscription!: Subscription;
+  private labelSubscription!: Subscription;
+  private filteredNotesSubscription!: Subscription;
+  constructor(private noteService: NotesService,private labelService: LabelService, private dialog: MatDialog,private router: Router) {
     this.searchQuery$ = this.noteService.searchQuery$;
     this.notes$ = this.noteService.getNotes();
-    this.notes$.subscribe((notes) => {
+    this.notesSubscription = this.notes$.subscribe((notes) => {
       this.notes$ = new Observable((observer) => {
         observer.next(notes);
         observer.complete();
       });
     });
-    this.labelService.getLabels().subscribe(labels => {
+    this.labelSubscription = this.labelService.getLabels().subscribe(labels => {
       this.labels = labels;
     });
-    this.noteService.getFilteredNotes().subscribe(filteredNotes => {
-      this.filteredNotes = filteredNotes.reverse();
-      this.showMixedNotes = false;
+    this.filteredNotesSubscription = this.noteService.getFilteredNotes().subscribe(filteredNotes => {
+      console.log("filter")
+      this.filteredNotes$ = new Observable((observer) => {
+        observer.next(filteredNotes);
+        observer.complete();
+        this.showMixedNotes = false;
+      });
     });
   }
-
+  // this.filteredNotes = filteredNotes.reverse();
+  // this.showMixedNotes = false;
   ngOnInit() {
     this.searchQuery$.subscribe(query => {
       this.highlightedSearchQuery = query;
     });
     this.noteService.dropClose()
   }
-
+  archiveNote(note: Note) {
+    if (this.router.url === '/search'){
+      note.isArchived = !note.isArchived;
+      this.noteService.archiveSearchNotes(note).subscribe(({ updatedNotes, filteredNotes }) => {
+        this.filteredNotes$ = of(filteredNotes);
+        this.notes$ = of(updatedNotes);
+        console.log(this.filteredNotes$)
+      });
+    }
+    else if (!note.isArchived){
+      note.isArchived = !note.isArchived;
+      this.noteService.archiveNotes(note).subscribe(updatedNotes => {
+        this.notes$ = of(updatedNotes);
+      });
+    }else {
+      note.isArchived = !note.isArchived;
+      this.noteService.archiveNotesfromArchive(note).subscribe(updatedNotes => {
+        this.notes$ = of(updatedNotes);
+      });
+    }
+  }
   toggleDropdownMenu(note: Note, event: Event) {
     event.stopPropagation();
     this.noteService.dropdownsClose(note);
@@ -79,7 +122,7 @@ export class NoteTemplateComponent implements OnInit {
   }
 
   onNoteSelected(note: Note) {
-    this.noteService.setNoteDisplayToLocalStorage(note)
+    this.noteService.setNoteDisplayToLocalStorage(note.noteId)
     this.selectedNote = note
     if (note.showDropdownMenu || note.showLabelMenu) {
       note.showDropdownMenu = false;
@@ -95,19 +138,39 @@ export class NoteTemplateComponent implements OnInit {
   }
 
   deleteNote(noteToDelete: Note, event: Event) {
-    this.noteService.deleteNotes(noteToDelete).subscribe({
+    if (this.router.url === '/search'){
+      this.noteService.deleteSearchNotes(noteToDelete).subscribe(updatedNotes => {
+        this.notes$ = of(updatedNotes);
+      });
+    }
+    else if (noteToDelete.isArchived){
+      this.noteService.deleteArchiveNotes(noteToDelete).subscribe({
+        next: updatedNotes => {
+          this.notes$ = of(updatedNotes.reverse());
+        }
+      });
+    }
+    else {this.noteService.deleteNotes(noteToDelete).subscribe({
       next: updatedNotes => {
         this.notes$ = of(updatedNotes.reverse());
       }
-    });
+    });}
     event.stopPropagation();
   }
 
-  archiveNote(note: Note) {
-    note.isArchived = !note.isArchived;
-    this.noteService.archiveNotes(note).subscribe(updatedNotes => {
-      this.notes$ = of(updatedNotes);
-    });
+  @HostListener('document:click', ['$event'])
+  onClick(event: Event): void {
+    const element = event.target as HTMLElement;
+    if (!element.closest('.note')) {
+      this.noteService.dropClose()
+    }
+  }
+  ngOnDestroy(): void {
+    if (this.notesSubscription) {
+      this.notesSubscription.unsubscribe();
+      this.labelSubscription.unsubscribe();
+      this.filteredNotesSubscription.unsubscribe();
+    }
   }
 
 }

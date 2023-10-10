@@ -61,7 +61,7 @@ import { NoteFooterComponent } from './components/note-footer/note-footer.compon
     NoopAnimationsModule,
     BrowserAnimationsModule
   ],
-  providers: [],
+  providers: [NoteTemplateComponent],
   bootstrap: [AppComponent]
 })
 export class AppModule {

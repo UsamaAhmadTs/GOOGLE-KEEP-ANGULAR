@@ -1,7 +1,7 @@
 <div class="label-flex" (click)="stopPropagation($event)">
   <div *ngFor="let label of (slice ? note.labels.slice(0, 2) : note.labels)" class="label"
-       (mouseenter)="onMouseEnter(label)"
-       (mouseleave)="onMouseLeave(label)">
+       (mouseenter)="labelHover(label,true)"
+       (mouseleave)="labelHover(label, false)">
     <div class="label-content">
       <div class="note-label">{{ label.labelTitle}}</div>
       <div class="tooltip cancel-tooltip" *ngIf="label.showCancel">

@@ -5,8 +5,8 @@
   align-items: center;
 }
 .cancel-icon{
-  height: 1.3em;
-  width: 1.3em;
+  height: 1.2em;
+  width: 1.2em;
 }
 .cancel-icon:hover{
   cursor: pointer;
@@ -50,7 +50,7 @@
 
 .tooltip-text {
   position: absolute;
-  left: 0;
+  left: -2.3em;
   top: 100%;
   font-size: 0.78rem;
   background-color: #323232;
@@ -66,11 +66,15 @@
 .tooltip:hover .tooltip-text {
   visibility: visible;
 }
-.label-content:hover{
-  .note-label{
-    text-align: left;
-  }
-  .tooltip{
-    align-items: flex-end;
-  }
+  .label:hover{
+    .note-label{
+      position: relative;
+      text-align: left;
+      margin-right: 3px;
+    }
+    .tooltip{
+      position: relative;
+      text-align: right;
+      margin-left: 5px;
+    }
 }

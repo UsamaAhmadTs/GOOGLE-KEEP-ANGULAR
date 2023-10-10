@@ -10,7 +10,6 @@ width: 77vw;
   border: 0.0625em solid #e0e1e0; /* Converted from 1px */
   border-radius: 0.5em; /* Converted from 8px */
 }
-
 .drop-note {
   background: #fff;
   max-width: 37.375em; /* Converted from 598px */
@@ -27,7 +26,10 @@ width: 77vw;
   height: 100%;
   color: #5f6368;
 }
-
+.active-form{
+  overflow-y: auto;
+  max-height: 39.625em;
+}
 .note-title{
   border: none;
   font-size: 1rem;
@@ -44,12 +46,14 @@ width: 77vw;
 .note-text {
   border: none;
   font-size: 1rem;
-  height: 100%;
+  height: 2.5em;
   padding: 0.625em;
   margin-left: 0.625em;
   width: 100%;
   margin-right: 0.625em;
   font-family: Roboto,Arial,sans-serif;
+  outline: none;
+  resize: none;
 }
 .note-text-first {
   border: none;
@@ -62,8 +66,9 @@ width: 77vw;
   font-family: Roboto,Arial,sans-serif;
 }
 .note-text::placeholder {
-  color: #4c4c4c;
+  color: rgba(0,0,0,0.602);
   font-size: 0.875rem;
+  font-weight: 450;
 }
 .note-text-first::placeholder {
   color: #4c4c4c;

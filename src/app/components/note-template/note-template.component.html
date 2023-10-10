@@ -1,6 +1,6 @@
 <div class="center">
   <div class="notes-container">
-    <div *ngFor="let note of (highLight ? filteredNotes  : (notes$ | async))" >
+    <div *ngFor="let note of (highLight ? (filteredNotes$ | async)  : (notes$ | async))" >
       <div #noteElement class="note" (click)="onNoteSelected(note)" [hidden]="note.display"
            [style.opacity]="selectedNote === note ? '0' : '1'"
            [ngStyle]="{'emptyNote': note.noteTitle=='' || note.noteText==''}"
@@ -18,7 +18,7 @@
           </ng-container>
           <ng-template #originalContent>
             <div class="title">{{ note.noteTitle }}</div>
-            <div class="noteText">{{ note.noteText }}</div>
+            <div id="textarea" class="noteText">{{ note.noteText }}</div>
             <app-note-label-tag [note]="note"></app-note-label-tag>
           </ng-template>
 
@@ -63,7 +63,7 @@
               </div>
             </div>
             <app-label-menu [note]="note" [searchLabelText]="labelTitle"
-                            [DialogBoxOpen]="false"></app-label-menu>
+                            [DialogBoxOpen]="false" [style.margin-top.em]="position"></app-label-menu>
           </div>
         </div>
 

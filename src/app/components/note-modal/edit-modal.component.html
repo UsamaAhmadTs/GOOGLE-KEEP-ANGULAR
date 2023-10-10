@@ -1,11 +1,11 @@
 <div class="label-container">
   <form class="drop-note">
-    <input type="text" class="note-title" name="noteTitle" placeholder="Title" [(ngModel)]="selectedNote.noteTitle">
-    <input class="note-text" type="text" name="noteText" [(ngModel)]="selectedNote.noteText">
+    <input type="text" class="note-title" name="noteTitle" placeholder="Title" [(ngModel)]="selectedNote.noteTitle" autocomplete="off">
+    <textarea class="note-text" type="text" name="noteText" [(ngModel)]="selectedNote.noteText" autocomplete="off"></textarea>
     <app-note-label-tag [slice]="false" [note]="selectedNote" [showAdditionalLabels]="false"></app-note-label-tag>
     <div class="form-actions" [ngClass]="{'form-actions-without-label': selectedNote.labels.length === 0}">
       <div class="icons">
-        <app-note-footer [note]="selectedNote" [createArchive] = "false" (archiveEvent)="closeDialog()" style="display: flex;"></app-note-footer>
+        <app-note-footer [undoRedoButtons] = "true" [note]="selectedNote" [createArchive] = "false" (archiveEvent)="closeDialog()" style="display: flex;"></app-note-footer>
       </div>
       <button class="close-btn" type="submit" (click)="updateNote(selectedNote)">Close</button>
     </div>

@@ -15,7 +15,7 @@ export class NoteLabelTagComponent {
   @Input() note!: Note;
   @Input() showAdditionalLabels: boolean = true;
   @Input() slice: boolean = true;
-
+  labelTitle!: string;
   constructor(private labelService: LabelService) {
   }
 
@@ -38,9 +38,18 @@ export class NoteLabelTagComponent {
   associateLabelWithNote(label: Label, note: Note) {
     this.labelService.associateLabelWithNote(label, note).subscribe();
   }
-  transform(value: string, words: number): string {
-    if (!value) return '';
-    const wordArray = value.split(' ');
-    return wordArray.slice(0, words).join(' ') + (wordArray.length > words ? '...' : '');
+  labelHover(label: Label, hover: boolean) {
+    label.showCancel = hover;
+    if (hover) {
+      this.labelTitle = label.labelTitle;
+      const limit = 4;
+      if (label.labelTitle.length >= 4 && label.labelTitle.length <= 6) {
+        label.labelTitle = label.labelTitle.substring(0, 2) + "...";
+      } else if (label.labelTitle.length > 6) {
+        label.labelTitle = label.labelTitle.substring(0, label.labelTitle.length - limit) + "...";
+      }
+    } else {
+      label.labelTitle = this.labelTitle;
+    }
   }
 }

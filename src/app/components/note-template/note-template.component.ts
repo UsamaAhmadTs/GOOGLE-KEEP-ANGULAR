@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, HostListener, Input, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, Component, ElementRef, HostListener, Input, OnInit, Renderer2} from '@angular/core';
 
 import {NotesService} from "../notes-service";
 
@@ -8,7 +8,7 @@ import {EditModalComponent} from "../note-modal/edit-modal.component";
 
 import {MatDialog} from "@angular/material/dialog";
 
-import {Observable, of, Subscription} from "rxjs";
+import {Observable, of, Subscription, switchMap} from "rxjs";
 
 import {Label} from "../label";
 
@@ -44,36 +44,48 @@ export class NoteTemplateComponent implements OnInit {
   highlightedSearchQuery: string | null = null;
   notes$: Observable<Note[]> = this.noteService.notesSubject.asObservable();
   labels: Label[] = [];
-  filteredNotes!: Note[]
+  filterNotes: Note[] = [];
+  filteredNotes$: Observable<Note[]>;
   searchQuery$!: Observable<string | null>;
   labelTitle: string = '';
   selectedNote: Note | null = null;
-  private notesSubscription!: Subscription;
-  private labelSubscription!: Subscription;
-  private filteredNotesSubscription!: Subscription;
-  constructor(private noteService: NotesService,private labelService: LabelService, private dialog: MatDialog,private router: Router) {
+  position: number = 0;
+  constructor(private noteService: NotesService,private labelService: LabelService,
+              private dialog: MatDialog,private router: Router,private elementRef: ElementRef,private renderer: Renderer2 ) {
     this.searchQuery$ = this.noteService.searchQuery$;
     this.notes$ = this.noteService.getNotes();
-    this.notesSubscription = this.notes$.subscribe((notes) => {
+    this.notes$.subscribe((notes) => {
       this.notes$ = new Observable((observer) => {
         observer.next(notes);
         observer.complete();
       });
     });
-    this.labelSubscription = this.labelService.getLabels().subscribe(labels => {
+    this.labelService.getLabels().subscribe(labels => {
       this.labels = labels;
     });
-    this.filteredNotesSubscription = this.noteService.getFilteredNotes().subscribe(filteredNotes => {
-      this.filteredNotes = filteredNotes;
-      this.showMixedNotes = false;
-    });
+    this.filteredNotes$ = this.noteService.filteredNotes$;
   }
 
   ngOnInit() {
     this.searchQuery$.subscribe(query => {
       this.highlightedSearchQuery = query;
     });
+   this.filteredNotes$.subscribe((filteredNotes) => {
+      this.filterNotes = filteredNotes;
+    });
     this.noteService.dropClose()
+      this.noteService.getFilteredNotes().subscribe(filteredNotes => {
+      this.filterNotes = filteredNotes
+      this.showMixedNotes = false;
+    });
+
+  }
+  adjustPosition() {
+    const textarea = document.getElementById('textarea') as HTMLTextAreaElement;
+    const lineHeight = parseFloat(window.getComputedStyle(textarea).lineHeight);
+    const numberOfLines = textarea.value.split('\n').length;
+
+    this.position = numberOfLines * lineHeight; // Increment position by 1em per line
   }
   archiveNote(note: Note) {
     if (this.router.url === '/search'){
@@ -81,11 +93,7 @@ export class NoteTemplateComponent implements OnInit {
         console.log(updatedNotes)
         this.notes$ = of(updatedNotes);
       });
-      this.filteredNotesSubscription = this.noteService.getFilteredNotes().subscribe(filteredNotes => {
-        this.filteredNotes = filteredNotes;
-        console.log(filteredNotes)
-        this.showMixedNotes = false;
-      });
+      this.filteredNotes$ = this.noteService.filteredNotes$;
     }
     else if (!note.isArchived){
       note.isArchived = !note.isArchived;
@@ -163,12 +171,23 @@ export class NoteTemplateComponent implements OnInit {
       this.noteService.dropClose()
     }
   }
-  ngOnDestroy(): void {
-    if (this.notesSubscription) {
-      this.notesSubscription.unsubscribe();
-      this.labelSubscription.unsubscribe();
-      this.filteredNotesSubscription.unsubscribe();
-    }
+  adjustDropdownPosition(): void {
+    const cardHeight = this.elementRef.nativeElement.querySelector('.card').offsetHeight;
+    const dropdownElement = this.elementRef.nativeElement.querySelector('.custom-dropdown');
+
+    // Calculate the new position based on card height
+    const newPosition = cardHeight + 'px';
+
+    // Apply the new position to the dropdown
+    this.renderer.setStyle(dropdownElement, 'top', newPosition);
   }
+
+  // ngOnDestroy(): void {
+  //   if (this.notesSubscription) {
+  //     this.notesSubscription.unsubscribe();
+  //     this.labelSubscription.unsubscribe();
+  //     this.filteredNotesSubscription.unsubscribe();
+  //   }
+  // }
 
 }

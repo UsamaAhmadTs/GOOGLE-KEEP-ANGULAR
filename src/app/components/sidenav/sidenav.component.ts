@@ -1,4 +1,5 @@
-import {Component, EventEmitter, Output} from '@angular/core';
+import {Component} from '@angular/core';
+import {ActivatedRoute, NavigationEnd, Router} from "@angular/router";
 
 @Component({
     selector: 'app-sidenav',
@@ -8,16 +9,28 @@ import {Component, EventEmitter, Output} from '@angular/core';
 export class SidenavComponent {
   notesClicked: boolean = true;
   archiveClicked: boolean = false;
-  @Output() notesClickedEmitter = new EventEmitter<boolean>();
-  @Output() archiveClickedEmitter = new EventEmitter<boolean>();
+  constructor(private router: Router, private route: ActivatedRoute) {
+    this.router.events.subscribe(event => {
+      if (event instanceof NavigationEnd) {
+        const currentRoute = this.router.url;
+        if (currentRoute === '/archived') {
+          this.archiveClicked = true;
+          this.notesClicked = false;
+        }else if (currentRoute === '/notes'){
+          this.notesClicked = true;
+          this.archiveClicked = false;
+        }
+      }
+    });
+  }
+
   onNoteClick() {
     this.notesClicked = true;
     this.archiveClicked = false;
-    this.notesClickedEmitter.emit(true);
   }
   onArchiveClick() {
     this.archiveClicked = true;
     this.notesClicked = false;
-    this.archiveClickedEmitter.emit(true);
   }
+
 }

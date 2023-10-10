@@ -192,8 +192,8 @@
   margin: 0.9375em 0 0 0.9375em;
 }
 .note .noteText {
-  width: 100%;
-  margin: 0.625em 0 0 0.9375em;
+  word-wrap: break-word;
+  padding: 12px 16px 12px 16px;
 }
 .note .note-footer {
   display: flex;
@@ -336,4 +336,7 @@
   line-height: 1.75rem;
   padding: 1.875em 0.9375em 0 0.9375em;
 
+}
+.note-selected {
+  opacity: 0;
 }

@@ -30,9 +30,9 @@
   <span class="material-icons-outlined hover small-icon">more_vert</span>
   <span class="tooltip-text">More</span>
 </div>
-<div class="tooltip-undo">
+<div *ngIf="undoRedoButtons" class="tooltip-undo">
   <img src="./assets/images/svg/undo.svg">
 </div>
-<div class="tooltip-redo">
+<div *ngIf="undoRedoButtons" class="tooltip-redo">
   <img src="./assets/images/svg/redo.svg">
 </div>

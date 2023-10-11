@@ -18,12 +18,12 @@
     </form>
   </div>
 
-  <div #dropNote class="form-container active-form" *ngIf="!showFirst" [ngClass]="{'scrollbar':showScrollbar()}">
+  <div #dropNote class="form-container active-form" *ngIf="!showFirst" [ngClass]="{'scrollbarAdd': scrollbarAdd()}">
     <form class="drop-note" [formGroup]="notes" (ngSubmit)="createNote(false)">
       <textarea #noteTextTitle type="text" class="note-title" placeholder="Title" formControlName="title"
-                (keydown)="moveFocusToNoteText($event)"></textarea>
+                (input)="adjustTitleAreaHeight($event)" (keydown)="moveFocusToNoteText($event)" maxlength="1000"></textarea>
       <textarea id="textarea" class="note-text" placeholder="Take a note..." formControlName="note" #noteTextarea
-                (input)="adjustTextHeight($event)"></textarea>
+                (input)="adjustTextareaHeight($event)"></textarea>
       <div class="form-actions">
         <div class="icons">
           <app-note-footer [createArchive]="true" style="display: flex;"></app-note-footer>

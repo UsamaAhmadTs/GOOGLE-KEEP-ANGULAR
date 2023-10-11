@@ -23,14 +23,6 @@ export class NoteLabelTagComponent {
     event.stopPropagation();
   }
 
-  onMouseEnter(label: Label) {
-    label.showCancel = true;
-  }
-
-  onMouseLeave(label: Label) {
-    label.showCancel = false;
-  }
-
   shouldShowAdditionalLabels(note: Note): boolean {
     return note.labels.length > 2;
   }

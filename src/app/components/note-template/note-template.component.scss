@@ -51,21 +51,21 @@
   justify-content: flex-start;
 }
 .dropdown-menu-label{
-  left: 16em !important;
-  top: 14.6em !important;
+  left: -2em !important;
+  top: 2em !important;
 }
 .single-input-note{
-  left: 16em !important;
-  top: 9em !important;
+  left: -2em !important;
+  top: 2em !important;
 }
 .dropdown-menu{
   user-select: none;
   opacity: 1;
-  left: 15.5em;
-  top: 12.2em;
+  left: -2.3em;
+  top: 2em;
   background-color: #fff;
   box-shadow: 0 0.0625em 0.125em 0 rgba(60, 64, 67, 0.302), 0 0.125em 0.375em 0.125em rgba(60, 64, 67, 0.149);
-  position: absolute;
+  position: relative;
   border-radius: 0.25em;
   z-index: 5003;
   cursor: pointer;
@@ -86,7 +86,8 @@
   border: 1px solid transparent;
   padding: 0.3125em 0.625em 0.3125em 1.0625em;
   color: #3c4043;
-  height: 100%;
+  //height: 100%;
+  width: 134.2px;
   vertical-align: top;
 }
 .save-labels-area{
@@ -200,8 +201,9 @@
 .note .note-footer {
   display: flex;
   margin-top: 0.9375em;
-  padding: 0;
-  justify-content: center;
+}
+.note-footer-with-dropdown{
+  margin-bottom: -2em;
 }
 .note-footer .material-icons-outlined {
   color: #5f6368;

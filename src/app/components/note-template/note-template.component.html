@@ -24,7 +24,7 @@
               <app-note-label-tag [note]="note"></app-note-label-tag>
             </ng-template>
 
-            <div class="note-footer">
+            <div class="note-footer" [ngClass]="{'note-footer-with-dropdown': note.showDropdownMenu}">
               <div class="tooltip">
                 <span class="material-icons-outlined hover small-icon">add_alert</span>
                 <span class="tooltip-text">Remind me</span>
@@ -65,9 +65,8 @@
                   Label
                 </div>
               </div>
-              <app-label-menu [note]="note" [searchLabelText]="labelTitle"
-                              [DialogBoxOpen]="false" [style.margin-top.em]="position"></app-label-menu>
-
+              <app-label-menu [note]="note"
+                              [DialogBoxOpen]="false"></app-label-menu>
         </div>
       </div>
 

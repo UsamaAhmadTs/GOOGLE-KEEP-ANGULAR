@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, ElementRef, HostListener, Input, OnInit, Renderer2} from '@angular/core';
+import {ChangeDetectionStrategy, Component, HostListener, Input, OnInit} from '@angular/core';
 
 import {NotesService} from "../notes-service";
 
@@ -8,11 +8,7 @@ import {EditModalComponent} from "../note-modal/edit-modal.component";
 
 import {MatDialog} from "@angular/material/dialog";
 
-import {Observable, of, Subscription, switchMap} from "rxjs";
-
-import {Label} from "../label";
-
-import {LabelService} from "../label.service";
+import {Observable, of, Subscription} from "rxjs";
 
 import {Router} from "@angular/router";
 
@@ -43,15 +39,13 @@ export class NoteTemplateComponent implements OnInit {
   showMixedNotes: boolean = false;
   highlightedSearchQuery: string | null = null;
   notes$: Observable<Note[]> = this.noteService.notesSubject.asObservable();
-  labels: Label[] = [];
   filterNotes: Note[] = [];
   filteredNotes$: Observable<Note[]>;
   searchQuery$!: Observable<string | null>;
-  labelTitle: string = '';
   selectedNote: Note | null = null;
-  position: number = 0;
-  constructor(private noteService: NotesService,private labelService: LabelService,
-              private dialog: MatDialog,private router: Router,private elementRef: ElementRef,private renderer: Renderer2 ) {
+
+  constructor(private noteService: NotesService,
+              private dialog: MatDialog,private router: Router) {
     this.searchQuery$ = this.noteService.searchQuery$;
     this.notes$ = this.noteService.getNotes();
     this.notes$.subscribe((notes) => {
@@ -59,9 +53,6 @@ export class NoteTemplateComponent implements OnInit {
         observer.next(notes);
         observer.complete();
       });
-    });
-    this.labelService.getLabels().subscribe(labels => {
-      this.labels = labels;
     });
     this.filteredNotes$ = this.noteService.filteredNotes$;
   }
@@ -78,19 +69,11 @@ export class NoteTemplateComponent implements OnInit {
       this.filterNotes = filteredNotes
       this.showMixedNotes = false;
     });
-
   }
-  adjustPosition() {
-    const textarea = document.getElementById('textarea') as HTMLTextAreaElement;
-    const lineHeight = parseFloat(window.getComputedStyle(textarea).lineHeight);
-    const numberOfLines = textarea.value.split('\n').length;
 
-    this.position = numberOfLines * lineHeight; // Increment position by 1em per line
-  }
   archiveNote(note: Note) {
     if (this.router.url === '/search'){
       this.noteService.archiveSearchNotes(note).subscribe(({ updatedNotes }) => {
-        console.log(updatedNotes)
         this.notes$ = of(updatedNotes);
       });
       this.filteredNotes$ = this.noteService.filteredNotes$;
@@ -170,17 +153,6 @@ export class NoteTemplateComponent implements OnInit {
     if (!element.closest('.note')) {
       this.noteService.dropClose()
     }
-  }
-  adjustDropdownPosition(): void {
-    const cardHeight = this.elementRef.nativeElement.querySelector('.notes-container').offsetHeight;
-    console.log(cardHeight)
-    const dropdownElement = this.elementRef.nativeElement.querySelector('.dropdown-menu');
-
-    // Calculate the new position based on card height
-    const newPosition = cardHeight + 'px';
-
-    // Apply the new position to the dropdown
-    this.renderer.setStyle(dropdownElement, 'top', newPosition);
   }
 
   // ngOnDestroy(): void {

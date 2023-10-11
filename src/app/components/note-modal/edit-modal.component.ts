@@ -1,4 +1,4 @@
-import {Component, OnInit, Inject, Input, HostListener} from '@angular/core';
+import {Component, OnInit, Inject, Input, HostListener, ElementRef} from '@angular/core';
 
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 
@@ -20,7 +20,8 @@ export class EditModalComponent implements OnInit {
   labelTitle: string = '';
 
   constructor(@Inject(MAT_DIALOG_DATA) public data: { note: Note },
-              private notesService: NotesService, private dialogRef: MatDialogRef<EditModalComponent>, private router: Router) {
+              private notesService: NotesService, private dialogRef: MatDialogRef<EditModalComponent>,
+              private router: Router,private elementRef: ElementRef) {
     this.notesService.getNotes().subscribe((notes) => {
       this.notes = notes;
     });
@@ -68,10 +69,30 @@ export class EditModalComponent implements OnInit {
         this.notes = (updatedNotes.reverse());
         this.dialogRef.close();
       }
-    });}
-
+    });
+    }
   }
-
+  moveFocusToNoteText(event: KeyboardEvent) {
+    if (event.key === 'Enter') {
+      event.preventDefault();
+      const noteTextElement = this.elementRef.nativeElement.querySelector('.note-text');
+      noteTextElement.focus();
+    }
+  }
+  adjustTextareaHeight(event: Event): void {
+    const textarea = event.target as HTMLTextAreaElement;
+    textarea.style.height = '0';
+    textarea.style.overflowY = 'hidden';
+    const minHeight = 0;
+    const newHeight = Math.min(Math.max(minHeight, textarea.scrollHeight), 643);
+    textarea.style.height = `${newHeight}px`;
+    textarea.style.overflowY = newHeight === 643 ? 'scroll' : 'hidden';
+  }
+  adjustTitleAreaHeight(event: Event): void {
+    const textarea = event.target as HTMLTextAreaElement;
+    textarea.style.height = 'auto';
+    textarea.style.height = textarea.scrollHeight + 'px';
+  }
   updateNote(selectedNote: Note) {
     this.notesService.updateNote(selectedNote);
     this.dialogRef.close();

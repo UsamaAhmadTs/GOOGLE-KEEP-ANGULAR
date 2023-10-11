@@ -1,4 +1,4 @@
-import {Component, ElementRef, HostListener, OnInit, Renderer2, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, ElementRef, HostListener, OnInit, Renderer2, ViewChild} from '@angular/core';
 
 import {Note} from "../note";
 
@@ -7,8 +7,8 @@ import {FormBuilder, FormGroup} from "@angular/forms";
 import {NotesService} from "../notes-service";
 
 import {v4 as uuidv4} from "uuid";
+
 import {Subscription} from "rxjs";
-import {auto} from "@popperjs/core";
 
 @Component({
   selector: 'app-input',
@@ -42,83 +42,30 @@ export class NoteInputComponent implements OnInit {
       noteTextElement.focus();
     }
   }
-  minimumNoteTextHeight: number = 46;
-  minimumNoteTitleHeight: number = 58;
-  addTop: number = 17;
-  adjustTextHeight(event: Event): void {
-    const target = event.target as HTMLTextAreaElement;
-    const newTextHeight = Math.max(target.scrollHeight, this.minimumNoteTextHeight);
-
-    // If there is already newline in the note, increase the height of the note title by 10px
-    const additionalTitleHeight = this.noteTextarea.nativeElement.height > this.minimumNoteTitleHeight ? 10 : 0;
-    target.style.height = 'auto';
-    target.style.height = `${newTextHeight}px`;
-
-    // Increase the height of the note title
-    const titleInput = this.noteTitleArea.nativeElement;
-    titleInput.style.height = 'auto';
-    titleInput.style.height = `${titleInput.scrollHeight + additionalTitleHeight}px`;
-    this.adjustTopPositionText();
-    this.adjustParentContainerHeight();
-    if (titleInput.style.height == this.minimumNoteTitleHeight + 'px') {
-      titleInput.style.top = `${this.addTop}px`;
-    }
+  adjustTitleAreaHeight(event: Event): void {
+    const textarea = event.target as HTMLTextAreaElement;
+    textarea.style.height = '0';
+    textarea.style.height = textarea.scrollHeight + 'px';
   }
-  addNoteTextHeight: number = 46;
-  addNoteTitleHeight: number = 56;
-  adjustTopPositionText(): void {
-    const titleInput = this.noteTitleArea.nativeElement;
-    const newTitleHeight = titleInput.scrollHeight;
-    const textInput = this.noteTextarea.nativeElement;
-    const newTextHeight = textInput.scrollHeight;
-    const topPosition = newTextHeight > this.addNoteTextHeight ? 2 : -4;
-    textInput.style.top = `${newTitleHeight > this.addNoteTitleHeight ? Math.min(topPosition, 6) : -4}px`;
-  }
-  addNoteTop: number = 40;
-  adjustParentContainerHeight(): void {
-    const parentContainer = this.dropNote.nativeElement;
-    const newTitleHeight = this.noteTitleArea.nativeElement.scrollHeight;
-    const newTextHeight = this.noteTextarea.nativeElement.scrollHeight;
-
-    if (newTitleHeight > this.minimumNoteTitleHeight || newTextHeight > this.addNoteTextHeight) {
-      parentContainer.style.height = `${newTitleHeight + newTextHeight + this.addNoteTop}px`;
-    } else if (newTitleHeight == this.minimumNoteTitleHeight) {
-
-      this.noteTextarea.nativeElement.style.top = '-5px';
-
-    } else if (newTextHeight == this.addNoteTextHeight) {
-
-      this.noteTitleArea.nativeElement.style.top = '32px';
-    }
-  }
-  adjustTitleHeight(event: Event): void {
-    const target = event.target as HTMLTextAreaElement;
-    target.style.height = 'auto';
-    target.style.height = target.scrollHeight + 'px';
-    this.adjustTopPositionTitle();
-    this.adjustParentContainerHeight();
-  }
-  adjustTopPositionTitle(): void {
-    const titleInput = this.noteTitleArea.nativeElement;
-    const newTitleHeight = titleInput.scrollHeight;
-    const textInput = this.noteTextarea.nativeElement;
-    const newTextHeight = textInput.scrollHeight;
-    const maxTopPosition = 6; // Maximum allowed top position
-    const totalHeight = newTitleHeight + newTextHeight;
-    textInput.style.top = `${totalHeight > this.addNoteTitleHeight ? Math.min(maxTopPosition, 6) : -4}px`;
-  }
-  maxHeightOFNoteText: number = 400;
-  showScrollbar(): boolean {
-    const container = this.dropNote?.nativeElement?.querySelector('.note-text');
+  scrollbarAdd(): boolean {
+    const container = this.dropNote?.nativeElement;
     if (container) {
-      const maxHeight = window.innerHeight - container.getBoundingClientRect().top; // Adjust as needed
-      container.style.maxHeight = `${maxHeight}px`;
-      const actualHeight = container.clientHeight;
-
-      return actualHeight > this.maxHeightOFNoteText;
+      const actualHeight = container.scrollHeight;
+      return actualHeight > 600;
     }
-    return false; // Return false by default if container is not found
+    return false;
   }
+
+  adjustTextareaHeight(event: Event): void {
+    const textarea = event.target as HTMLTextAreaElement;
+    textarea.style.height = '0';
+    textarea.style.overflowY = 'hidden';
+    const minHeight = 0;
+    const newHeight = Math.min(Math.max(minHeight, textarea.scrollHeight), 643);
+    textarea.style.height = `${newHeight}px`;
+    textarea.style.overflowY = newHeight === 643 ? 'scroll' : 'hidden';
+  }
+
   createNote(isArchived: boolean) {
     const title = this.notes.value.title;
     const noteText = this.notes.value.note;
@@ -167,4 +114,6 @@ export class NoteInputComponent implements OnInit {
       this.notesSubscription.unsubscribe();
     }
   }
+
+  protected readonly event = event;
 }

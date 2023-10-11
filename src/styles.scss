@@ -126,29 +126,6 @@ body {
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
-.label-container{
-  height: 177px;
-  width: 600px;
-  border-radius: 8px;
-  position: relative;
-  z-index: 1;
-}
-.dropdown-menu {
-  background-color: #fff;
-  min-width: 8.4875em;
-  min-height: 2.16em;
-  border-width: 0;
-  box-shadow: 0 0.0625em 0.125em 0 rgba(60, 64, 67, 0.302), 0 0.125em 0.375em 0.125em rgba(60, 64, 67, 0.149);
-  position: absolute;
-  -webkit-border-radius: 0.25em;
-  border-radius: 0.25em;
-  z-index: 5003 !important;
-  padding: 0.375em 0;
-  opacity: 1;
-  left: 16.1em;
-  top: 2.25em;
-  overflow-y: hidden;
-}
 
 .mat-mdc-dialog-container .mdc-dialog__surface{
   border-radius: 0.5em!important;

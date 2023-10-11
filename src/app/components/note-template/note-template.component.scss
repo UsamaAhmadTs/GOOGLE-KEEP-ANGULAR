@@ -1,0 +1,339 @@
+.pic{
+  background-size: 7.5em 7.5em;
+  height: 7.5em;
+  margin: 1.25em;
+  opacity: 0.2;
+  width: 7.5em;
+}
+.title{
+  letter-spacing: .00625em;
+  font-family: "Google Sans",Roboto,Arial,sans-serif;
+  font-size: 1rem;
+  font-weight: 500;
+  line-height: 1.5rem;
+  padding-top: 0.75rem;
+}
+
+.text{
+  color: #5f6368;
+  cursor: default;
+  font-family: "Google Sans",Roboto,Arial,sans-serif;
+  font-size: 1.375rem;
+  font-weight: 400;
+  letter-spacing: 0;
+  line-height: 1.75rem;
+}
+
+.noteText{
+
+  font-family: "Google Sans",Roboto,Arial,sans-serif;
+  font-size: 1.125rem;
+  font-weight: 400;
+  letter-spacing: 0;
+  line-height: 1.5rem;
+}
+.no-notes{
+  margin-top: 20vh;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-flex-direction: column;
+  flex-direction: column;
+}
+.notes-container {
+  display: flex;
+  flex-wrap: wrap;
+  margin-left: 5em;
+  flex: 0 0 33.33%; /* Three notes in a row */
+  box-sizing: border-box;
+  padding: 0.5em; /* Add some spacing around each note */
+  justify-content: flex-start;
+}
+.dropdown-menu-label{
+  left: 16em !important;
+  top: 13.6em !important;
+}
+.single-input-note{
+  left: 16em !important;
+  top: 9em !important;
+}
+.dropdown-menu{
+  user-select: none;
+  opacity: 1;
+  left: 15.5em;
+  top: 11.2em;
+  background-color: #fff;
+  box-shadow: 0 0.0625em 0.125em 0 rgba(60, 64, 67, 0.302), 0 0.125em 0.375em 0.125em rgba(60, 64, 67, 0.149);
+  position: absolute;
+  border-radius: 0.25em;
+  z-index: 5003;
+  cursor: pointer;
+  font-size: 0.8125em;
+  margin: 0;
+  outline: none;
+  padding: 0.375em 0;
+  border: 0.0625em solid rgba(0, 0, 0, 0.2);
+  width: 10.625em;
+}
+
+.drop-els{
+  letter-spacing: .01428571em;
+  font-family: Roboto,Arial,sans-serif;
+  font-size: .875rem;
+  font-weight: 400;
+  line-height: 1.25rem;
+  border: 1px solid transparent;
+  padding: 0.3125em 0.625em 0.3125em 1.0625em;
+  color: #3c4043;
+  height: 100%;
+  vertical-align: top;
+}
+.save-labels-area{
+  display: flex;
+}
+.label-menu{
+  min-width: 14.0625em;
+  min-height: 4.75em;
+  background-color: #fff;
+  border-width: 0;
+  box-shadow: 0 0.0625em 0.125em 0 rgba(60, 64, 67, 0.302), 0 0.125em 0.375em 0.125em rgba(60, 64, 67, 0.149);
+  position: absolute;
+  -webkit-border-radius: 0.25em;
+  border-radius: 0.2em;
+  z-index: 5003;
+  padding: 0.375em 0;
+  opacity: 1;
+  left: 13em;
+  top: 9em;
+}
+.dLabel-menu{
+  left: 13em;
+  top: 10.8em;
+}
+.label-title{
+  height: 1.25em;
+  width: inherit;
+  cursor: default;
+  font-size: 0.875em;
+  padding: 0 0.75em;
+  margin: 3.5px;
+}
+.label-area-container{
+  border-top: 0.1px solid #dadce0;
+  width: 14.0625em;
+  height: 1.875em;
+  cursor: pointer;
+  display: block;
+  outline: none;
+  padding: 5px 0.625em 3px;
+  position: relative;
+}
+.label-area{
+  display: flex;
+  width: 12.8125em;
+  height: 1.3125em;
+}
+.check{
+  margin-right:0.3em ;
+  margin-left:0.5em ;
+}
+.search{
+  display: flex;
+  width: 14.0625em;
+  height: 2.25em;
+  padding: 8px 0.75em;
+  position: relative;
+  -webkit-transition: box-shadow 0.218s;
+  transition: box-shadow 0.218s;
+  margin-top: 0.4375em;
+}
+.search-icon{
+  margin-top: 0.22em;
+  width: 1.125em;
+  height: 1em;
+  -webkit-background-size: 0.875em 0.875em;
+  background-size: 0.875em 0.875em;
+  opacity: 0.35;
+  position: absolute;
+  right: 0.6875em;
+  top: 0.5em;
+}
+.search-text{
+  min-width: 3.5em;
+  min-height: 1.0625em;
+  display: inline-block;
+  margin-left: 7px;
+  max-width: 10em;
+  padding-top: 2px;
+  vertical-align: top;
+  word-wrap: break-word;
+  font-size: small;
+  margin-top: 0.15em;
+}
+.input{
+  box-sizing: border-box;
+  height: auto;
+  padding: 2px 1.375em 2px 2px;
+  width: 100%;
+  border: none;
+  outline: none;
+}
+.note {
+  background: white;
+  width: 15em;
+  margin: 0.625em;
+  border: 1px solid #e0e1e0;
+  border-radius: 0.5em;
+  position: relative;
+  color: #202124;
+}
+.note .title {
+  color: #24262d;
+  width: 100%;
+  margin: 0.9375em 0 0 0.9375em;
+}
+.note .noteText {
+  width: 100%;
+  margin: 0.625em 0 0 0.9375em;
+}
+.note .note-footer {
+  display: flex;
+  margin-top: 0.9375em;
+  padding: 0;
+  justify-content: center;
+}
+.note-footer .material-icons-outlined {
+  color: #5f6368;
+}
+.note .check-circle {
+  position: absolute;
+  left: -0.425em;
+  top: -0.425em;
+}
+
+.small-icon {
+  color: black;
+  font-size: 1.1rem;
+}
+
+.material-icons-outlined {
+  padding: 0.625em;
+}
+.hover:hover {
+  background: #f1f3f4;
+  color: black;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.tooltip {
+  position: relative;
+}
+
+.tooltip-text {
+  position: absolute;
+  left: 0;
+  top: 100%;
+  font-size: 0.78rem;
+  background-color: #323232;
+  color: white;
+  opacity: 0.8;
+  padding: 5px;
+  white-space: nowrap;
+  border-radius: 5px;
+  visibility: hidden;
+  z-index: 1;
+}
+
+.tooltip:hover .tooltip-text {
+  visibility: visible;
+}
+.note .check-circle {
+  visibility: hidden;
+}
+.note-footer .material-icons-outlined {
+  visibility: hidden;
+}
+
+.note:hover .material-icons-outlined,
+.note:hover .check-circle {
+  visibility: visible;
+}
+.note:hover{
+  box-shadow: 0 1px 2px 0 rgb(60 64 67 / 30%), 0 2px 6px 2px rgb(60 64 67 / 15%);
+}
+#dropNote{
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  padding-top: 100px; /* Location of the box */
+  left: 0;
+  top: 0;
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(0,0,0); /* Fallback color */
+  background-color: rgba(0,0,0,0.4);
+}
+.note-title{
+  border: none;
+  font-size: 1rem;
+  height: 100%;
+  padding: 0.625em;
+  margin-left: 0.625em;
+  width: 100%;
+  margin-right: 0.625em;
+}
+
+.note-text {
+  border: none;
+  font-size: 1rem;
+  height: 100%;
+  padding: 0.625em;
+  margin-left: 0.625em;
+  width: 100%;
+  margin-right: 0.625em;
+}
+
+.form-actions {
+  display: flex;
+}
+
+.form-actions .icons {
+  display: flex;
+}
+
+.form-actions {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  margin-top: 0.3125em;
+}
+
+.close-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 1rem;
+  color: #5f6368;
+}
+
+.material-icons-outline {
+  color: #5f6368;
+}
+.note-opacity{
+  opacity: 0 ;
+}
+.emptyNote {
+  min-height: 4.875em;
+  .dropdown-menu, .label-menu {
+    left: 15.3em;
+    top: 13em;
+  }
+}
+.empty {
+  color: #5f6368;
+  font-family: "Google Sans", Roboto, Arial, sans-serif;
+  font-size: 1.375rem;
+  font-weight: 400;
+  letter-spacing: 0;
+  line-height: 1.75rem;
+  padding: 1.875em 0.9375em 0 0.9375em;
+
+}

@@ -1,0 +1,30 @@
+<div class="no-notes" *ngIf="((filteredNotes$ | async)?.length || 0) < 1 && (searchQuery$ | async)?.trim() != ''">
+  <div class="notText">
+    <span class="noText">No matching results.</span>
+  </div>
+</div>
+
+<div class="container">
+  <div class="flex-notes">
+    <div class="notes-container">
+      <app-note-template
+        [isArchiveNote]="false"
+        [highLight]="true"
+      ></app-note-template>
+    </div>
+  </div>
+
+  <div *ngIf="isMixedNotes()" class="flex-note">
+    <span class="archived-text">ARCHIVE</span>
+  </div>
+  <div class="flex-notes">
+    <div class="notes-container">
+      <app-note-template
+        [isArchiveNote]="true"
+        [highLight]="true"
+      ></app-note-template>
+    </div>
+  </div>
+
+</div>
+

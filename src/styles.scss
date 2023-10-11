@@ -1,0 +1,157 @@
+
+@use '@angular/material' as mat;
+
+@include mat.core();
+
+$GOOGLE-KEEP-primary: mat.define-palette(mat.$indigo-palette);
+$GOOGLE-KEEP-accent: mat.define-palette(mat.$pink-palette, A200, A100, A400);
+
+// The warn palette is optional (defaults to red).
+$GOOGLE-KEEP-warn: mat.define-palette(mat.$red-palette);
+
+$GOOGLE-KEEP-theme: mat.define-light-theme((
+  color: (
+    primary: $GOOGLE-KEEP-primary,
+    accent: $GOOGLE-KEEP-accent,
+    warn: $GOOGLE-KEEP-warn,
+  )
+));
+
+@include mat.all-component-themes($GOOGLE-KEEP-theme);
+
+:root {
+  --note-width: 240px
+}
+
+.main {
+  background-color: #202124;
+  color: white;
+}
+
+.Hover:hover {
+  outline: none !important;
+  border-radius: 50% !important;
+  background-color: rgba(232, 234, 237, 0.08) !important;
+  cursor: pointer !important;
+}
+
+.w-100 {
+  width: 100% !important;
+}
+
+.d-none {
+  display: none !important;
+}
+
+.d-flex {
+  display: flex !important;
+}
+.highlighted {
+  background-color: yellow;
+}
+
+.mx-auto {
+  margin-inline: auto;
+  transition: all 0.7s;
+}
+
+.pop:hover::before {
+  content: attr(data-pop);
+  position: absolute;
+  width: max-content;
+  left: 50%;
+  transform: translate(-50%, 0);
+  top: 37px;
+  background-color: rgb(0 0 0 / 61%);
+  padding: 3px 9px;
+  font-size: 15px;
+  font-family: 'Google Sans', serif;
+  border-radius: 5px;
+}
+
+/* ===== Scrollbar CSS ===== */
+
+/* Chrome, Edge, and Safari */
+*::-webkit-scrollbar {
+  height: 16px;
+  overflow: visible;
+  width: 16px;
+}
+
+*::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: rgba(255, 255, 255, .3);
+  background-clip: padding-box;
+  border: solid transparent;
+  border-width: 1px 1px 1px 6px;
+  box-shadow: inset 1px 1px 0 rgb(0 0 0 / 10%), inset 0 -1px 0 rgb(0 0 0 / 7%);
+}
+
+*::-webkit-scrollbar-track {
+  background-clip: padding-box;
+  border: solid transparent;
+  border-width: 0 0 0 4px;
+}
+
+//
+img,
+svg {
+  vertical-align: middle;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+}
+
+//? fonts
+@import "./assets/fonts/fonts.scss";
+
+//? snackbar AKA toast
+@import "~node_modules/node-snackbar/dist/snackbar.css";
+
+//? icons
+@import "./assets/scss/icons.scss";
+
+//? tooltips
+@import "./assets/scss/tooltips.scss";
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+.label-container{
+  height: 177px;
+  width: 600px;
+  border-radius: 8px;
+  position: relative;
+  z-index: 1;
+}
+.dropdown-menu {
+  background-color: #fff;
+  min-width: 8.4875em;
+  min-height: 2.16em;
+  border-width: 0;
+  box-shadow: 0 0.0625em 0.125em 0 rgba(60, 64, 67, 0.302), 0 0.125em 0.375em 0.125em rgba(60, 64, 67, 0.149);
+  position: absolute;
+  -webkit-border-radius: 0.25em;
+  border-radius: 0.25em;
+  z-index: 5003 !important;
+  padding: 0.375em 0;
+  opacity: 1;
+  left: 16.1em;
+  top: 2.25em;
+  overflow-y: hidden;
+}
+
+.mat-mdc-dialog-container .mdc-dialog__surface{
+  border-radius: 0.5em!important;
+  position: relative !important;
+  top: -8em !important;
+}

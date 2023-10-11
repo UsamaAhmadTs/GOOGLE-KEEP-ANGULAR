@@ -1,0 +1,24 @@
+<div sideBar class="main-sidebar">
+    <div>
+        <div class="item" routerLink="/notes" (click)="onNoteClick()" [ngClass]="{'background-color':notesClicked}" >
+            <img src="./assets/images/svg/lamp.svg" alt="lamp" class="pic">
+            <span class="text">Notes</span>
+        </div>
+        <div class="item">
+            <img src="./assets/images/svg/reminder.svg" alt="reminder" class="pic">
+            <span class="text">Reminders</span>
+        </div>
+        <div class="item">
+            <img src="./assets/images/svg/pen.svg" alt="pen" class="pic">
+            <span class="text">Edit labels</span>
+        </div>
+        <div class="item" routerLink="/archived" (click)="onArchiveClick()" [ngClass]="{'background-color':archiveClicked}">
+            <img src="./assets/images/svg/archive.svg" alt="archive" class="pic">
+            <span class="text">Archive</span>
+        </div>
+        <div routerLink="/trash" class="item">
+            <img src="./assets/images/svg/trash.svg" alt="trash" class="pic">
+            <span class="text">Trash</span>
+        </div>
+    </div>
+</div>

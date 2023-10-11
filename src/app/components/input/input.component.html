@@ -1,0 +1,41 @@
+<div class="input-body">
+  <div #mainNote class="form-container" *ngIf="showFirst" (click)="toggleDivs()">
+    <form class="main-note">
+      <input class="note-text" type="text" placeholder="Take a note..."/>
+      <div class="form-actions">
+        <div class="icons">
+          <div class="tooltip">
+            <img src="./assets/images/svg/checkedi.svg" alt="checked-btn">
+          </div>
+          <div class="tooltip">
+            <img src="./assets/images/svg/paint.svg" alt="checked-btn">
+          </div>
+          <div class="tooltip-last">
+            <img src="./assets/images/svg/picture.svg" alt="checked-btn">
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+
+  <div #dropNote class="form-container active-form" *ngIf="!showFirst">
+    <form class="drop-note" [formGroup]="notes" (ngSubmit)="createNote(false)">
+      <input type="text" class="note-title" placeholder="Title" formControlName="title"/>
+      <input class="note-text" type="text" placeholder="Take a note..." formControlName="note"/>
+      <div class="form-actions">
+        <div class="icons">
+          <app-note-footer [createArchive]="true" style="display: flex;"></app-note-footer>
+          <div class="tooltip-undo">
+            <img src="./assets/images/svg/undo.svg">
+          </div>
+          <div class="tooltip-redo">
+            <img src="./assets/images/svg/redo.svg">
+          </div>
+        </div>
+        <button class="close-btn" type="submit">Close</button>
+      </div>
+    </form>
+  </div>
+  <app-notes></app-notes>
+
+</div>

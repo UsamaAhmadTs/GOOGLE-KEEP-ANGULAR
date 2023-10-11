@@ -20,7 +20,8 @@
 
   <div #dropNote class="form-container active-form" *ngIf="!showFirst" [ngClass]="{'scrollbar':showScrollbar()}">
     <form class="drop-note" [formGroup]="notes" (ngSubmit)="createNote(false)">
-      <input #noteTextTitle type="text" class="note-title" placeholder="Title" formControlName="title" (keydown)="moveFocusToNoteText($event)"/>
+      <textarea #noteTextTitle type="text" class="note-title" placeholder="Title" formControlName="title"
+                (keydown)="moveFocusToNoteText($event)"></textarea>
       <textarea id="textarea" class="note-text" placeholder="Take a note..." formControlName="note" #noteTextarea
                 (input)="adjustTextHeight($event)"></textarea>
       <div class="form-actions">

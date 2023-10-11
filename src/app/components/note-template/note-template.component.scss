@@ -15,6 +15,8 @@
   font-weight: 500;
   line-height: 1.5rem;
   padding-top: 0.75rem;
+  word-wrap: break-word;
+  padding-right: 2.1em;
 }
 
 .text{
@@ -50,7 +52,7 @@
 }
 .dropdown-menu-label{
   left: 16em !important;
-  top: 13.6em !important;
+  top: 14.6em !important;
 }
 .single-input-note{
   left: 16em !important;
@@ -60,7 +62,7 @@
   user-select: none;
   opacity: 1;
   left: 15.5em;
-  top: 11.2em;
+  top: 12.2em;
   background-color: #fff;
   box-shadow: 0 0.0625em 0.125em 0 rgba(60, 64, 67, 0.302), 0 0.125em 0.375em 0.125em rgba(60, 64, 67, 0.149);
   position: absolute;

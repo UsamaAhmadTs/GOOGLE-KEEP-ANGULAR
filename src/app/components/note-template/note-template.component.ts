@@ -172,8 +172,9 @@ export class NoteTemplateComponent implements OnInit {
     }
   }
   adjustDropdownPosition(): void {
-    const cardHeight = this.elementRef.nativeElement.querySelector('.card').offsetHeight;
-    const dropdownElement = this.elementRef.nativeElement.querySelector('.custom-dropdown');
+    const cardHeight = this.elementRef.nativeElement.querySelector('.notes-container').offsetHeight;
+    console.log(cardHeight)
+    const dropdownElement = this.elementRef.nativeElement.querySelector('.dropdown-menu');
 
     // Calculate the new position based on card height
     const newPosition = cardHeight + 'px';

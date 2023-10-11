@@ -1,4 +1,4 @@
-import {Component, OnInit, Inject, Input} from '@angular/core';
+import {Component, OnInit, Inject, Input, HostListener} from '@angular/core';
 
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 
@@ -75,6 +75,15 @@ export class EditModalComponent implements OnInit {
   updateNote(selectedNote: Note) {
     this.notesService.updateNote(selectedNote);
     this.dialogRef.close();
+  }
+  @HostListener('document:click', ['$event'])
+  handleClick(event: Event) {
+    if (!this.selectedNote.showDropdownMenu) return;
+    const targetElement = event.target as HTMLElement;
+    const dropdownMenu = document.querySelector('.dropdown-menu');
+    if (!dropdownMenu?.contains(targetElement)) {
+      this.selectedNote.showDropdownMenu = false;
+    }
   }
 
 }

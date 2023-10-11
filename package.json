@@ -20,6 +20,8 @@
     "@angular/platform-browser": "^16.2.0",
     "@angular/platform-browser-dynamic": "^16.2.0",
     "@angular/router": "^16.2.0",
+    "@coreui/angular": "^4.5.16",
+    "@coreui/icons-angular": "^4.5.16",
     "@popperjs/core": "^2.11.6",
     "node-snackbar": "^0.1.16",
     "rxjs": "~7.8.0",

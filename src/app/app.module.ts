@@ -35,6 +35,7 @@ import { LabelMenuComponent } from './components/label-menu/label-menu.component
 import { NoteLabelTagComponent } from './components/note-label-tag/note-label-tag.component';
 
 import { NoteFooterComponent } from './components/note-footer/note-footer.component';
+import {DropdownComponent} from "@coreui/angular";
 
 @NgModule({
   declarations: [
@@ -59,7 +60,8 @@ import { NoteFooterComponent } from './components/note-footer/note-footer.compon
     MatDialogModule,
     MatButtonModule,
     NoopAnimationsModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    DropdownComponent
   ],
   providers: [NoteTemplateComponent],
   bootstrap: [AppComponent]

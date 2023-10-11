@@ -7,19 +7,13 @@ import {Note} from './note';
 @Injectable({
   providedIn: 'root'
 })
-export class NotesService implements OnDestroy{
+export class NotesService{
   private notes: Note[] = [];
   notesSubject: BehaviorSubject<Note[]> = new BehaviorSubject<Note[]>([]);
   private searchQuerySubject = new BehaviorSubject<string>('');
   searchQuery$: Observable<string> = this.searchQuerySubject.asObservable();
   filteredNotesSubject: BehaviorSubject<Note[]> = new BehaviorSubject<Note[]>([]);
   filteredNotes$: Observable<Note[]> = this.filteredNotesSubject.asObservable();
-    private getNotesSubscription: Subscription;
-  constructor() {
-    this.getNotesSubscription = this.getNotes().subscribe((notes) => {
-      this.notes = notes.reverse();
-    });
-  }
 
   setSearchQuery(searchQuery$: string) {
     this.searchQuerySubject.next(searchQuery$);
@@ -43,11 +37,11 @@ export class NotesService implements OnDestroy{
     });
   }
 
-  getNotes(): Observable<Note[]> {
+  getNotes(): void {
     const notesList = this.getNotesListFromLocalStorage();
     this.notesSubject.next(notesList);
-    return this.notesSubject.asObservable();
-
+    this.notesSubject.next(notesList.reverse());
+    this.notes = notesList;
   }
 
   getFilteredNotes(): Observable<Note[]> {
@@ -69,7 +63,6 @@ export class NotesService implements OnDestroy{
         return filteredNotes;
       })
     );
-
   }
 
   getNotesListFromLocalStorage(): Note[] {
@@ -147,11 +140,6 @@ export class NotesService implements OnDestroy{
       notesList[index].display = true;
       this.setNotesListToLocalStorage(notesList);
       this.notesSubject.next(notesList);
-    }
-  }
-  ngOnDestroy() {
-    if (this.getNotesSubscription) {
-      this.getNotesSubscription.unsubscribe();
     }
   }
 

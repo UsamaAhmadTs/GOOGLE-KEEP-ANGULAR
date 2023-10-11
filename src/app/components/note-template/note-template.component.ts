@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, HostListener, Input, OnDestroy, OnInit, Renderer2} from '@angular/core';
+import {ChangeDetectionStrategy, Component, Input, OnDestroy, OnInit, Renderer2} from '@angular/core';
 
 import {NotesService} from "../notes-service";
 
@@ -40,16 +40,21 @@ export class NoteTemplateComponent implements OnInit, OnDestroy {
   private afterClosedSubscription!: Subscription;
   private archiveNotesSubscription!: Subscription;
   private deleteNotesSubscription!: Subscription;
+  private getNotesSubscription: Subscription;
   constructor(private noteService: NotesService,private labelService: LabelService, private dialog: MatDialog, private renderer: Renderer2) {
     this.searchQuery$ = this.noteService.searchQuery$;
-    this.notes$ = this.noteService.getNotes();
+    this.noteService.getNotes();
+    this.getNotesSubscription = this.noteService.notesSubject.subscribe(notes => {
+      this.notes$ = of(notes);
+    });
     this.notesSubscription = this.notes$.subscribe((notes) => {
       this.notes$ = new Observable((observer) => {
         observer.next(notes);
         observer.complete();
       });
     });
-    this.labelsSubscription = this.labelService.getLabels().subscribe(labels => {
+    this.labelService.getLabels();
+    this.labelsSubscription = this.labelService.labelsSubject.subscribe(labels => {
       this.labels = labels;
     });
     this.filteredNotesSubscription = this.noteService.getFilteredNotes().subscribe(filteredNotes => {
@@ -137,6 +142,9 @@ export class NoteTemplateComponent implements OnInit, OnDestroy {
     }
     if (this.afterClosedSubscription) {
       this.afterClosedSubscription.unsubscribe();
+    }
+    if (this.getNotesSubscription) {
+      this.getNotesSubscription.unsubscribe();
     }
   }
 }

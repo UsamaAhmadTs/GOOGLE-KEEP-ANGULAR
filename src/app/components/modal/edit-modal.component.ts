@@ -22,7 +22,8 @@ export class EditModalComponent implements OnInit, OnDestroy {
   private afterClosedSubscription!: Subscription;
   constructor(@Inject(MAT_DIALOG_DATA) public data: { note: Note },
               private notesService: NotesService, private dialogRef: MatDialogRef<EditModalComponent>) {
-    this.getNotesSubscription = this.notesService.getNotes().subscribe((notes) => {
+    this.notesService.getNotes();
+    this.getNotesSubscription = this.notesService.notesSubject.subscribe(notes => {
       this.notes = notes;
     });
   }

@@ -11,21 +11,18 @@ import {NotesService} from "./notes-service";
 @Injectable({
   providedIn: 'root'
 })
-export class LabelService implements OnDestroy{
+export class LabelService{
   private labels: Label[] = [];
-  private labelsSubject: BehaviorSubject<Label[]> = new BehaviorSubject<Label[]>([]);
-  private getLabelsSubscription: Subscription;
+  labelsSubject: BehaviorSubject<Label[]> = new BehaviorSubject<Label[]>([]);
 
   constructor(private noteService: NotesService) {
-    this.getLabelsSubscription = this.getLabels().subscribe((labels) => {
-      this.labels = labels;
-    });
   }
 
-  getLabels(): Observable<Label[]> {
+  getLabels(): void {
     const labelsList = this.getLabelsFromLocalStorage();
     this.labelsSubject.next(labelsList);
-    return this.labelsSubject.asObservable();
+    this.labelsSubject.next(labelsList.reverse());
+    this.labels = labelsList;
   }
 
   private getLabelsFromLocalStorage(): Label[] {
@@ -82,10 +79,5 @@ export class LabelService implements OnDestroy{
       label.labelTitle.toLowerCase().includes(searchText.toLowerCase())
     );
     return of(filteredLabels);
-  }
-  ngOnDestroy() {
-    if (this.getLabelsSubscription) {
-      this.getLabelsSubscription.unsubscribe();
-    }
   }
 }

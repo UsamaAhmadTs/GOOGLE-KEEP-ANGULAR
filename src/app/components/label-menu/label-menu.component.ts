@@ -27,7 +27,8 @@ export class LabelMenuComponent implements OnDestroy{
   private searchLabelsSubscription!: Subscription
   private associateLabelsSubscription!: Subscription;
   constructor(private labelService: LabelService) {
-    this.labelsSubscription = this.labelService.getLabels().subscribe(labels => {
+    this.labelService.getLabels();
+    this.labelsSubscription = this.labelService.labelsSubject.subscribe(labels => {
       this.labels = labels;
     });
   }

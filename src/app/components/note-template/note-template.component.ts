@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, HostListener, Input, OnInit, Renderer2} from '@angular/core';
+import {ChangeDetectionStrategy, Component, HostListener, Input, OnDestroy, OnInit, Renderer2} from '@angular/core';
 
 import {NotesService} from "../notes-service";
 
@@ -8,7 +8,7 @@ import {EditModalComponent} from "../modal/edit-modal.component";
 
 import {MatDialog} from "@angular/material/dialog";
 
-import {Observable, of} from "rxjs";
+import {Observable, of, Subscription} from "rxjs";
 
 import {Label} from "../label";
 import {LabelService} from "../label.service";
@@ -19,7 +19,7 @@ import {LabelService} from "../label.service";
   styleUrls: ['./note-template.component.scss'],
   changeDetection: ChangeDetectionStrategy.Default
 })
-export class NoteTemplateComponent implements OnInit {
+export class NoteTemplateComponent implements OnInit, OnDestroy {
   @Input() isArchiveNote: boolean = false;
   @Input() highLight: boolean = false;
   @Input() display: boolean = false;
@@ -33,26 +33,33 @@ export class NoteTemplateComponent implements OnInit {
   labelTitle: string = '';
   selectedNote: Note | null = null;
 
+  private notesSubscription: Subscription;
+  private labelsSubscription: Subscription;
+  private filteredNotesSubscription: Subscription;
+  private searchQuerySubscription!: Subscription;
+  private afterClosedSubscription!: Subscription;
+  private archiveNotesSubscription!: Subscription;
+  private deleteNotesSubscription!: Subscription;
   constructor(private noteService: NotesService,private labelService: LabelService, private dialog: MatDialog, private renderer: Renderer2) {
     this.searchQuery$ = this.noteService.searchQuery$;
     this.notes$ = this.noteService.getNotes();
-    this.notes$.subscribe((notes) => {
+    this.notesSubscription = this.notes$.subscribe((notes) => {
       this.notes$ = new Observable((observer) => {
         observer.next(notes);
         observer.complete();
       });
     });
-    this.labelService.getLabels().subscribe(labels => {
+    this.labelsSubscription = this.labelService.getLabels().subscribe(labels => {
       this.labels = labels;
     });
-    this.noteService.getFilteredNotes().subscribe(filteredNotes => {
+    this.filteredNotesSubscription = this.noteService.getFilteredNotes().subscribe(filteredNotes => {
       this.filteredNotes = filteredNotes.reverse();
       this.showMixedNotes = false;
     });
   }
 
   ngOnInit() {
-    this.searchQuery$.subscribe(query => {
+    this.searchQuerySubscription = this.searchQuery$.subscribe(query => {
       this.highlightedSearchQuery = query;
     });
     this.noteService.dropClose()
@@ -89,13 +96,13 @@ export class NoteTemplateComponent implements OnInit {
       data: {note}
     });
 
-    dialogRef.afterClosed().subscribe(result => {
+    this.afterClosedSubscription = dialogRef.afterClosed().subscribe(result => {
       this.selectedNote=null
     });
   }
 
   deleteNote(noteToDelete: Note, event: Event) {
-    this.noteService.deleteNotes(noteToDelete).subscribe({
+    this.deleteNotesSubscription = this.noteService.deleteNotes(noteToDelete).subscribe({
       next: updatedNotes => {
         this.notes$ = of(updatedNotes.reverse());
       }
@@ -105,9 +112,31 @@ export class NoteTemplateComponent implements OnInit {
 
   archiveNote(note: Note) {
     note.isArchived = !note.isArchived;
-    this.noteService.archiveNotes(note).subscribe(updatedNotes => {
+    this.archiveNotesSubscription = this.noteService.archiveNotes(note).subscribe(updatedNotes => {
       this.notes$ = of(updatedNotes);
     });
   }
-
+  ngOnDestroy() {
+    if (this.notesSubscription) {
+      this.notesSubscription.unsubscribe();
+    }
+    if (this.labelsSubscription) {
+      this.labelsSubscription.unsubscribe();
+    }
+    if (this.filteredNotesSubscription) {
+      this.filteredNotesSubscription.unsubscribe();
+    }
+    if (this.deleteNotesSubscription) {
+      this.deleteNotesSubscription.unsubscribe();
+    }
+    if (this.archiveNotesSubscription) {
+      this.archiveNotesSubscription.unsubscribe();
+    }
+    if (this.searchQuerySubscription) {
+      this.searchQuerySubscription.unsubscribe();
+    }
+    if (this.afterClosedSubscription) {
+      this.afterClosedSubscription.unsubscribe();
+    }
+  }
 }

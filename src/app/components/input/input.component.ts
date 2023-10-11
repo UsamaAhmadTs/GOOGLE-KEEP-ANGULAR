@@ -1,4 +1,4 @@
-import {Component, ElementRef, HostListener, OnInit, ViewChild} from '@angular/core';
+import {Component, ElementRef, OnDestroy, OnInit, ViewChild} from '@angular/core';
 
 import {Note} from "../note";
 
@@ -8,18 +8,20 @@ import {NotesService} from "../notes-service";
 
 import {v4 as uuidv4} from "uuid";
 
+import {Subscription} from "rxjs";
+
 @Component({
   selector: 'app-input',
   templateUrl: './input.component.html',
   styleUrls: ['./input.component.scss']
 })
-export class InputComponent implements OnInit {
+export class InputComponent implements OnInit, OnDestroy {
   @ViewChild('dropNote') dropNote!: ElementRef;
   @ViewChild('mainNote') mainNote!: ElementRef;
   note!: Note;
   showFirst = true;
   notes!: FormGroup;
-
+  private createNotesSubscription!: Subscription;
   constructor(private formBuilder: FormBuilder, private notesService: NotesService) {
   }
 
@@ -45,7 +47,7 @@ export class InputComponent implements OnInit {
         labels: [],
         showLabelMenu: false
       };
-      this.notesService.createNote(newNote).subscribe(updatedNotes => {
+      this.createNotesSubscription = this.notesService.createNote(newNote).subscribe(updatedNotes => {
         this.notes.reset();
         this.showFirst = !this.showFirst;
       });
@@ -57,5 +59,9 @@ export class InputComponent implements OnInit {
   toggleDivs() {
     this.showFirst = !this.showFirst
   }
-
+  ngOnDestroy() {
+    if (this.createNotesSubscription) {
+      this.createNotesSubscription.unsubscribe();
+    }
+  }
 }

@@ -1,28 +1,28 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 
 import {NotesService} from "../notes-service";
 
 import {Note} from "../note";
 
-import {Observable} from "rxjs";
+import {Observable, Subscription} from "rxjs";
 
 @Component({
   selector: 'app-search',
   templateUrl: './search.component.html',
   styleUrls: ['./search.component.scss'],
 })
-export class SearchComponent implements OnInit {
+export class SearchComponent implements OnInit, OnDestroy {
   filteredNotes$: Observable<Note[]>;
   searchQuery$: Observable<string | null>;
   notes: Note[] = [];
-
+  private filteredNotesSubscription!: Subscription;
   constructor(private noteService: NotesService) {
     this.searchQuery$ = this.noteService.searchQuery$;
     this.filteredNotes$ = this.noteService.filteredNotes$;
   }
 
   ngOnInit(): void {
-    this.filteredNotes$.subscribe((filteredNotes) => {
+    this.filteredNotesSubscription = this.filteredNotes$.subscribe((filteredNotes) => {
       this.notes = filteredNotes;
     });
   }
@@ -30,5 +30,9 @@ export class SearchComponent implements OnInit {
   isMixedNotes(): boolean {
     return this.noteService.isMixedNotes();
   }
-
+  ngOnDestroy() {
+    if (this.filteredNotesSubscription) {
+      this.filteredNotesSubscription.unsubscribe();
+    }
+  }
 }

@@ -1,22 +1,22 @@
-import {Injectable} from '@angular/core';
+import {Injectable, OnDestroy} from '@angular/core';
 
-import {BehaviorSubject, map, Observable, of} from "rxjs";
+import {BehaviorSubject, map, Observable, of, Subscription} from "rxjs";
 
 import {Note} from './note';
 
 @Injectable({
   providedIn: 'root'
 })
-export class NotesService {
+export class NotesService implements OnDestroy{
   private notes: Note[] = [];
   notesSubject: BehaviorSubject<Note[]> = new BehaviorSubject<Note[]>([]);
   private searchQuerySubject = new BehaviorSubject<string>('');
   searchQuery$: Observable<string> = this.searchQuerySubject.asObservable();
   filteredNotesSubject: BehaviorSubject<Note[]> = new BehaviorSubject<Note[]>([]);
   filteredNotes$: Observable<Note[]> = this.filteredNotesSubject.asObservable();
-
+    private getNotesSubscription: Subscription;
   constructor() {
-    this.getNotes().subscribe((notes) => {
+    this.getNotesSubscription = this.getNotes().subscribe((notes) => {
       this.notes = notes.reverse();
     });
   }
@@ -147,6 +147,11 @@ export class NotesService {
       notesList[index].display = true;
       this.setNotesListToLocalStorage(notesList);
       this.notesSubject.next(notesList);
+    }
+  }
+  ngOnDestroy() {
+    if (this.getNotesSubscription) {
+      this.getNotesSubscription.unsubscribe();
     }
   }
 

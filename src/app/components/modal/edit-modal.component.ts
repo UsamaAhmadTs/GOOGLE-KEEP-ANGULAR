@@ -1,32 +1,35 @@
-import {Component, OnInit, Inject, Input} from '@angular/core';
+import {Component, OnInit, Inject, Input, OnDestroy} from '@angular/core';
 
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 
 import {Note} from "../note";
 
 import {NotesService} from "../notes-service";
+import {Subscription} from "rxjs";
 
 @Component({
   selector: 'app-edit-modal',
   templateUrl: './edit-modal.component.html',
   styleUrls: ['./edit-modal.component.scss']
 })
-export class EditModalComponent implements OnInit {
-  @ Input() searchLabelText: string = '';
+export class EditModalComponent implements OnInit, OnDestroy {
+  @Input() searchLabelText: string = '';
   notes: Note[] = []
   selectedNote!: Note;
   labelTitle: string = '';
-
+  private getNotesSubscription: Subscription;
+  private deleteNotesSubscription!: Subscription;
+  private afterClosedSubscription!: Subscription;
   constructor(@Inject(MAT_DIALOG_DATA) public data: { note: Note },
               private notesService: NotesService, private dialogRef: MatDialogRef<EditModalComponent>) {
-    this.notesService.getNotes().subscribe((notes) => {
+    this.getNotesSubscription = this.notesService.getNotes().subscribe((notes) => {
       this.notes = notes;
     });
   }
 
   ngOnInit() {
     this.selectedNote = this.data.note;
-    this.dialogRef.afterClosed().subscribe(() => {
+    this.afterClosedSubscription = this.dialogRef.afterClosed().subscribe(() => {
       this.updateNote(this.selectedNote);
       this.selectedNote.showDropdownMenu = false;
       this.selectedNote.showLabelMenu = false;
@@ -47,7 +50,7 @@ export class EditModalComponent implements OnInit {
   }
 
   deleteNote(noteToDelete: Note) {
-    this.notesService.deleteNotes(noteToDelete).subscribe({
+    this.deleteNotesSubscription = this.notesService.deleteNotes(noteToDelete).subscribe({
       next: updatedNotes => {
         this.notes = updatedNotes;
         this.dialogRef.close();
@@ -59,5 +62,15 @@ export class EditModalComponent implements OnInit {
     this.notesService.updateNote(selectedNote);
     this.dialogRef.close();
   }
-
+  ngOnDestroy() {
+    if (this.getNotesSubscription) {
+      this.getNotesSubscription.unsubscribe();
+    }
+    if (this.deleteNotesSubscription) {
+      this.deleteNotesSubscription.unsubscribe();
+    }
+    if (this.afterClosedSubscription) {
+      this.afterClosedSubscription.unsubscribe();
+    }
+  }
 }

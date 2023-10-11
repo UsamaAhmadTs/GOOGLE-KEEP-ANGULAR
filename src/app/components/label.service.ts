@@ -1,22 +1,23 @@
-import {Injectable} from '@angular/core';
+import {Injectable, OnDestroy} from '@angular/core';
 
 import {Label} from "./label";
 
 import {Note} from "./note";
 
-import {BehaviorSubject, Observable, of} from "rxjs";
+import {BehaviorSubject, Observable, of, Subscription} from "rxjs";
 
 import {NotesService} from "./notes-service";
 
 @Injectable({
   providedIn: 'root'
 })
-export class LabelService {
+export class LabelService implements OnDestroy{
   private labels: Label[] = [];
   private labelsSubject: BehaviorSubject<Label[]> = new BehaviorSubject<Label[]>([]);
+  private getLabelsSubscription: Subscription;
 
   constructor(private noteService: NotesService) {
-    this.getLabels().subscribe((labels) => {
+    this.getLabelsSubscription = this.getLabels().subscribe((labels) => {
       this.labels = labels;
     });
   }
@@ -81,5 +82,10 @@ export class LabelService {
       label.labelTitle.toLowerCase().includes(searchText.toLowerCase())
     );
     return of(filteredLabels);
+  }
+  ngOnDestroy() {
+    if (this.getLabelsSubscription) {
+      this.getLabelsSubscription.unsubscribe();
+    }
   }
 }

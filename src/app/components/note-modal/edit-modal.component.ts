@@ -1,4 +1,4 @@
-import {Component, OnInit, Inject, Input, HostListener, ElementRef} from '@angular/core';
+import {Component, OnInit, Inject, Input, HostListener, ElementRef, ViewChild, AfterViewInit} from '@angular/core';
 
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 
@@ -13,13 +13,15 @@ import {Router} from "@angular/router";
   templateUrl: './edit-modal.component.html',
   styleUrls: ['./edit-modal.component.scss']
 })
-export class EditModalComponent implements OnInit {
+export class EditModalComponent implements OnInit,AfterViewInit {
   @ Input() searchLabelText: string = '';
+  @ViewChild('noteText') noteText!: ElementRef;
+  @ViewChild('noteTitle') noteTitle!: ElementRef;
   notes: Note[] = []
   selectedNote!: Note;
   labelTitle: string = '';
 
-  constructor(@Inject(MAT_DIALOG_DATA) public data: { note: Note },
+  constructor(@Inject(MAT_DIALOG_DATA) public data: { note: Note, titleHeight: number, textHeight: number  },
               private notesService: NotesService, private dialogRef: MatDialogRef<EditModalComponent>,
               private router: Router,private elementRef: ElementRef) {
     this.notesService.getNotes().subscribe((notes) => {
@@ -37,8 +39,10 @@ export class EditModalComponent implements OnInit {
     window.addEventListener('beforeunload', () => {
       this.dialogRef.close();
     });
+    setTimeout(() => {
+      this.noteTitle.nativeElement.focus();
+    }, 1);
   }
-
   closeDialog() {
     this.dialogRef.close();
   }
@@ -79,19 +83,42 @@ export class EditModalComponent implements OnInit {
       noteTextElement.focus();
     }
   }
-  adjustTextareaHeight(event: Event): void {
-    const textarea = event.target as HTMLTextAreaElement;
+
+
+
+  // @ViewChild('textAreas') textAreasRef!: ElementRef;
+  // @ViewChild('label') labelRef!: ElementRef;
+  // previousNoteTitle: string = ''; // Add this property to store the previous noteTitle
+  //
+  // adjustLabelContainerHeight() {
+  //   const textAreasElement = this.labelRef.nativeElement as HTMLElement;
+  //   const labelContainer = document.querySelector('.text-areas') as HTMLElement;
+  //   const textAreasRect = textAreasElement.getBoundingClientRect();
+  //   const textAreasHeight = textAreasRect.height;
+  //   labelContainer.style.height = textAreasHeight + 'px';
+  // }
+  //
+  // adjustTitleAreaHeight(event: Event) {
+  //   const textarea = event.target as HTMLTextAreaElement;
+  //   textarea.style.height = '0';
+  //   textarea.style.overflowY = 'hidden';
+  //   textarea.style.lineHeight = '1rem';
+  //   const minHeight = 0;
+  //   const newHeight = Math.min(Math.max(minHeight, textarea.scrollHeight), 400);
+  //   textarea.style.height = `${newHeight}px`;
+  //   textarea.style.overflowY = newHeight === 643 ? 'scroll' : 'hidden';
+  //   this.adjustLabelContainerHeight();
+  // }
+  adjustTitleAreaHeight(): void {
+    const textarea = document.getElementsByClassName("note-title")[0] as HTMLTextAreaElement;
     textarea.style.height = '0';
-    textarea.style.overflowY = 'hidden';
-    const minHeight = 0;
-    const newHeight = Math.min(Math.max(minHeight, textarea.scrollHeight), 643);
-    textarea.style.height = `${newHeight}px`;
-    textarea.style.overflowY = newHeight === 643 ? 'scroll' : 'hidden';
+    textarea.style.height = (textarea.scrollHeight) + 'px';
+    this.adjustTextAreaHeight()
   }
-  adjustTitleAreaHeight(event: Event): void {
-    const textarea = event.target as HTMLTextAreaElement;
-    textarea.style.height = 'auto';
-    textarea.style.height = textarea.scrollHeight + 'px';
+  adjustTextAreaHeight(): void {
+    const textarea = document.getElementsByClassName("note-text")[0] as HTMLTextAreaElement;
+    textarea.style.height = '0';
+    textarea.style.height = textarea.textLength + 'px';
   }
   updateNote(selectedNote: Note) {
     this.notesService.updateNote(selectedNote);
@@ -107,4 +134,7 @@ export class EditModalComponent implements OnInit {
     }
   }
 
+  ngAfterViewInit(): void {
+
+  }
 }

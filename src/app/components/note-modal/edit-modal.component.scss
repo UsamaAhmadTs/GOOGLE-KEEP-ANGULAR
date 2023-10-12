@@ -4,6 +4,7 @@
   font-weight: 400;
   letter-spacing: 0;
   line-height: 1.5rem;
+
 }
 
 .drop-els{
@@ -20,7 +21,8 @@
   cursor: pointer;
 }
 .label-container{
-  height: 177px;
+  min-height: 177px;
+  max-height: 850px;
   width: 600px;
   border-radius: 8px;
   position: relative;
@@ -53,7 +55,6 @@
  .noteText {
   width: 100%;
   margin: 10px 0 0 15px;
-
 }
 
 .material-icons-outlined {
@@ -96,23 +97,28 @@
 .tooltip:hover .tooltip-text {
   visibility: visible;
 }
+textarea {
+  height: auto;
+  min-height: 2lh;
+  max-height: 5lh;
+  overflow-y: auto;
+}
 .note-title {
   border: none;
   font-size: 1.375rem;
   height: 2.5em;
   padding-bottom: 12px;
   padding-top: 16px;
-  padding-left: 10px;
+  padding-left: 4px;
   margin-left: 10px;
-  width: 100%;
+  width: 96%;
   margin-right: 10px;
   outline: none;
   font-weight: 400;
   font-family: Roboto,Arial,sans-serif;
   resize: none;
+  overflow-y: hidden;
   display: block;
-  min-height: 40px;
-  line-height: 20px;
 }
 
 .note-text {
@@ -121,11 +127,12 @@
   height: 2.5em;
   padding: 10px;
   margin-left: 10px;
-  width: 100%;
+  width: 96%;
   margin-right: 10px;
   outline: none;
   resize: none;
   font-family: Roboto,Arial,sans-serif;
+  overflow-y: hidden;
 }
 
 .form-actions {

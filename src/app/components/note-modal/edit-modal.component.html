@@ -1,11 +1,13 @@
-<div class="label-container">
+<div class="label-container" #label>
   <form class="drop-note">
-    <textarea (keydown)="moveFocusToNoteText($event)" (input)="adjustTitleAreaHeight($event)" maxlength="1000"
-              type="text" class="note-title" name="noteTitle" placeholder="Title" [(ngModel)]="selectedNote.noteTitle"
-              autocomplete="off"></textarea>
-    <textarea (input)="adjustTextareaHeight($event)" class="note-text" type="text" name="noteText" [(ngModel)]="selectedNote.noteText"
-              autocomplete="off"></textarea>
-    <app-note-label-tag [slice]="false" [note]="selectedNote" [showAdditionalLabels]="false"></app-note-label-tag>
+    <div class="text-areas" #textAreas>
+      <textarea #noteTitle (keydown)=" moveFocusToNoteText($event); adjustTitleAreaHeight()" (focus)="adjustTitleAreaHeight()" maxlength="1000"
+                type="text" class="note-title" name="noteTitle" placeholder="Title" [(ngModel)]="selectedNote.noteTitle"
+                autocomplete="off"></textarea>
+      <textarea (focus)="adjustTextAreaHeight()" #noteText class="note-text" type="text" name="noteText" placeholder="Note" [(ngModel)]="selectedNote.noteText"
+                autocomplete="off"></textarea>
+      <app-note-label-tag [slice]="false" [note]="selectedNote" [showAdditionalLabels]="false"></app-note-label-tag>
+    </div>
     <div class="form-actions" [ngClass]="{'form-actions-without-label': selectedNote.labels.length === 0}">
       <div class="icons">
         <app-note-footer [undoRedoButtons]="true" [note]="selectedNote" [createArchive]="false"

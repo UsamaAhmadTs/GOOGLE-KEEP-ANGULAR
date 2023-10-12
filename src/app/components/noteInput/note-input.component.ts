@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, ElementRef, HostListener, OnInit, Renderer2, ViewChild} from '@angular/core';
+import {Component, ElementRef, HostListener, OnInit, Renderer2, ViewChild} from '@angular/core';
 
 import {Note} from "../note";
 
@@ -26,7 +26,7 @@ export class NoteInputComponent implements OnInit {
   private notesSubscription!: Subscription;
 
   constructor(private formBuilder: FormBuilder, private notesService: NotesService
-              , private renderer: Renderer2,private elementRef: ElementRef) {
+    , private renderer: Renderer2, private elementRef: ElementRef) {
   }
 
   ngOnInit(): void {
@@ -35,6 +35,7 @@ export class NoteInputComponent implements OnInit {
       note: ''
     })
   }
+
   moveFocusToNoteText(event: KeyboardEvent) {
     if (event.key === 'Enter') {
       event.preventDefault();
@@ -42,18 +43,11 @@ export class NoteInputComponent implements OnInit {
       noteTextElement.focus();
     }
   }
+
   adjustTitleAreaHeight(event: Event): void {
     const textarea = event.target as HTMLTextAreaElement;
     textarea.style.height = '0';
     textarea.style.height = textarea.scrollHeight + 'px';
-  }
-  scrollbarAdd(): boolean {
-    const container = this.dropNote?.nativeElement;
-    if (container) {
-      const actualHeight = container.scrollHeight;
-      return actualHeight > 600;
-    }
-    return false;
   }
 
   adjustTextareaHeight(event: Event): void {
@@ -86,8 +80,7 @@ export class NoteInputComponent implements OnInit {
         this.notes.reset();
         this.showFirst = !this.showFirst;
       });
-    }
-    else {
+    } else {
       this.showFirst = !this.showFirst;
     }
   }
@@ -101,6 +94,7 @@ export class NoteInputComponent implements OnInit {
       }, 0);
     }
   }
+
   @HostListener('document:click', ['$event'])
   onClick(event: Event): void {
     const element = event.target as HTMLElement;
@@ -115,5 +109,4 @@ export class NoteInputComponent implements OnInit {
     }
   }
 
-  protected readonly event = event;
 }

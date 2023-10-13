@@ -129,8 +129,7 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
 .cdk-overlay-pane{
   position: relative !important;
-  top: -8em !important;
-  max-height: 850px !important;
-  overflow-y: auto !important;
+  top: -7em !important;
+  overflow-x: hidden !important;
   border-radius: 8px;
 }

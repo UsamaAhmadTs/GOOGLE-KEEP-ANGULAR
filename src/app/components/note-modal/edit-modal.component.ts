@@ -1,4 +1,4 @@
-import {Component, OnInit, Inject, Input, HostListener, ElementRef, ViewChild, AfterViewInit} from '@angular/core';
+import {Component, OnInit, Inject, Input, HostListener, ElementRef, ViewChild} from '@angular/core';
 
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 
@@ -13,13 +13,14 @@ import {Router} from "@angular/router";
   templateUrl: './edit-modal.component.html',
   styleUrls: ['./edit-modal.component.scss']
 })
-export class EditModalComponent implements OnInit,AfterViewInit {
+export class EditModalComponent implements OnInit {
   @ Input() searchLabelText: string = '';
   @ViewChild('noteText') noteText!: ElementRef;
   @ViewChild('noteTitle') noteTitle!: ElementRef;
   notes: Note[] = []
   selectedNote!: Note;
   labelTitle: string = '';
+  previousTextArea!: string |undefined
 
   constructor(@Inject(MAT_DIALOG_DATA) public data: { note: Note, titleHeight: number, textHeight: number  },
               private notesService: NotesService, private dialogRef: MatDialogRef<EditModalComponent>,
@@ -35,6 +36,9 @@ export class EditModalComponent implements OnInit,AfterViewInit {
       this.updateNote(this.selectedNote);
       this.selectedNote.showDropdownMenu = false;
       this.selectedNote.showLabelMenu = false;
+      this.previousTextArea = this.selectedNote.noteTitle;
+      this.titleHeight();
+      this.textHeight();
     });
     window.addEventListener('beforeunload', () => {
       this.dialogRef.close();
@@ -84,42 +88,32 @@ export class EditModalComponent implements OnInit,AfterViewInit {
     }
   }
 
-
-
-  // @ViewChild('textAreas') textAreasRef!: ElementRef;
-  // @ViewChild('label') labelRef!: ElementRef;
-  // previousNoteTitle: string = ''; // Add this property to store the previous noteTitle
-  //
-  // adjustLabelContainerHeight() {
-  //   const textAreasElement = this.labelRef.nativeElement as HTMLElement;
-  //   const labelContainer = document.querySelector('.text-areas') as HTMLElement;
-  //   const textAreasRect = textAreasElement.getBoundingClientRect();
-  //   const textAreasHeight = textAreasRect.height;
-  //   labelContainer.style.height = textAreasHeight + 'px';
-  // }
-  //
-  // adjustTitleAreaHeight(event: Event) {
-  //   const textarea = event.target as HTMLTextAreaElement;
-  //   textarea.style.height = '0';
-  //   textarea.style.overflowY = 'hidden';
-  //   textarea.style.lineHeight = '1rem';
-  //   const minHeight = 0;
-  //   const newHeight = Math.min(Math.max(minHeight, textarea.scrollHeight), 400);
-  //   textarea.style.height = `${newHeight}px`;
-  //   textarea.style.overflowY = newHeight === 643 ? 'scroll' : 'hidden';
-  //   this.adjustLabelContainerHeight();
-  // }
-  adjustTitleAreaHeight(): void {
-    const textarea = document.getElementsByClassName("note-title")[0] as HTMLTextAreaElement;
-    textarea.style.height = '0';
-    textarea.style.height = (textarea.scrollHeight) + 'px';
-    this.adjustTextAreaHeight()
+  titleHeight() {
+    const title = this.noteTitle.nativeElement;
+    const noteTextArea = this.selectedNote.noteTitle;
+    if (title.style.height !== '56px') {
+      title.style.height = '0';
+    }
+    const newHeight = Math.max(title.scrollHeight, 56);
+    title.style.height = `${newHeight}px`;
+    this.previousTextArea = noteTextArea;
+    if (!noteTextArea) {
+      title.style.height = `${56}px`;
+    }
+    this.textHeight()
   }
-  adjustTextAreaHeight(): void {
-    const textarea = document.getElementsByClassName("note-text")[0] as HTMLTextAreaElement;
-    textarea.style.height = '0';
-    textarea.style.height = textarea.textLength + 'px';
+
+  textHeight() {
+    const text = this.noteText.nativeElement;
+    const initial = this.selectedNote.noteText;
+    text.style.height = '0';
+    const newHeight = Math.max(text.scrollHeight, 57.6);
+    text.style.height = `${newHeight}px`;
+    if (!initial) {
+      text.style.height = `${57.6}px`;
+    }
   }
+
   updateNote(selectedNote: Note) {
     this.notesService.updateNote(selectedNote);
     this.dialogRef.close();
@@ -134,7 +128,5 @@ export class EditModalComponent implements OnInit,AfterViewInit {
     }
   }
 
-  ngAfterViewInit(): void {
-
-  }
 }
+

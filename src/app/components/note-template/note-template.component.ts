@@ -155,12 +155,4 @@ export class NoteTemplateComponent implements OnInit {
     }
   }
 
-  // ngOnDestroy(): void {
-  //   if (this.notesSubscription) {
-  //     this.notesSubscription.unsubscribe();
-  //     this.labelSubscription.unsubscribe();
-  //     this.filteredNotesSubscription.unsubscribe();
-  //   }
-  // }
-
 }

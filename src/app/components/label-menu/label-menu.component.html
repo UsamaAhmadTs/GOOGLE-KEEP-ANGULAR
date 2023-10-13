@@ -1,9 +1,10 @@
-<div *ngIf="note.showLabelMenu" class="label-menu"
+<div *ngIf="note.showLabelMenu"
      [ngClass]="{'simple-Label-menu-with-label': note.labels.length >= 1 && !DialogBoxOpen,
     'simple-Label-menu-without-label': note.labels.length === 0 && !DialogBoxOpen,
     'modal-Label-menu-with-label': note.labels.length >= 1 && DialogBoxOpen,
     'modal-Label-menu-without-label': note.labels.length === 0 && DialogBoxOpen,
-    'label-menu-open':note.showLabelMenu}"
+    'label-menu-open':note.showLabelMenu,'label-menu-without-modal': DialogBoxOpen,
+    'label-menu': !DialogBoxOpen}"
      (click)="stopPropagation($event)">
   <div class="label-title">Label note</div>
   <div class="search">

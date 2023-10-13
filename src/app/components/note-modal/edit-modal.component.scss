@@ -20,6 +20,7 @@
   vertical-align: top;
   cursor: pointer;
 }
+
 .label-container{
   min-height: 177px;
   max-height: 850px;
@@ -30,7 +31,9 @@
   overflow-x: hidden;
   overflow-y: hidden;
   margin-left: 0.5em;
+
 }
+
 .dropdown-menu {
   background-color: #fff;
   min-width: 8.4875em;
@@ -43,13 +46,13 @@
   z-index: 5003 !important;
   padding: 0.375em 0;
   opacity: 1;
-  left: 38em;
-  top: 25.7em;
+  margin-top: -5px;
+  margin-left: 286px;
   overflow-y: hidden;
 }
 .dropdown-menu-label{
-  left: 38em;
-  top: 25.7em;
+  margin-top: -5px;
+  margin-left: 286px;
 }
 
  .noteText {
@@ -93,46 +96,73 @@
   border-radius: 5px;
   visibility: hidden;
 }
-
+.ng-pristine .ng-valid .ng-touched{
+  max-height: 800px !important;
+  height: auto;
+}
 .tooltip:hover .tooltip-text {
   visibility: visible;
 }
-textarea {
+textarea{
   height: auto;
   min-height: 2lh;
   max-height: 5lh;
   overflow-y: auto;
 }
+.text-areas{
+  max-height: 639px !important;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+.text-areas::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 0, .2);
+  background-clip: padding-box;
+  border: solid transparent;
+  border-width: 1px 1px 1px 6px;
+  min-height: 28px;
+  padding: 100px 0 0;
+  -webkit-box-shadow: inset 1px 1px 0 rgba(0, 0, 0, .1), inset 0 -1px 0 rgba(0, 0, 0, .07);
+  box-shadow: inset 1px 1px 0 rgba(0, 0, 0, .1), inset 0 -1px 0 rgba(0, 0, 0, .07);
+}
+.text-areas::-webkit-scrollbar-thumb:hover {
+  background-color: #969595;
+}
+.text-areas::-webkit-scrollbar-track {
+  background-clip: padding-box;
+  border: solid transparent;
+  border-width: 0 0 0 4px;
+}
+.text-areas::-webkit-scrollbar-corner {
+  background: transparent;
+}
 .note-title {
   border: none;
   font-size: 1.375rem;
-  height: 2.5em;
+  max-height: max-content;
   padding-bottom: 12px;
   padding-top: 16px;
   padding-left: 4px;
   margin-left: 10px;
-  width: 96%;
+  width: 97%;
   margin-right: 10px;
   outline: none;
   font-weight: 400;
   font-family: Roboto,Arial,sans-serif;
   resize: none;
-  overflow-y: hidden;
-  display: block;
+  overflow-y: clip;
 }
-
 .note-text {
   border: none;
   font-size: 1rem;
-  height: 2.5em;
+  max-height: max-content;
   padding: 10px;
   margin-left: 10px;
-  width: 96%;
+  width: 97%;
   margin-right: 10px;
   outline: none;
   resize: none;
   font-family: Roboto,Arial,sans-serif;
-  overflow-y: hidden;
+  overflow-y: clip;
 }
 
 .form-actions {
@@ -147,11 +177,8 @@ textarea {
   display: flex;
   justify-content: space-between;
   width: 100%;
+}
 
-}
-.form-actions-without-label{
-  margin-top: 2em;
-}
 .close-btn {
   background: none;
   border: none;

@@ -63,6 +63,23 @@
   top: 21.25em;
   overflow-y: auto;
 }
+.label-menu-without-modal{
+  min-width: 14.0625em;
+  min-height: 4.75em;
+  max-height: 37vh;
+  background-color: #fff;
+  border-width: 0;
+  box-shadow: 0 0.0625em 0.125em 0 rgba(60, 64, 67, 0.302), 0 0.125em 0.375em 0.125em rgba(60, 64, 67, 0.149);
+  position: fixed;
+  -webkit-border-radius: 0.25em;
+  border-radius: 0.2em;
+  z-index: 5003;
+  padding: 0.375em 0;
+  opacity: 1;
+  margin-top: 10px;
+  margin-left: 236px;
+  overflow-y: auto;
+}
 .label-menu-open{
   margin-bottom: -10em;
 }
@@ -77,12 +94,12 @@
   top: 2em;
 }
 .modal-Label-menu-with-label{
-  left: 38em;
-  top: 25.7em;
+  margin-top: -5px;
+  margin-left: 286px;
 }
 .modal-Label-menu-without-label{
-  left: 38em;
-  top: 25.7em;
+  margin-top: -5px;
+  margin-left: 286px;
 }
 .edit-modal-style {
   /* Styles for label menu opened from edit modal */

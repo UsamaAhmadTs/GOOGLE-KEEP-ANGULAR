@@ -18,7 +18,6 @@
       <button class="close-btn" type="submit" (click)="updateNote(selectedNote)">Close</button>
     </div>
   </form>
-
 </div>
 <div *ngIf="selectedNote.showDropdownMenu" class="dropdown-menu"
      [ngClass]="{'dropdown-menu-label': selectedNote.labels.length >= 1}">

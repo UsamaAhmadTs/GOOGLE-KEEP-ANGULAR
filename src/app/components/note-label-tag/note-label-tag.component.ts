@@ -17,7 +17,7 @@ export class NoteLabelTagComponent implements OnDestroy {
   @Input() note!: Note;
   @Input() showAdditionalLabels: boolean = true;
   @Input() slice: boolean = true;
-  labelTitle!: string;
+  private labelTitle!: string;
   private associateLabelsSubscription!: Subscription;
 
   constructor(private labelService: LabelService) {
@@ -34,8 +34,14 @@ export class NoteLabelTagComponent implements OnDestroy {
   associateLabelWithNote(label: Label, note: Note) {
    this.labelService.associateLabelWithNote(label, note);
   }
+  public onMouseEnter(label: Label) {
+    this.labelHover(label, true);
+  }
 
-   labelHover(label: Label, hover: boolean) {
+  public onMouseLeave(label: Label) {
+    this.labelHover(label, false);
+  }
+   private labelHover(label: Label, hover: boolean) {
     label.showCancel = hover;
     if (hover) {
       this.labelTitle = label.labelTitle;

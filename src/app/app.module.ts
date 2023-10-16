@@ -67,7 +67,7 @@ import {MatMenuModule} from "@angular/material/menu";
         DropdownComponent,
         MatMenuModule
     ],
-  providers: [NoteTemplateComponent,LabelMenuComponent],
+  providers: [NoteTemplateComponent],
   bootstrap: [AppComponent]
 })
 export class AppModule {

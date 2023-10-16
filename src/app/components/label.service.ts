@@ -62,7 +62,6 @@ export class LabelService {
       note.labels.splice(labelIndex, 1);
     } else {
       note.labels.push(label);
-
     }
     this.setNoteLabelsToLocalStorage(note);
     return of(note.labels);

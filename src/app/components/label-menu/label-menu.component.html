@@ -20,7 +20,7 @@
       <div class="plus-icon">
         <img src="./assets/images/svg/plus.svg" alt="plus icon">
       </div>
-      <div  #labelSearchText class="search-text">Create "<span class="bold">{{labelTitle}}</span> "</div>
+      <div #labelSearchText class="search-text">Create "<span class="bold">{{labelTitle}}</span> "</div>
     </div>
   </div>
   <div>
@@ -34,7 +34,7 @@
                src="./assets/images/svg/uncheckedi.svg"
                alt="unchecked-btn" (click)="associateLabelWithNote(label, note)">
         </div>
-        <textarea class="save-label-text">{{label.labelTitle}}</textarea>
+        <div class="save-label-text">{{label.labelTitle}}</div>
       </div>
     </div>
   </div>

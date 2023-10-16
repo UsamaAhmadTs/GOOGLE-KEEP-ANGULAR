@@ -1,4 +1,4 @@
-import {Component, ElementRef, HostListener, OnInit, Renderer2, ViewChild} from '@angular/core';
+import {Component, ElementRef, HostListener, OnDestroy, OnInit, Renderer2, ViewChild} from '@angular/core';
 
 import {Note} from "../note";
 
@@ -15,7 +15,7 @@ import {Subscription} from "rxjs";
   templateUrl: './note-input.component.html',
   styleUrls: ['./note-input.component.scss']
 })
-export class NoteInputComponent implements OnInit {
+export class NoteInputComponent implements OnInit, OnDestroy {
   @ViewChild('dropNote') dropNote!: ElementRef;
   @ViewChild('mainNote') mainNote!: ElementRef;
   @ViewChild('noteTextarea') noteTextarea!: ElementRef;
@@ -23,7 +23,7 @@ export class NoteInputComponent implements OnInit {
   note!: Note;
   showFirst = true;
   notes!: FormGroup;
-  private notesSubscription!: Subscription;
+  private createNotesSubscription!: Subscription;
 
   constructor(private formBuilder: FormBuilder, private notesService: NotesService
     , private renderer: Renderer2, private elementRef: ElementRef) {
@@ -76,7 +76,7 @@ export class NoteInputComponent implements OnInit {
         labels: [],
         showLabelMenu: false
       };
-      this.notesSubscription = this.notesService.createNote(newNote).subscribe(updatedNotes => {
+      this.createNotesSubscription = this.notesService.createNote(newNote).subscribe(updatedNotes => {
         this.notes.reset();
         this.showFirst = !this.showFirst;
       });
@@ -103,9 +103,9 @@ export class NoteInputComponent implements OnInit {
     }
   }
 
-  ngOnDestroy(): void {
-    if (this.notesSubscription) {
-      this.notesSubscription.unsubscribe();
+  ngOnDestroy() {
+    if (this.createNotesSubscription) {
+      this.createNotesSubscription.unsubscribe();
     }
   }
 

@@ -8,8 +8,8 @@
       <textarea (input) ="textHeight()"
                 #noteText class="note-text" type="text" name="noteText" placeholder="Note" [(ngModel)]="selectedNote.noteText"
                 autocomplete="off"></textarea>
-      <app-note-label-tag [slice]="false" [note]="selectedNote" [showAdditionalLabels]="false"></app-note-label-tag>
     </div>
+    <app-note-label-tag [slice]="false" [note]="selectedNote" [showAdditionalLabels]="false"></app-note-label-tag>
     <div class="form-actions" [ngClass]="{'form-actions-without-label': selectedNote.labels.length === 0}">
       <div class="icons">
         <app-note-footer [undoRedoButtons]="true" [note]="selectedNote" [createArchive]="false"

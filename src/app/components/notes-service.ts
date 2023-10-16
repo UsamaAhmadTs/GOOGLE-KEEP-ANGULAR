@@ -5,6 +5,7 @@ import {BehaviorSubject, map, Observable, of} from "rxjs";
 import {Note} from './note';
 
 import {Router} from "@angular/router";
+import {LabelService} from "./label.service";
 
 @Injectable({
   providedIn: 'root'

@@ -7,6 +7,7 @@ import {Note} from "./note";
 import {BehaviorSubject, Observable, of} from "rxjs";
 
 import {NotesService} from "./notes-service";
+import {Router} from "@angular/router";
 
 @Injectable({
   providedIn: 'root'
@@ -14,13 +15,17 @@ import {NotesService} from "./notes-service";
 export class LabelService {
   private labels: Label[] = [];
   private labelsSubject: BehaviorSubject<Label[]> = new BehaviorSubject<Label[]>([]);
+  private labelTitleSubject = new BehaviorSubject<string>('');
+  labelTitle$ = this.labelTitleSubject.asObservable();
 
-  constructor(private noteService: NotesService) {
+  constructor(private noteService: NotesService,private router: Router) {
     this.getLabels().subscribe((labels) => {
       this.labels = labels;
     });
   }
-
+  setLabelTitle(title: string) {
+    this.labelTitleSubject.next(title);
+  }
   getLabels(): Observable<Label[]> {
     const labelsList = this.getLabelsFromLocalStorage();
     this.labelsSubject.next(labelsList);
@@ -52,9 +57,7 @@ export class LabelService {
     if (!note.labels) {
       note.labels = [];
     }
-
     const labelIndex = note.labels.findIndex(l => l.labelId === label.labelId);
-
     if (labelIndex !== -1) {
       note.labels.splice(labelIndex, 1);
     } else {
@@ -64,7 +67,19 @@ export class LabelService {
     this.setNoteLabelsToLocalStorage(note);
     return of(note.labels);
   }
-
+  labelHover(label: Label, hover: boolean) {
+    label.showCancel = hover;
+    if (hover) {
+      const limit = 4;
+      if (label.labelTitle.length >= 4 && label.labelTitle.length <= 6) {
+        label.labelTitle = label.labelTitle.substring(0, 2) + "...";
+      } else if (label.labelTitle.length > 6) {
+        label.labelTitle = label.labelTitle.substring(0, label.labelTitle.length - limit) + "...";
+      }
+    } else {
+      label.labelTitle = label.labelTitle;
+    }
+  }
   private setNoteLabelsToLocalStorage(updatedNote: Note): void {
     const notesList = this.noteService.getNotesListFromLocalStorage();
     const index = notesList.findIndex(note => note.noteId === updatedNote.noteId);

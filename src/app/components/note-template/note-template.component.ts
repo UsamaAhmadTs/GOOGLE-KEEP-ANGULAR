@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, HostListener, Input, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, Component, EventEmitter, HostListener, Input, OnInit, Output} from '@angular/core';
 
 import {NotesService} from "../notes-service";
 
@@ -13,6 +13,8 @@ import {Observable, of, Subscription} from "rxjs";
 import {Router} from "@angular/router";
 
 import {animate, style, transition, trigger} from "@angular/animations";
+import {LabelService} from "../label.service";
+import {LabelMenuComponent} from "../label-menu/label-menu.component";
 
 @Component({
   selector: 'app-note-template',
@@ -43,9 +45,9 @@ export class NoteTemplateComponent implements OnInit {
   filteredNotes$: Observable<Note[]>;
   searchQuery$!: Observable<string | null>;
   selectedNote: Note | null = null;
-
+  searchLabelText: string = '';
   constructor(private noteService: NotesService,
-              private dialog: MatDialog,private router: Router) {
+              private dialog: MatDialog,private router: Router,private labelService: LabelService) {
     this.searchQuery$ = this.noteService.searchQuery$;
     this.notes$ = this.noteService.getNotes();
     this.notes$.subscribe((notes) => {
@@ -63,6 +65,9 @@ export class NoteTemplateComponent implements OnInit {
     });
    this.filteredNotes$.subscribe((filteredNotes) => {
       this.filterNotes = filteredNotes;
+    });
+    this.labelService.labelTitle$.subscribe(title => {
+      this.labelTitle = title;
     });
     this.noteService.dropClose()
       this.noteService.getFilteredNotes().subscribe(filteredNotes => {
@@ -90,6 +95,8 @@ export class NoteTemplateComponent implements OnInit {
       });
     }
   }
+  labelTitle!: string ;
+
   toggleDropdownMenu(note: Note, event: Event) {
     event.stopPropagation();
     this.noteService.dropdownsClose(note);
@@ -99,6 +106,7 @@ export class NoteTemplateComponent implements OnInit {
     }
   }
   toggleLabelMenu(note: Note, event: Event) {
+    this.labelService.setLabelTitle('');
     event.stopPropagation();
     note.showLabelMenu = !note.showLabelMenu;
     note.showDropdownMenu = !note.showDropdownMenu;
@@ -143,7 +151,8 @@ export class NoteTemplateComponent implements OnInit {
       next: updatedNotes => {
         this.notes$ = of(updatedNotes.reverse());
       }
-    });}
+    });
+    }
     event.stopPropagation();
   }
 
@@ -151,6 +160,8 @@ export class NoteTemplateComponent implements OnInit {
   onClick(event: Event): void {
     const element = event.target as HTMLElement;
     if (!element.closest('.note')) {
+      this.labelTitle = ''
+      this.labelService.setLabelTitle('');
       this.noteService.dropClose()
     }
   }

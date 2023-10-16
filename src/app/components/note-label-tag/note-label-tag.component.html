@@ -2,8 +2,9 @@
   <div *ngFor="let label of (slice ? note.labels.slice(0, 2) : note.labels)" class="label"
        (mouseenter)="labelHover(label,true)"
        (mouseleave)="labelHover(label, false)">
+
     <div class="label-content">
-      <div class="note-label">{{ label.labelTitle}}</div>
+      <div class="note-label">{{ label.labelTitle.length > 35 ? label.labelTitle.slice(0, 28) + '...' : label.labelTitle }}</div>
       <div class="tooltip cancel-tooltip" *ngIf="label.showCancel">
         <img class="cancel-icon" src="./assets/images/svg/cancel.svg" alt="cancel icon"
              (click)="associateLabelWithNote(label, note)">
@@ -11,6 +12,20 @@
       </div>
     </div>
   </div>
+<!--  <ng-container *ngIf="note.labels.length === 3">-->
+<!--    <div class="label"-->
+<!--         (mouseenter)="labelHover(note.labels[2],true)"-->
+<!--         (mouseleave)="labelHover(note.labels[2], false)">-->
+<!--      <div class="label-content">-->
+<!--        <div class="note-label">{{ note.labels[2].labelTitle.length > 35 ? note.labels[2].labelTitle.slice(0, 28) + '...' : note.labels[2].labelTitle }}</div>-->
+<!--        <div class="tooltip cancel-tooltip" *ngIf="note.labels[2].showCancel">-->
+<!--          <img class="cancel-icon" src="./assets/images/svg/cancel.svg" alt="cancel icon"-->
+<!--               (click)="associateLabelWithNote(note.labels[2], note)">-->
+<!--          <span class="tooltip-text">Remove label</span>-->
+<!--        </div>-->
+<!--      </div>-->
+<!--    </div>-->
+<!--  </ng-container>-->
   <div *ngIf="shouldShowAdditionalLabels(note) && showAdditionalLabels" class="label">
     <div class="note-label" *ngIf="note.labels.length === 3">{{note.labels[2].labelTitle}}</div>
     <div class="note-label-more" *ngIf="note.labels.length > 3">+{{note.labels.length - 2}}</div>

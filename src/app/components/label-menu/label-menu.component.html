@@ -8,19 +8,19 @@
      (click)="stopPropagation($event)">
   <div class="label-title">Label note</div>
   <div class="search">
-    <input class="input" type="text" maxlength="50" [(ngModel)]="labelTitle"
-           placeholder="Enter label name" (input)="searchLabel()">
+    <input class="input" type="text" maxlength="50" [(ngModel)]="labelTitle" (ngModelChange)="searchHeight()"
+           placeholder="Enter label name" (input)="searchLabel()" autofocus>
     <div>
       <img class="search-icon" src="./assets/images/svg/search.svg" alt="x-btn">
     </div>
   </div>
-  <div class="label-area-container" *ngIf="labelTitle.length>0"
+  <div class="label-area-container" *ngIf="labelTitle.length>0" #labelArea
        (click)="createLabel(labelTitle,note)">
     <div class="label-area">
       <div class="plus-icon">
         <img src="./assets/images/svg/plus.svg" alt="plus icon">
       </div>
-      <div class="search-text">Create "<span class="bold">{{labelTitle}}</span> "</div>
+      <div  #labelSearchText class="search-text">Create "<span class="bold">{{labelTitle}}</span> "</div>
     </div>
   </div>
   <div>
@@ -34,7 +34,7 @@
                src="./assets/images/svg/uncheckedi.svg"
                alt="unchecked-btn" (click)="associateLabelWithNote(label, note)">
         </div>
-        <div class="save-label-text">{{label.labelTitle}}</div>
+        <textarea class="save-label-text">{{label.labelTitle}}</textarea>
       </div>
     </div>
   </div>

@@ -14,7 +14,7 @@ import {Router} from "@angular/router";
   styleUrls: ['./edit-modal.component.scss']
 })
 export class EditModalComponent implements OnInit {
-  @ Input() searchLabelText: string = '';
+  @Input() searchLabelText: string = '';
   @ViewChild('noteText') noteText!: ElementRef;
   @ViewChild('noteTitle') noteTitle!: ElementRef;
   notes: Note[] = []
@@ -118,6 +118,7 @@ export class EditModalComponent implements OnInit {
     this.notesService.updateNote(selectedNote);
     this.dialogRef.close();
   }
+
   @HostListener('document:click', ['$event'])
   handleClick(event: Event) {
     if (!this.selectedNote.showDropdownMenu) return;

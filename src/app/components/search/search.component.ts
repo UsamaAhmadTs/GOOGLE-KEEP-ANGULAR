@@ -1,4 +1,4 @@
-import {Component, HostListener, OnInit} from '@angular/core';
+import {Component, HostListener, OnDestroy, OnInit} from '@angular/core';
 
 import {NotesService} from "../notes-service";
 
@@ -11,18 +11,19 @@ import {Observable, Subscription} from "rxjs";
   templateUrl: './search.component.html',
   styleUrls: ['./search.component.scss'],
 })
-export class SearchComponent implements OnInit {
+export class SearchComponent implements OnInit, OnDestroy {
   filteredNotes$: Observable<Note[]>;
   searchQuery$: Observable<string | null>;
   notes: Note[] = [];
-  private searchSubscription!: Subscription;
+  private filteredNotesSubscription!: Subscription;
+
   constructor(private noteService: NotesService) {
     this.searchQuery$ = this.noteService.searchQuery$;
     this.filteredNotes$ = this.noteService.filteredNotes$;
   }
 
   ngOnInit(): void {
-    this.searchSubscription = this.filteredNotes$.subscribe((filteredNotes) => {
+    this.filteredNotesSubscription = this.filteredNotes$.subscribe((filteredNotes) => {
       this.notes = filteredNotes;
     });
   }
@@ -30,6 +31,7 @@ export class SearchComponent implements OnInit {
   isMixedNotes(): boolean {
     return this.noteService.isMixedNotes();
   }
+
   @HostListener('document:click', ['$event'])
   onClick(event: Event): void {
     const element = event.target as HTMLElement;
@@ -37,9 +39,10 @@ export class SearchComponent implements OnInit {
       this.noteService.dropClose()
     }
   }
-  ngOnDestroy(): void {
-    if (this.searchSubscription) {
-      this.searchSubscription.unsubscribe();
+
+  ngOnDestroy() {
+    if (this.filteredNotesSubscription) {
+      this.filteredNotesSubscription.unsubscribe();
     }
   }
 }

@@ -1,4 +1,4 @@
-import {Component, Input} from '@angular/core';
+import {Component, Input, OnDestroy} from '@angular/core';
 
 import {Note} from "../note";
 
@@ -6,16 +6,20 @@ import {Label} from "../label";
 
 import {LabelService} from "../label.service";
 
+import {Subscription} from "rxjs";
+
 @Component({
   selector: 'app-note-label-tag',
   templateUrl: './note-label-tag.component.html',
   styleUrls: ['./note-label-tag.component.scss']
 })
-export class NoteLabelTagComponent {
+export class NoteLabelTagComponent implements OnDestroy {
   @Input() note!: Note;
   @Input() showAdditionalLabels: boolean = true;
   @Input() slice: boolean = true;
   labelTitle!: string;
+  private associateLabelsSubscription!: Subscription;
+
   constructor(private labelService: LabelService) {
   }
 
@@ -28,9 +32,10 @@ export class NoteLabelTagComponent {
   }
 
   associateLabelWithNote(label: Label, note: Note) {
-    this.labelService.associateLabelWithNote(label, note).subscribe();
+   this.labelService.associateLabelWithNote(label, note);
   }
-  labelHover(label: Label, hover: boolean) {
+
+   labelHover(label: Label, hover: boolean) {
     label.showCancel = hover;
     if (hover) {
       this.labelTitle = label.labelTitle;
@@ -42,6 +47,12 @@ export class NoteLabelTagComponent {
       }
     } else {
       label.labelTitle = this.labelTitle;
+    }
+  }
+
+  ngOnDestroy(): void {
+    if (this.associateLabelsSubscription) {
+      this.associateLabelsSubscription.unsubscribe();
     }
   }
 }

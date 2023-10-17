@@ -45,7 +45,7 @@ export class NoteTemplateComponent implements OnInit {
   filteredNotes$: Observable<Note[]>;
   searchQuery$!: Observable<string | null>;
   selectedNote: Note | null = null;
-  searchLabelText: string = '';
+
   constructor(private noteService: NotesService,
               private dialog: MatDialog,private router: Router,private labelService: LabelService) {
     this.searchQuery$ = this.noteService.searchQuery$;
@@ -99,12 +99,18 @@ export class NoteTemplateComponent implements OnInit {
 
   toggleDropdownMenu(note: Note, event: Event) {
     event.stopPropagation();
-    this.noteService.dropdownsClose(note);
-    note.showDropdownMenu = !note.showDropdownMenu;
+    if (!this.noteService.areAnyDropdownsOpen() || this.noteService.areAnyDropdownsOpen() && note.showDropdownMenu) {
+      note.showDropdownMenu = !note.showDropdownMenu;
+    }else {this.noteService.dropClose();}
     if (note.showDropdownMenu) {
       note.showLabelMenu = false;
     }
+    if (this.noteService.areAnyLabelDropOpen()) {
+      this.noteService.dropClose()
+      note.showDropdownMenu = !note.showDropdownMenu;
+    }
   }
+
   toggleLabelMenu(note: Note, event: Event) {
     this.labelService.setLabelTitle('');
     event.stopPropagation();
@@ -163,6 +169,9 @@ export class NoteTemplateComponent implements OnInit {
       this.labelTitle = ''
       this.labelService.setLabelTitle('');
       this.noteService.dropClose()
+      if (this.selectedNote) {
+        this.noteService.dropdownsClose(this.selectedNote);
+      }
     }
   }
 

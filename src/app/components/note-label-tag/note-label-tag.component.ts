@@ -33,6 +33,7 @@ export class NoteLabelTagComponent implements OnDestroy {
 
   associateLabelWithNote(label: Label, note: Note) {
    this.labelService.associateLabelWithNote(label, note);
+   this.onMouseLeave(label)
   }
   public onMouseEnter(label: Label) {
     this.labelHover(label, true);
@@ -47,12 +48,12 @@ export class NoteLabelTagComponent implements OnDestroy {
       this.labelTitle = label.labelTitle;
       const limit = 4;
       if (label.labelTitle.length >= 4 && label.labelTitle.length <= 6) {
-        label.labelTitle = label.labelTitle.substring(0, 2) + "...";
+        label.elipTitle = label.labelTitle.substring(0, 2) + "...";
       } else if (label.labelTitle.length > 6) {
-        label.labelTitle = label.labelTitle.substring(0, label.labelTitle.length - limit) + "...";
+        label.elipTitle = label.labelTitle.substring(0, label.labelTitle.length - limit) + "...";
       }
     } else {
-      label.labelTitle = this.labelTitle;
+      label.elipTitle = this.labelTitle;
     }
   }
 
@@ -61,4 +62,5 @@ export class NoteLabelTagComponent implements OnDestroy {
       this.associateLabelsSubscription.unsubscribe();
     }
   }
+
 }

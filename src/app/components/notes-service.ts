@@ -27,7 +27,12 @@ export class NotesService {
   setSearchQuery(searchQuery$: string) {
     this.searchQuerySubject.next(searchQuery$);
   }
-
+  areAnyDropdownsOpen(): boolean {
+    return this.notes.some(note => (note.showDropdownMenu));
+  }
+  areAnyLabelDropOpen(): boolean {
+    return this.notes.some(note => (note.showLabelMenu));
+  }
   dropdownsClose(noteSelected: Note): void {
     this.notes.forEach((note) => {
       if ((note.showDropdownMenu || note.showLabelMenu) && note !== noteSelected) {
@@ -36,7 +41,12 @@ export class NotesService {
       }
     });
   }
-
+  close(): void {
+    this.notes.forEach((note) => {
+        note.showDropdownMenu = false;
+        console.log("close")
+    });
+  }
   dropClose(): void {
     this.notes.forEach((note) => {
       if ((note.showDropdownMenu || note.showLabelMenu)) {

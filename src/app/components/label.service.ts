@@ -66,19 +66,6 @@ export class LabelService {
     this.setNoteLabelsToLocalStorage(note);
     return of(note.labels);
   }
-  labelHover(label: Label, hover: boolean) {
-    label.showCancel = hover;
-    if (hover) {
-      const limit = 4;
-      if (label.labelTitle.length >= 4 && label.labelTitle.length <= 6) {
-        label.labelTitle = label.labelTitle.substring(0, 2) + "...";
-      } else if (label.labelTitle.length > 6) {
-        label.labelTitle = label.labelTitle.substring(0, label.labelTitle.length - limit) + "...";
-      }
-    } else {
-      label.labelTitle = label.labelTitle;
-    }
-  }
   private setNoteLabelsToLocalStorage(updatedNote: Note): void {
     const notesList = this.noteService.getNotesListFromLocalStorage();
     const index = notesList.findIndex(note => note.noteId === updatedNote.noteId);

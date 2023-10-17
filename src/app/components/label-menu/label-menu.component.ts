@@ -2,7 +2,7 @@ import {
   AfterViewInit,
   Component,
   ElementRef,
-  EventEmitter,
+  EventEmitter, HostListener,
   Input,
   OnDestroy, OnInit,
   Output,
@@ -59,7 +59,8 @@ export class LabelMenuComponent implements OnDestroy {
       const newLabel: Label = {
         labelId: uuidv4(),
         labelTitle: labelTitle,
-        showCancel: false
+        showCancel: false,
+        elipTitle: labelTitle
       };
       this.labelService.createLabel(newLabel);
       this.associateLabelWithNote(newLabel, note);
@@ -97,6 +98,15 @@ export class LabelMenuComponent implements OnDestroy {
     return !!found;
   }
 
+  @HostListener('document:click', ['$event'])
+  handleClick(event: Event) {
+    if (!this.note.showLabelMenu) return;
+    const targetElement = event.target as HTMLElement;
+    const labelMenu = document.querySelector('.labelDropMenu');
+    if (!labelMenu?.contains(targetElement)) {
+      this.note.showLabelMenu = false;
+    }
+  }
   ngOnDestroy(): void {
     if (this.labelsSubscription) {
       this.labelsSubscription.unsubscribe();

@@ -1,4 +1,4 @@
-import {Component, HostListener, OnDestroy, OnInit} from '@angular/core';
+import {Component, HostListener, Input, OnDestroy, OnInit} from '@angular/core';
 
 import {NotesService} from "../notes-service";
 
@@ -27,7 +27,7 @@ export class SearchComponent implements OnInit, OnDestroy {
       this.notes = filteredNotes;
     });
   }
-
+  selectedNote!: Note ;
   isMixedNotes(): boolean {
     return this.noteService.isMixedNotes();
   }
@@ -36,7 +36,7 @@ export class SearchComponent implements OnInit, OnDestroy {
   onClick(event: Event): void {
     const element = event.target as HTMLElement;
     if (!element.closest('.notec')) {
-      this.noteService.dropClose()
+      this.noteService.close();
     }
   }
 

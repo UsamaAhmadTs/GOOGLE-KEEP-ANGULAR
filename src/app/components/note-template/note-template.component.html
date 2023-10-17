@@ -20,7 +20,7 @@
           <ng-template #originalContent>
             <div class="title">{{ note.noteTitle }}</div>
             <div id="textarea" class="noteText">{{ note.noteText }}</div>
-            <app-note-label-tag [note]="note" ></app-note-label-tag>
+            <app-note-label-tag [slice]="true" [note]="note" ></app-note-label-tag>
           </ng-template>
 
           <div class="note-footer" [ngClass]="{'note-footer-with-dropdown': note.showDropdownMenu}">
